@@ -57,7 +57,7 @@ namespace FoodDeliveryWebsite.Models
                 if (typeof(IAuditable).IsAssignableFrom(entry.Entity.GetType()) && entry.State == EntityState.Added)
                 {
                     var entity = entry.Entity as IAuditable;
-                    entity.CreateDate = DateTime.Now;
+                    entity.CreateDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
                     // entity.CreatorUserId = this.userContext.UserId; !!!!!!!!
                 }
             }

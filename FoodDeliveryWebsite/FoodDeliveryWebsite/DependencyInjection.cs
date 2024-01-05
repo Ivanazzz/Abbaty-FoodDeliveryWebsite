@@ -1,4 +1,7 @@
-﻿using FoodDeliveryWebsite.Repositories;
+﻿using FluentValidation;
+using FoodDeliveryWebsite.Models.Entities;
+using FoodDeliveryWebsite.Models.Validations;
+using FoodDeliveryWebsite.Repositories;
 
 namespace FoodDeliveryWebsite
 {
@@ -7,10 +10,10 @@ namespace FoodDeliveryWebsite
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services
-                .AddScoped<IUserRepository, UserRepository>();
+                .AddScoped<IUserRepository, UserRepository>()
                 //.AddScoped<IBookRepository, BookRepository>()
                 //.AddScoped<ILibraryRepository, LibraryRepository>()
-                //.AddScoped<IValidator<Author>, AuthorValidator>()
+                .AddScoped<IValidator<User>, UserValidator>();
                 //.AddScoped(typeof(IGenderNGenreNRepository<>), typeof(GenderNRepository<>));
 
             return services;

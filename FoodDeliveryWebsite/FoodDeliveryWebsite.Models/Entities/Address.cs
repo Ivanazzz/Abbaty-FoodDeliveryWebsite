@@ -6,11 +6,6 @@ namespace FoodDeliveryWebsite.Models.Entities
 {
     public class Address : IEntity, IAuditable
     {
-        public Address()
-        {
-            Users = new List<User>();
-        }
-
         public int Id { get; set; }
 
         public DateTime CreateDate { get; set; }
@@ -27,7 +22,9 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public int? ApartmentNo { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        public int UserId { get; set; }
+
+        public User User { get; set; }
 
         public class AddressConfiguration : IEntityTypeConfiguration<Address>
         {

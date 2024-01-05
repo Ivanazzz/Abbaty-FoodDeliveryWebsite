@@ -40,6 +40,10 @@ namespace FoodDeliveryWebsite.Models.Validations
                     + Environment.NewLine
                     + "- At least one special character");
 
+            //RuleFor(u => u.PasswordConfirmation)
+            //    .NotEmpty().WithMessage("Password confirmation is required.")
+            //    .Equals(Password);
+
             //RuleFor(u => u.PhoneNumber)
             //    .NotEmpty().WithMessage("Phone number is required.")
             //    .Matches().WithMessage("Phone number must be in format: +359 XXX XXX XXX.");

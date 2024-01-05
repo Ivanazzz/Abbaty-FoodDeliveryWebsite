@@ -1,10 +1,11 @@
-﻿using FoodDeliveryWebsite.Models.Entities;
+﻿using FoodDeliveryWebsite.Models.Dtos;
+using FoodDeliveryWebsite.Models.Entities;
 
 namespace FoodDeliveryWebsite.Repositories
 {
     public interface IUserRepository
     {
-        Task AddUser(User user);
+        Task Register(UserRegistrationDto userRegistrationDto);
 
         Task UpdateUser(User user);
 

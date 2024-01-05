@@ -8,6 +8,12 @@ namespace FoodDeliveryWebsite.Models.Entities
 {
     public class User : IEntity, IAuditable
     {
+        public User()
+        {
+            Addresses = new List<Address>();
+            Orders = new List<Order>();
+        }
+
         public int Id { get; set; }
 
         public DateTime CreateDate { get; set; }
@@ -26,15 +32,17 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public string Password { get; set; }
 
+        public string PasswordConfirmation { get; set; }
+
         public string PhoneNumber { get; set; }
 
-        public int AddressId { get; set; }
-
-        public Address Address { get; set; }
+        public ICollection<Address> Addresses { get; set; }
 
         public UserRole Role { get; set; }
 
         public ICollection<Order> Orders { get; set; }
+
+        public string Salt { get; set; }
 
         public class UserConfiguration : IEntityTypeConfiguration<User>
         {
@@ -50,6 +58,9 @@ namespace FoodDeliveryWebsite.Models.Entities
                        .IsRequired();
 
                 builder.Property(b => b.Password)
+                       .IsRequired();
+
+                builder.Property(b => b.PasswordConfirmation)
                        .IsRequired();
 
                 builder.Property(b => b.PhoneNumber)
