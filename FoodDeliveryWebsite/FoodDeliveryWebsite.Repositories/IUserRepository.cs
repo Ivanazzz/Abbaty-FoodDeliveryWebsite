@@ -5,7 +5,7 @@ namespace FoodDeliveryWebsite.Repositories
 {
     public interface IUserRepository
     {
-        Task Register(UserRegistrationDto userRegistrationDto);
+        Task RegisterAsync(UserRegistrationDto userRegistrationDto);
 
         Task UpdateUser(User user);
 

@@ -242,6 +242,12 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("gender");
 
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("isdeleted");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("text")

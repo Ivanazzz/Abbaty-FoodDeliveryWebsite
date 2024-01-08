@@ -36,6 +36,8 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public string PhoneNumber { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public ICollection<Address> Addresses { get; set; }
 
         public UserRole Role { get; set; }
@@ -65,6 +67,9 @@ namespace FoodDeliveryWebsite.Models.Entities
 
                 builder.Property(b => b.PhoneNumber)
                        .IsRequired();
+
+                builder.Property(b => b.IsDeleted)
+                       .HasDefaultValue(false);
             }
         }
     }

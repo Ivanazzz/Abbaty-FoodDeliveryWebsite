@@ -17,9 +17,9 @@ namespace FoodDeliveryWebsite.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody] UserRegistrationDto userRegistrationDto)
+        public async Task<IActionResult> RegisterAsync([FromBody] UserRegistrationDto userRegistrationDto)
         {
-            await userRepository.Register(userRegistrationDto);
+            await userRepository.RegisterAsync(userRegistrationDto);
             return Ok();
         }
     }

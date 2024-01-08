@@ -31,6 +31,11 @@ namespace FoodDeliveryWebsite
                 app.UseSwaggerUI();
             }
 
+            app.UseCors(options => options
+                .AllowAnyHeader()
+                .AllowAnyOrigin()
+                .AllowAnyMethod());
+
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

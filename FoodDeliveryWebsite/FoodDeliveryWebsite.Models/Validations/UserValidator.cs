@@ -12,6 +12,7 @@ namespace FoodDeliveryWebsite.Models.Validations
         private const string nameRegex = @"^[А-я\s]+$";
         private const string passwordRegex = @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
         private const string phoneNumberRegex = @"^\+359\d{9}$";
+        private const string emailRegex = @"/^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/$";
 
         public UserValidator()
         {
@@ -28,7 +29,6 @@ namespace FoodDeliveryWebsite.Models.Validations
             RuleFor(u => u.Email)
                 .NotEmpty().WithMessage("Email address is required.")
                 .EmailAddress().WithMessage("A valid email address is required.");
-            // .Matches(); !!!
 
             RuleFor(u => u.Password)
                 .NotEmpty().WithMessage("Password is required.")

@@ -24,7 +24,7 @@ namespace FoodDeliveryWebsite.Repositories
             this.context = context;
         }
 
-        public async Task Register(UserRegistrationDto userRegistrationDto)
+        public async Task RegisterAsync(UserRegistrationDto userRegistrationDto)
         {
             User user = new User
             {
