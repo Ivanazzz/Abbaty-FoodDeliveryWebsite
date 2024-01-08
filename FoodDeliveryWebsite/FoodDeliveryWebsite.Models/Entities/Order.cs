@@ -9,7 +9,7 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public Order()
         {
-            Products = new List<Product>();
+            OrderItems = new List<OrderItem>();
         }
 
         public int Id { get; set; }
@@ -30,6 +30,8 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public Discount Discount { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
+
+        public decimal TotalPrice => OrderItems.Sum(oi => oi.Price) + DeliveryPrice;
     }
 }

@@ -148,6 +148,44 @@ namespace FoodDeliveryWebsite.Models.Migrations
                     b.ToTable("order");
                 });
 
+            modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("createdate");
+
+                    b.Property<int>("CreatorUserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("creatoruserid");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("integer")
+                        .HasColumnName("orderid");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer")
+                        .HasColumnName("productid");
+
+                    b.Property<int>("ProductQuantity")
+                        .HasColumnType("integer")
+                        .HasColumnName("productquantity");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("orderitem");
+                });
+
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -184,10 +222,6 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnType("text")
                         .HasColumnName("name");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("integer")
-                        .HasColumnName("orderid");
-
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric")
                         .HasColumnName("price");
@@ -205,8 +239,6 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnName("type");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("product");
                 });
@@ -309,16 +341,33 @@ namespace FoodDeliveryWebsite.Models.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.Product", b =>
+            modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.OrderItem", b =>
                 {
-                    b.HasOne("FoodDeliveryWebsite.Models.Entities.Order", null)
-                        .WithMany("Products")
-                        .HasForeignKey("OrderId");
+                    b.HasOne("FoodDeliveryWebsite.Models.Entities.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FoodDeliveryWebsite.Models.Entities.Product", "Product")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.Order", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.Product", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.User", b =>

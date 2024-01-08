@@ -8,6 +8,11 @@ namespace FoodDeliveryWebsite.Models.Entities
 {
     public class Product : IEntity, IAuditable
     {
+        public Product()
+        {
+            OrderItems = new List<OrderItem>();
+        }
+
         public int Id { get; set; }
 
         public DateTime CreateDate { get; set; }
@@ -31,6 +36,8 @@ namespace FoodDeliveryWebsite.Models.Entities
         public int Grams { get; set; }
 
         public byte[] Image { get; set; }
+
+        public ICollection<OrderItem> OrderItems { get; set; }
 
         public class ProductConfiguration : IEntityTypeConfiguration<Product>
         {
