@@ -11,17 +11,20 @@ namespace FoodDeliveryWebsite.Models.Validations
         private const int FloorMinValue = 1;
         private const int AppartmentNoMinValue = 1;
 
+        private const string cityRegex = @"^[А-я\s]+$";
+        private const string streetRegex = @"^[А-я\s]+$";
+
         public AddressValidator()
         {
             RuleFor(a => a.City)
                 .NotEmpty().WithMessage("City is required.")
                 .MaximumLength(CityMaxLength).WithMessage($"City must not exceed {CityMaxLength} characters.")
-                .Matches(@"^[А-я\s]+$").WithMessage("City must be written in cyrilic.");
+                .Matches(cityRegex).WithMessage("City must be written in cyrilic.");
 
             RuleFor(a => a.Street)
                 .NotEmpty().WithMessage("Street is required.")
                 .MaximumLength(StreetMaxLength).WithMessage($"Street must not exceed ${StreetMaxLength} characters.")
-                .Matches(@"^[А-я\s]+$").WithMessage("Street must be written in cyrilic.");
+                .Matches(streetRegex).WithMessage("Street must be written in cyrilic.");
 
             RuleFor(a => a.StreetNo)
                 .GreaterThanOrEqualTo(StreetNoMinValue).WithMessage($"StreetNo must be greater than or equal to {StreetNoMinValue}.");

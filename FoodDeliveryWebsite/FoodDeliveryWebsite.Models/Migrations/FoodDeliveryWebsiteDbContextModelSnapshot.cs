@@ -252,6 +252,11 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnType("text")
                         .HasColumnName("password");
 
+                    b.Property<string>("PasswordConfirmation")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("passwordconfirmation");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("text")
@@ -260,6 +265,10 @@ namespace FoodDeliveryWebsite.Models.Migrations
                     b.Property<int>("Role")
                         .HasColumnType("integer")
                         .HasColumnName("role");
+
+                    b.Property<string>("Salt")
+                        .HasColumnType("text")
+                        .HasColumnName("salt");
 
                     b.HasKey("Id");
 

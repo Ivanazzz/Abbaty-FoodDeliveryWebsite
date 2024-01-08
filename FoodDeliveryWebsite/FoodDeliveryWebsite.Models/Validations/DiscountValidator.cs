@@ -5,10 +5,12 @@ namespace FoodDeliveryWebsite.Models.Validations
 {
     public class DiscountValidator : AbstractValidator<Discount>
     {
+        private const string codeRegex = @"^[A-z]+[0-9]+$";
+
         public DiscountValidator()
         {
             RuleFor(d => d.Code)
-                .Matches(@"^[A-z]+[0-9]+$").WithMessage("Not available discount.");
+                .Matches(codeRegex).WithMessage("Not available discount.");
         }
     }
 }
