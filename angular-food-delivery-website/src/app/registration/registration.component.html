@@ -1,0 +1,59 @@
+<div class="container register-form">
+    <h1>Регистриране</h1>
+    <div class="form-group">
+      <label for="firstName">
+        <span class="important">*</span> 
+        Име:
+    </label>
+      <input type="text" class="form-control" [(ngModel)]="userDto.firstName" id="firstName" required>
+    </div>
+    <div class="form-group">
+      <label for="lastName">
+        <span class="important">*</span> 
+        Фамилия:
+    </label>
+      <input type="text" class="form-control" [(ngModel)]="userDto.lastName" id="lastName" required>
+    </div>
+    <div class="form-group">
+      <label for="gender">
+        <span class="important">*</span>
+        Пол:
+    </label>
+      <select name="gender" [(ngModel)]="userDto.gender" id="gender" class="form-control">
+        <option [ngValue]="gender.Male">Мъж</option>
+        <option [ngValue]="gender.Female">Жена</option>
+      </select>
+    </div>
+    <div class="form-group">
+        <label for="phoneNumber">
+            <span class="important">*</span>
+            Телефонен номер:
+        </label>
+        <input type="text" class="form-control" [(ngModel)]="userDto.phoneNumber" id="phoneNumber" required>
+      </div>
+    <div class="form-group">
+      <label for="email">
+        <span class="important">*</span>
+        Имейл:
+    </label>
+      <input type="email" class="form-control" [(ngModel)]="userDto.email" id="email" required>
+    </div>
+    <div class="form-group">
+      <label for="password">
+        <span class="important">*</span>
+        Парола:
+    </label>
+      <input type="password" class="form-control" [(ngModel)]="userDto.password" id="password" required>
+    </div>
+    <div class="form-group">
+        <label for="passwordConfirmation">
+            <span class="important">*</span>
+            Потвърждаване на парола:
+        </label>
+        <input type="password" class="form-control" [(ngModel)]="userDto.passwordConfirmation" id="passwordConfirmation" required>
+      </div>
+    <div class="btn-wrapper">
+        <button (click)="onSubmit()"
+      class="btn btn-outline-success">Завърши</button>
+    </div>
+</div>

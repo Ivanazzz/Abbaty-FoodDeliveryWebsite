@@ -62,6 +62,25 @@ namespace FoodDeliveryWebsite.Repositories
             await context.SaveChangesAsync();
         }
 
+        public async Task LoginAsync(UserLoginDto userLoginDto)
+        {
+            var user = await context.User.FirstOrDefaultAsync(u => u.Email == userLoginDto.Email);
+
+            if (user == null)
+            {
+                throw new Exception("There isn't user with the given email.");
+            }
+
+            bool isPasswordValid = VerifyPassword(userLoginDto.Password, user.Password, Convert.FromHexString(user.Salt));
+            
+            if (!isPasswordValid)
+            {
+                throw new Exception("Invalid password.");
+            }
+
+            var check = true;
+        }
+
         public Task DeleteUser(int id)
         {
             throw new NotImplementedException();

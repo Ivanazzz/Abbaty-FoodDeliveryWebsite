@@ -1,0 +1,36 @@
+.register-form {
+    margin-top: 6rem;
+    width: 30%;
+    background-color: #ebebeb;
+    padding: 2rem;
+    border-radius: 1%;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-top: 1rem;
+}
+
+.form-group label{
+    font-weight: bold;
+}
+
+.important {
+    color: #c00;
+}
+
+.btn-wrapper {
+    text-align: center;
+}
+
+button {
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 2rem;
+    text-align: center;
+    padding: 0.7rem 1rem;
+}

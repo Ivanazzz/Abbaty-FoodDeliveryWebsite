@@ -1,0 +1,30 @@
+.navbar {
+    background-color: #f7f7f7;
+}
+
+form {
+    margin-left: 100rem;
+}
+
+.btn {
+    margin-right: 1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.nav-items {
+    width: 50%;
+}
+
+.btn-hover {
+    background-color: transparent;
+}
+
+.btn-hover:hover {
+    background-color: #ed1c24;
+    color: white;
+}
+
+.buttons {
+    width: 50%;
+}
