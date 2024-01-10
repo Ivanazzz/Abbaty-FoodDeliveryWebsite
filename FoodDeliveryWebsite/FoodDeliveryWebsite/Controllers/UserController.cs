@@ -3,6 +3,7 @@ using FoodDeliveryWebsite.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 
 namespace FoodDeliveryWebsite.Controllers
@@ -30,20 +31,40 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync([FromBody] UserLoginDto userLoginDto)
         {
-            await userRepository.LoginAsync(userLoginDto);
+            var user = await userRepository.LoginAsync(userLoginDto);
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var Sectoken = new JwtSecurityToken(_config["Jwt:Issuer"],
-              _config["Jwt:Issuer"],
-              null,
-              expires: DateTime.Now.AddMinutes(120),
-              signingCredentials: credentials);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Issuer = "http://localhost:10001",
+                Audience = "http://localhost:10001",
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Email, user.Email)
+                }),
+                Expires = DateTime.UtcNow.AddMinutes(120),
+                SigningCredentials = credentials
+            };
 
-            var token = new JwtSecurityTokenHandler().WriteToken(Sectoken);
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            string userToken = tokenHandler.WriteToken(token);
 
-            return Ok(token);
+            ResponseTokenDto accessToken = new ResponseTokenDto(userToken);
+
+            return Ok(accessToken);
+        }
+
+        [HttpGet("CurrentUser")]
+        public async Task<IActionResult> GetAsync()
+        {
+            var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+
+            var user = await userRepository.GetUserAsync(email);
+
+            return Ok(user);
         }
     }
 }

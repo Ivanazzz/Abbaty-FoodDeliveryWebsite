@@ -7,7 +7,9 @@ namespace FoodDeliveryWebsite.Repositories
     {
         Task RegisterAsync(UserRegistrationDto userRegistrationDto);
 
-        Task LoginAsync(UserLoginDto userLoginDto);
+        Task<User> LoginAsync(UserLoginDto userLoginDto);
+
+        Task<UserDto> GetUserAsync(string email);
 
         Task UpdateUser(User user);
 

@@ -42,7 +42,7 @@ namespace FoodDeliveryWebsite.Repositories
             UserValidator validator = new UserValidator();
             validator.ValidateAndThrow(user);
 
-            bool userExists = await context.User.FirstOrDefaultAsync(u => u.Email == user.Email) != null 
+            bool userExists = await context.Users.FirstOrDefaultAsync(u => u.Email == user.Email) != null 
                 ? true 
                 : false;
 
@@ -58,13 +58,13 @@ namespace FoodDeliveryWebsite.Repositories
             user.PasswordConfirmation = hashedPassword;
             user.Salt = Convert.ToHexString(salt);
 
-            context.User.Add(user);
+            context.Users.Add(user);
             await context.SaveChangesAsync();
         }
 
-        public async Task LoginAsync(UserLoginDto userLoginDto)
+        public async Task<User> LoginAsync(UserLoginDto userLoginDto)
         {
-            var user = await context.User.FirstOrDefaultAsync(u => u.Email == userLoginDto.Email);
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == userLoginDto.Email);
 
             if (user == null)
             {
@@ -78,7 +78,30 @@ namespace FoodDeliveryWebsite.Repositories
                 throw new Exception("Invalid password.");
             }
 
-            var check = true;
+            return user;
+        }
+
+        public async Task<UserDto> GetUserAsync(string email)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
+
+            var userDto = new UserDto
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Gender = user.Gender,
+                PhoneNumber = user.PhoneNumber,
+                Addresses = user.Addresses,
+                Role = UserRole.Client,
+                Orders = user.Orders
+            };
+
+            if (user == null)
+            {
+                throw new Exception("User does not exist.");
+            }
+
+            return userDto;
         }
 
         public Task DeleteUser(int id)

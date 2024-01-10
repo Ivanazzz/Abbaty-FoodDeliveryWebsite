@@ -16,6 +16,10 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    this.userService.login(this.userDto).subscribe(() => {});
+    this.userService.login(this.userDto).subscribe((resonse: any) => {
+      if (resonse?.token) {
+        localStorage.setItem("token", resonse.token);
+      }
+    });
   }
 }
