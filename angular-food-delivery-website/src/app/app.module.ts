@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,6 +9,12 @@ import { NavComponent } from './nav/nav.component';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './authInterceptor';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import { UserService } from './user.service'; // User service that handles authentication
+
+
+export function appInitializer(userService: UserService) {
+  return () => userService.initializeUser();
+}
 
 @NgModule({
   declarations: [
@@ -21,10 +27,17 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    UserService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInitializer,
+      multi: true,
+      deps: [UserService]
+    }
   ],
   bootstrap: [AppComponent]
 })

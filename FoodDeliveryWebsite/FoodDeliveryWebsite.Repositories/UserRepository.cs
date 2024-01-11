@@ -85,21 +85,21 @@ namespace FoodDeliveryWebsite.Repositories
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
 
+            if (user == null)
+            {
+                return null;
+            }
+
             var userDto = new UserDto
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Gender = user.Gender,
                 PhoneNumber = user.PhoneNumber,
-                Addresses = user.Addresses,
+                //Addresses = user.Addresses,
                 Role = UserRole.Client,
-                Orders = user.Orders
+                //Orders = user.Orders
             };
-
-            if (user == null)
-            {
-                throw new Exception("User does not exist.");
-            }
 
             return userDto;
         }

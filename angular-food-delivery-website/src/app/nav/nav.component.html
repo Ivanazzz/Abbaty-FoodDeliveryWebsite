@@ -16,8 +16,20 @@
       </div>
       <div class="buttons d-flex justify-content-end">
         <div class="ml-auto p-2">
-            <button routerLink="/login" class="btn btn-outline-success" type="button">Вход</button>
-            <button routerLink="/registration" class="btn btn-outline-primary" type="button">Регистриране</button>
+            <button *ngIf="userService.currentUser == null" routerLink="/login" class="btn btn-outline-success" type="button">Вход</button>
+            <button *ngIf="userService.currentUser != null" (click)="userService.logout()" routerLink="/login" class="btn btn-outline-danger" type="button">Изход</button>
+            <button *ngIf="userService.currentUser == null" routerLink="/registration" class="btn btn-outline-primary" type="button">Регистриране</button>
+            <button *ngIf="userService.currentUser != null" routerLink="/registration" class="btn btn-outline-primary" type="button">Профил</button>
         </div>
+      </div>
+      <div class="dropdown">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+          Dropdown button
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Количка</a></li>
+          <li><a class="dropdown-item" href="#">Настройки</a></li>
+          <li><a class="dropdown-item" href="#">Изход</a></li>
+        </ul>
       </div>
 </nav>

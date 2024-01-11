@@ -45,7 +45,7 @@ namespace FoodDeliveryWebsite.Controllers
                 {
                     new Claim(ClaimTypes.Email, user.Email)
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(120),
+                Expires = DateTime.Now.AddMinutes(120),
                 SigningCredentials = credentials
             };
 

@@ -15,10 +15,10 @@ namespace FoodDeliveryWebsite.Models.Dtos
 
         public string PhoneNumber { get; set; }
 
-        public ICollection<Address> Addresses { get; set; }
+        //public ICollection<Address> Addresses { get; set; }
 
         public UserRole Role { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
+        //public ICollection<Order> Orders { get; set; }
     }
 }
