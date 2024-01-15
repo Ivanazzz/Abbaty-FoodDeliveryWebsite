@@ -57,6 +57,16 @@ namespace FoodDeliveryWebsite.Controllers
             return Ok(accessToken);
         }
 
+        [HttpPost("Update")]
+        public async Task<IActionResult> UpdateAsync([FromBody] UserDto userDto)
+        {
+            var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+
+            await userRepository.UpdateUserAsync(userDto, email);
+
+            return Ok();
+        }
+
         [HttpGet("CurrentUser")]
         public async Task<IActionResult> GetAsync()
         {

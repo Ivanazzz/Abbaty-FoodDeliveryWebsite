@@ -1,0 +1,28 @@
+<div class="container">
+    <h2>Настройки</h2>
+    <div class="form-group">
+        <label for="firstName">Име:</label>
+        <input type="text" class="form-control" [(ngModel)]="userDto.firstName" id="firstName" value="{{ userDto.firstName }}" required>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Фамилия:</label>
+        <input type="text" class="form-control" [(ngModel)]="userDto.lastName" id="lastName" required>
+      </div>
+      <div class="form-group">
+        <label for="gender">Пол:</label>
+        <select name="gender" [(ngModel)]="userDto.gender" id="gender" class="form-control">
+          <option [ngValue]="gender.Male">Мъж</option>
+          <option [ngValue]="gender.Female">Жена</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="phoneNumber">Телефонен номер:</label>
+        <input type="text" class="form-control" [(ngModel)]="userDto.phoneNumber" id="phoneNumber" required>
+      </div>
+      <div class="btn-wrapper">
+          <button class="btn btn-outline-danger" (click)="onSubmit()">
+            <i class="fa-solid fa-pencil"></i>
+            Редактирай
+        </button>
+      </div>
+</div>

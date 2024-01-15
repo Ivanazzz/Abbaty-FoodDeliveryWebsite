@@ -104,12 +104,28 @@ namespace FoodDeliveryWebsite.Repositories
             return userDto;
         }
 
-        public Task DeleteUser(int id)
+        public async Task UpdateUserAsync(UserDto userDto, string email)
         {
-            throw new NotImplementedException();
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            
+            if (user != null)
+            {
+                user.FirstName = userDto.FirstName;
+                user.LastName = userDto.LastName;
+                user.Gender = userDto.Gender;
+                user.PhoneNumber = String.Concat(userDto.PhoneNumber.Where(c => !Char.IsWhiteSpace(c)));
+
+                UserUpdateValidator validator = new UserUpdateValidator();
+                validator.ValidateAndThrow(user);
+
+                user.PhoneNumber = FormatPhoneNumber(user.PhoneNumber);
+
+                context.Users.Update(user);
+                await context.SaveChangesAsync();
+            }
         }
 
-        public Task UpdateUser(User user)
+        public Task DeleteUser(int id)
         {
             throw new NotImplementedException();
         }

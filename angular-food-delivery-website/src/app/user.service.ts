@@ -14,12 +14,15 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  initializeUser() {
-    return this.http.get<UserDto>('http://localhost:10001/api/Users/CurrentUser')
+  initializeUser(): Promise<{}> {
+    return new Promise(resolve => {
+      return this.http.get<UserDto>('http://localhost:10001/api/Users/CurrentUser')
         .subscribe((userData) => {
           this.currentUser = userData;
+          resolve(true)
         });
-  }
+    });
+}
 
   register(userDto: UserRegistrationDto): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/api/Users/Register`, userDto);
@@ -33,5 +36,9 @@ export class UserService {
     this.currentUser = null;
     localStorage.clear();
     return;
+  }
+
+  update(userDto: UserDto): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/api/Users/Update`, userDto);
   }
 }

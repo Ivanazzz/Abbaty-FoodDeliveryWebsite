@@ -25,6 +25,29 @@ form {
     color: white;
 }
 
+.btn-center-text {
+    text-align: center;
+}
+
+.btn-logout {
+    font-weight: bold;
+    text-transform: uppercase;
+
+}
+
 .buttons {
     width: 50%;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-top: -10px;
+}
+ 
+svg {
+    color: #ed1c24;
+    margin: 0px -10px 5px -10px;
+    width: 20%;
+    height: 50%;
 }

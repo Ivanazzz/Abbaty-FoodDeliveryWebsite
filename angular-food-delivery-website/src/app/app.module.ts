@@ -9,7 +9,9 @@ import { NavComponent } from './nav/nav.component';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './authInterceptor';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
-import { UserService } from './user.service'; // User service that handles authentication
+import { UserService } from './user.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ProfileComponent } from './profile/profile.component'; // User service that handles authentication
 
 
 export function appInitializer(userService: UserService) {
@@ -21,13 +23,15 @@ export function appInitializer(userService: UserService) {
     AppComponent,
     RegistrationComponent,
     NavComponent,
-    LoginComponent
+    LoginComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    NgbModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
