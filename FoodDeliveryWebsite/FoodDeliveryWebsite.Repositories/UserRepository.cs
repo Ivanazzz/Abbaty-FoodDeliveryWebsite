@@ -83,7 +83,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<UserDto> GetUserAsync(string email)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email && u.IsDeleted == false);
 
             if (user == null)
             {
@@ -106,7 +106,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task UpdateUserAsync(UserDto userDto, string email)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email && u.IsDeleted == false);
             
             if (user != null)
             {
@@ -127,7 +127,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task DeleteUserAsync(string email)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email && u.IsDeleted == false);
 
             if (user != null)
             {
