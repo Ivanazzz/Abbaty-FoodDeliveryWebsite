@@ -14,6 +14,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './profile/profile.component'; // User service that handles authentication
 
 
+
 export function appInitializer(userService: UserService) {
   return () => userService.initializeUser();
 }
@@ -24,7 +25,7 @@ export function appInitializer(userService: UserService) {
     RegistrationComponent,
     NavComponent,
     LoginComponent,
-    ProfileComponent
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
