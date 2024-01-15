@@ -13,6 +13,6 @@ namespace FoodDeliveryWebsite.Repositories
 
         Task UpdateUserAsync(UserDto userDto, string email);
 
-        Task DeleteUser(int id);
+        Task DeleteUserAsync(string email);
     }
 }

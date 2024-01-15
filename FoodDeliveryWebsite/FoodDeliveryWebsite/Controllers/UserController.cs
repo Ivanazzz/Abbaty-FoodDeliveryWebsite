@@ -67,6 +67,16 @@ namespace FoodDeliveryWebsite.Controllers
             return Ok();
         }
 
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> DeleteAsync()
+        {
+            var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+
+            await userRepository.DeleteUserAsync(email);
+
+            return Ok();
+        }
+
         [HttpGet("CurrentUser")]
         public async Task<IActionResult> GetAsync()
         {

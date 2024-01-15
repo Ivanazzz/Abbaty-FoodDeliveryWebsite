@@ -34,7 +34,7 @@ namespace FoodDeliveryWebsite.Repositories
                 Email = userRegistrationDto.Email,
                 Password = userRegistrationDto.Password,
                 PasswordConfirmation = userRegistrationDto.PasswordConfirmation,
-                PhoneNumber = userRegistrationDto.PhoneNumber,
+                PhoneNumber = String.Concat(userRegistrationDto.PhoneNumber.Where(c => !Char.IsWhiteSpace(c))),
                 Addresses = userRegistrationDto.Addresses,
                 Role = UserRole.Client
             };
@@ -42,7 +42,7 @@ namespace FoodDeliveryWebsite.Repositories
             UserValidator validator = new UserValidator();
             validator.ValidateAndThrow(user);
 
-            bool userExists = await context.Users.FirstOrDefaultAsync(u => u.Email == user.Email) != null 
+            bool userExists = await context.Users.FirstOrDefaultAsync(u => u.Email == user.Email && u.IsDeleted == false) != null 
                 ? true 
                 : false;
 
@@ -64,7 +64,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<User> LoginAsync(UserLoginDto userLoginDto)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == userLoginDto.Email);
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == userLoginDto.Email && u.IsDeleted == false);
 
             if (user == null)
             {
@@ -125,9 +125,15 @@ namespace FoodDeliveryWebsite.Repositories
             }
         }
 
-        public Task DeleteUser(int id)
+        public async Task DeleteUserAsync(string email)
         {
-            throw new NotImplementedException();
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email);
+
+            if (user != null)
+            {
+                user.IsDeleted = true;
+                await context.SaveChangesAsync();
+            }
         }
 
         private static string FormatPhoneNumber(string phoneNumber)

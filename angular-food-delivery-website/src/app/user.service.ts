@@ -41,4 +41,8 @@ export class UserService {
   update(userDto: UserDto): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/api/Users/Update`, userDto);
   }
+
+  delete(): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/api/Users/Delete`);
+  }
 }

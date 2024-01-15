@@ -21,7 +21,7 @@ export class ProfileComponent implements OnInit {
     this.userDto = this.userService.currentUser;
   }
 
-  onSubmit() {
+  updateUser() {
     this.userService.update(this.userDto)
     .pipe(
       catchError((err) => {
@@ -29,5 +29,17 @@ export class ProfileComponent implements OnInit {
       })
   )
     .subscribe(() => {});
+  }
+
+  deleteUser() {
+    this.userService.delete()
+    .pipe(
+      catchError((err) => {
+          return throwError(() => err);
+      })
+  )
+    .subscribe(() => {
+      this.userService.logout();
+    });
   }
 }
