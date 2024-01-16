@@ -11,7 +11,12 @@ import { AuthInterceptor } from './authInterceptor';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import { UserService } from './user.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ProfileComponent } from './profile/profile.component'; // User service that handles authentication
+import { ProfileComponent } from './profile/profile.component';
+import { AddressComponent } from './address/address.component';
+import { AddressService } from './address-service';
+import { CommonModule } from '@angular/common';
+import { AddAddressModalContent } from './modals/add-address-modal/add-address-modal.component';
+import { UpdateAddressModalContent } from './modals/update-address-modal/update-address-modal.component';
 
 
 
@@ -26,6 +31,9 @@ export function appInitializer(userService: UserService) {
     NavComponent,
     LoginComponent,
     ProfileComponent,
+    AddressComponent,
+    AddAddressModalContent,
+    UpdateAddressModalContent
   ],
   imports: [
     BrowserModule,
@@ -33,10 +41,12 @@ export function appInitializer(userService: UserService) {
     HttpClientModule,
     FormsModule,
     NgbModule,
+    CommonModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     UserService,
+    AddressService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializer,

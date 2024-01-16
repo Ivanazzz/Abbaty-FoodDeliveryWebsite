@@ -33,16 +33,6 @@ export class ProfileComponent implements OnInit {
     .subscribe(() => {});
   }
 
-  openModal(){
-    var modalRef = this.modalService.open(NgbdModalContent);
-    return modalRef.result.then((ok: boolean) => {
-      if (ok) {
-        this.deleteUser();
-      }
-    })
-
-  }
-
   deleteUser() {
     this.userService.delete()
     .pipe(
@@ -53,5 +43,14 @@ export class ProfileComponent implements OnInit {
     .subscribe(() => {
       this.userService.logout();
     });
+  }
+
+  openModal(){
+    var modalRef = this.modalService.open(NgbdModalContent);
+    return modalRef.result.then((ok: boolean) => {
+      if (ok) {
+        this.deleteUser();
+      }
+    })
   }
 }

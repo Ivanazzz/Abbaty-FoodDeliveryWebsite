@@ -3,11 +3,11 @@
 }
 
 .nav-bar-left {
-    margin-left: 2rem;
+    margin-left: 1rem;
 }
 
 .nav-bar-right {
-    margin-right: 2rem;
+    margin-right: 1rem;
 }
 
 form {
@@ -58,8 +58,4 @@ svg {
     margin: 0px -10px 5px -10px;
     width: 20%;
     height: 50%;
-}
-
-.drop-container {
-    width: 10%;
 }

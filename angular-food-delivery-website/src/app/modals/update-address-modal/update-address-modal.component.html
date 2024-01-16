@@ -1,0 +1,40 @@
+<div class="modal-header">
+    <h4 class="modal-title">Редактирайте</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal(false)"></button>
+</div>
+<div class="modal-body">
+    <div class="container">
+        <div class="form-group">
+            <label for="city" class="test">
+                <span class="important">*</span> 
+                Град:
+            </label>
+            <input type="text" class="form-control" id="city" [(ngModel)]="addressDto.city" required>
+          </div>
+          <div class="form-group">
+            <label for="street">
+                <span class="important">*</span>
+                Улица
+            </label>
+            <input type="text" class="form-control"  id="street" [(ngModel)]="addressDto.street" required>
+          </div>
+          <div class="form-group">
+            <label for="streetNo">
+                <span class="important">*</span>
+                Номер на улица:
+            </label>
+            <input type="number" class="form-control" id="streetNo" [(ngModel)]="addressDto.streetNo" min="1">
+          </div>
+          <div class="form-group">
+            <label for="floor">Етаж:</label>
+            <input type="number" class="form-control" id="floor" [(ngModel)]="addressDto.floor" min="0">
+          </div>
+          <div class="form-group">
+            <label for="apartmentNo">Номер на апартамент:</label>
+            <input type="number" class="form-control"  id="apartmentNo" [(ngModel)]="addressDto.apartmentNo" min="1">
+          </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="updateAddress()" (click)="closeModal(true)">Запази</button>
+</div>

@@ -8,7 +8,7 @@ namespace FoodDeliveryWebsite.Models.Validations
         private const int CityMaxLength = 20;
         private const int StreetMaxLength = 30;
         private const int StreetNoMinValue = 1;
-        private const int FloorMinValue = 1;
+        private const int FloorMinValue = 0;
         private const int AppartmentNoMinValue = 1;
 
         private const string cityRegex = @"^[А-я\s]+$";
@@ -27,6 +27,7 @@ namespace FoodDeliveryWebsite.Models.Validations
                 .Matches(streetRegex).WithMessage("Street must be written in cyrilic.");
 
             RuleFor(a => a.StreetNo)
+                .NotNull().WithMessage("StreetNo is required.")
                 .GreaterThanOrEqualTo(StreetNoMinValue).WithMessage($"StreetNo must be greater than or equal to {StreetNoMinValue}.");
 
             RuleFor(a => a.Floor)

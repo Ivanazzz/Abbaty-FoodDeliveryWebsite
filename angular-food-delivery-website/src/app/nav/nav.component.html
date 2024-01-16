@@ -27,7 +27,7 @@
               </button>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                 <button ngbDropdownItem routerLink="/profile" class="btn-center-text">Настройки</button>
-                <button ngbDropdownItem class="btn-center-text">Адреси</button>
+                <button ngbDropdownItem routerLink="/address" class="btn-center-text">Адреси</button>
                 <button *ngIf="userService.currentUser != null" (click)="userService.logout()" ngbDropdownItem class="btn-logout btn-hover btn-center-text">Изход</button>
               </div>
             </div>

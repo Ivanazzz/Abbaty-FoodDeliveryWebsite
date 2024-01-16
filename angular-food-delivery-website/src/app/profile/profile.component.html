@@ -2,7 +2,7 @@
     <h2>Настройки</h2>
     <div class="form-group">
         <label for="firstName">Име:</label>
-        <input type="text" class="form-control" [(ngModel)]="userDto.firstName" id="firstName" value="{{ userDto.firstName }}" required>
+        <input type="text" class="form-control" [(ngModel)]="userDto.firstName" id="firstName" required>
       </div>
       <div class="form-group">
         <label for="lastName">Фамилия:</label>
@@ -20,7 +20,7 @@
         <input type="text" class="form-control" [(ngModel)]="userDto.phoneNumber" id="phoneNumber" required>
       </div>
       <div class="btn-wrapper">
-          <button class="btn btn-outline-danger" (click)="updateUser()">
+          <button class="btn btn-outline-success" (click)="updateUser()">
             <i class="fa-solid fa-pencil"></i>
             Редактирай
         </button>
