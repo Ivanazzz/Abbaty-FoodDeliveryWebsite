@@ -8,7 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NavComponent } from './nav/nav.component';
 import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './authInterceptor';
-import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserService } from './user.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ProfileComponent } from './profile/profile.component';
@@ -17,6 +17,9 @@ import { AddressService } from './address-service';
 import { CommonModule } from '@angular/common';
 import { AddAddressModalContent } from './modals/add-address-modal/add-address-modal.component';
 import { UpdateAddressModalContent } from './modals/update-address-modal/update-address-modal.component';
+import { DiscountComponent } from './discount/discount.component';
+import { AddDiscountModalContent } from './modals/add-discount-modal/add-discount-modal.component';
+import { DiscountService } from './discount-service';
 
 
 
@@ -33,7 +36,9 @@ export function appInitializer(userService: UserService) {
     ProfileComponent,
     AddressComponent,
     AddAddressModalContent,
-    UpdateAddressModalContent
+    UpdateAddressModalContent,
+    DiscountComponent,
+    AddDiscountModalContent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +52,7 @@ export function appInitializer(userService: UserService) {
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     UserService,
     AddressService,
+    DiscountService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializer,

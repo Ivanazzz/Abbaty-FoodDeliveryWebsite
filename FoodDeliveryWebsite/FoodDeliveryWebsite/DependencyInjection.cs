@@ -12,7 +12,7 @@ namespace FoodDeliveryWebsite
             services
                 .AddScoped<IUserRepository, UserRepository>()
                 .AddScoped<IAddressRepository, AddressRepository>()
-                //.AddScoped<ILibraryRepository, LibraryRepository>()
+                .AddScoped<IDiscountRepository, DiscountRepository>()
                 .AddScoped<IValidator<User>, UserValidator>();
                 //.AddScoped(typeof(IGenderNGenreNRepository<>), typeof(GenderNRepository<>));
 

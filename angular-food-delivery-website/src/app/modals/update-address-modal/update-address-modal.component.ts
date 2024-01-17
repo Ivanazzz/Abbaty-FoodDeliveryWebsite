@@ -22,7 +22,6 @@ export class UpdateAddressModalContent  {
   }
 
   updateAddress() {
-    debugger
     this.addressService.update(this.addressDto)
     .pipe(
       catchError((err) => {

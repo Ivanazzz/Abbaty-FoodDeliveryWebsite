@@ -52,13 +52,15 @@ namespace FoodDeliveryWebsite.Models
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
+            //var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+
             foreach (var entry in ChangeTracker.Entries())
             {
                 if (typeof(IAuditable).IsAssignableFrom(entry.Entity.GetType()) && entry.State == EntityState.Added)
                 {
                     var entity = entry.Entity as IAuditable;
                     entity.CreateDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
-                    // entity.CreatorUserId = this.userContext.UserId; !!!!!!!!
+                    //entity.CreatorUserId = email;
                 }
             }
             return base.SaveChangesAsync(cancellationToken);

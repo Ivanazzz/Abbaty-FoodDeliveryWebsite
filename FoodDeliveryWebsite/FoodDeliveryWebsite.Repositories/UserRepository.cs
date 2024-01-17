@@ -97,7 +97,7 @@ namespace FoodDeliveryWebsite.Repositories
                 Gender = user.Gender,
                 PhoneNumber = user.PhoneNumber,
                 //Addresses = user.Addresses,
-                Role = UserRole.Client,
+                Role = user.Role,
                 //Orders = user.Orders
             };
 

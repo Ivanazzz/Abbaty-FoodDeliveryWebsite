@@ -11,20 +11,20 @@ namespace FoodDeliveryWebsite.Models.Validations
         private const int QuantityMinValue = 1;
         private const int GramsMinValue = 1;
 
-        private const string nameRegex = @"^[А-я\s]+$";
-        private const string descriptionRegex = @"^[.,А-я\s]+$";
+        private const string NameRegex = @"^[А-я\s]+$";
+        private const string DescriptionRegex = @"^[.,А-я\s]+$";
 
         public ProductValidator()
         {
             RuleFor(p => p.Name)
                 .NotEmpty().WithMessage("Name is required.")
                 .MaximumLength(NameMaxLength).WithMessage($"Name must not exceed {NameMaxLength} characters.")
-                .Matches(nameRegex).WithMessage("Name must be written in cyrilic.");
+                .Matches(NameRegex).WithMessage("Name must be written in cyrilic.");
 
             RuleFor(p => p.Description)
                 .NotEmpty().WithMessage("Description is required.")
                 .MaximumLength(DescriptionMaxLength).WithMessage($"Description must not exceed ${DescriptionMaxLength} characters.")
-                .Matches(descriptionRegex).WithMessage("Description must be written in cyrilic.");
+                .Matches(DescriptionRegex).WithMessage("Description must be written in cyrilic.");
 
             RuleFor(p => p.Price)
                 .GreaterThanOrEqualTo(PriceMinValue).WithMessage($"Price must be greater than or equal to {PriceMinValue}.");

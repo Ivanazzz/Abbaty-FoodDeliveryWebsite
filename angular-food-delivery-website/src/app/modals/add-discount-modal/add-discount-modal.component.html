@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <h4 class="modal-title">Добавете нов адрес</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal(false)"></button>
+</div>
+<div class="modal-body">
+    <div class="container">
+        <div class="form-group">
+            <label for="code">
+                <span class="important">*</span> 
+                Код:
+            </label>
+            <input type="text" class="form-control" id="code" [(ngModel)]="discountDto.code" required>
+          </div>
+          <div class="form-group">
+            <label for="percentage">
+                <span class="important">*</span>
+                Процент:
+            </label>
+            <input type="number" class="form-control"  id="percentage" [(ngModel)]="discountDto.percentage" required min="1" max="100">
+          </div>
+          <div class="form-group">
+            <label for="startDate">
+                <span class="important">*</span>
+                Валиден от:
+            </label>
+            <input type="date" class="form-control" id="startDate" [(ngModel)]="discountDto.startDate">
+          </div>
+          <div class="form-group">
+            <label for="expirationDate">
+                <span class="important">*</span>
+                Валиден до:
+            </label>
+            <input type="date" class="form-control" id="expirationDate" [(ngModel)]="discountDto.expirationDate">
+          </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="addDiscount()" (click)="closeModal(true)">Запази</button>
+</div>

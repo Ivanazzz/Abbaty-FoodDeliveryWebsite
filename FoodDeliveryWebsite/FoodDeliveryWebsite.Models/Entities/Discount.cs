@@ -1,5 +1,4 @@
 ﻿using FoodDeliveryWebsite.Models.Common;
-using FoodDeliveryWebsite.Models.Enums;
 
 namespace FoodDeliveryWebsite.Models.Entities
 {
@@ -13,7 +12,9 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public string Code { get; set; }
 
-        public DiscountStatus Status { get; set; }
+        public DateTime StartDate { get; set; }
+
+        public DateTime ExpirationDate { get; set; }
 
         public int Percentage { get; set; }
     }
