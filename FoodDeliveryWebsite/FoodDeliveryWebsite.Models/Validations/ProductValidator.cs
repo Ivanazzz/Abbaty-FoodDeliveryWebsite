@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+
 using FoodDeliveryWebsite.Models.Entities;
 
 namespace FoodDeliveryWebsite.Models.Validations
@@ -8,7 +9,6 @@ namespace FoodDeliveryWebsite.Models.Validations
         private const int NameMaxLength = 30;
         private const int DescriptionMaxLength = 500;
         private const int PriceMinValue = 1;
-        private const int QuantityMinValue = 1;
         private const int GramsMinValue = 1;
 
         private const string NameRegex = @"^[А-я\s]+$";
@@ -28,9 +28,6 @@ namespace FoodDeliveryWebsite.Models.Validations
 
             RuleFor(p => p.Price)
                 .GreaterThanOrEqualTo(PriceMinValue).WithMessage($"Price must be greater than or equal to {PriceMinValue}.");
-
-            RuleFor(p => p.Quantity)
-                .GreaterThan(QuantityMinValue).WithMessage($"Quantity must be greater than or equal to {QuantityMinValue}.");
 
             RuleFor(p => p.Grams)
                 .GreaterThan(GramsMinValue).WithMessage($"Grams must be greater than or equal to {GramsMinValue}.");

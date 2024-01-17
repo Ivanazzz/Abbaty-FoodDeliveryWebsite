@@ -23,11 +23,7 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public string Description { get; set; }
 
-        public int Quantity { get; set; }
-
         public decimal Price { get; set; }
-
-        public decimal TotalPrice => Quantity * Price;
 
         public ProductType Type { get; set; }
 
