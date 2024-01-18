@@ -4,11 +4,11 @@ namespace FoodDeliveryWebsite.Repositories
 {
     public interface IProductRepository
     {
-        Task<ProductDto[]> GetProductsAsync();
+        Task<ProductGetDto[]> GetProductsAsync();
 
-        Task AddProductAsync(ProductDto productDto);
+        Task AddProductAsync(ProductAddDto productDto);
 
-        Task UpdateProductAsync(ProductDto productDto);
+        Task UpdateProductAsync(ProductGetDto productDto);
 
         Task DeleteProductAsync(int id);
     }

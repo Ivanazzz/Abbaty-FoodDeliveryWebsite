@@ -11,10 +11,10 @@
         <div class="p-2">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <button routerLink="/login" class="btn btn-hover" type="button">Меню</button>
+                    <button routerLink="/menu" class="btn btn-hover" type="button">Меню</button>
                 </li>
                 <li *ngIf="userService.currentUser != null && userService.currentUser.role == role.Admin" class="nav-item">
-                  <button routerLink="/discount" class="btn btn-hover" type="button">Продукти</button>
+                  <button routerLink="/product" class="btn btn-hover" type="button">Продукти</button>
               </li>
                 <li *ngIf="userService.currentUser != null && userService.currentUser.role == role.Admin" class="nav-item">
                   <button routerLink="/discount" class="btn btn-hover" type="button">Отстъпки</button>

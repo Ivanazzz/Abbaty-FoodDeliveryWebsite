@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 using FluentValidation;
 
@@ -19,14 +20,14 @@ namespace FoodDeliveryWebsite.Repositories
             this.context = context;
         }
 
-        public async Task<ProductDto[]> GetProductsAsync()
+        public async Task<ProductGetDto[]> GetProductsAsync()
         {
             var currentProducts = await context.Product.Where(p => p.Status == ProductStatus.Available).ToListAsync();
 
-            List<ProductDto> products = new List<ProductDto>();
+            List<ProductGetDto> products = new List<ProductGetDto>();
             foreach (var product in currentProducts)
             {
-                products.Add(new ProductDto
+                products.Add(new ProductGetDto
                 {
                     Id = product.Id,
                     Name = product.Name,
@@ -35,15 +36,19 @@ namespace FoodDeliveryWebsite.Repositories
                     Type = product.Type,
                     Status = product.Status,
                     Grams = product.Grams,
-                    //Image = product.Image
+                    Image = product.Image,
+                    ImageMimeType = product.ImageMimeType,
+                    ImageName = product.ImageName
                 });
             }
 
             return products.ToArray();
         }
 
-        public async Task AddProductAsync(ProductDto productDto)
+        public async Task AddProductAsync(ProductAddDto productDto)
         {
+            byte[] imageBytes = await ConvertIFormFileToByteArray(productDto.Image);
+
             Product product = new Product
             {
                 Name = productDto.Name,
@@ -52,7 +57,9 @@ namespace FoodDeliveryWebsite.Repositories
                 Type = productDto.Type,
                 Status = productDto.Status,
                 Grams = productDto.Grams,
-                //Image = productDto.Image
+                Image = imageBytes,
+                ImageName = productDto.Image.FileName,
+                ImageMimeType = productDto.Image.ContentType
             };
 
             ProductValidator validator = new ProductValidator();
@@ -62,7 +69,7 @@ namespace FoodDeliveryWebsite.Repositories
             await context.SaveChangesAsync();
         }
 
-        public Task UpdateProductAsync(ProductDto productDto)
+        public Task UpdateProductAsync(ProductGetDto productDto)
         {
             throw new NotImplementedException();
         }
@@ -71,6 +78,15 @@ namespace FoodDeliveryWebsite.Repositories
         {
             // Staus = ProductStatus.Unavailable;
             throw new NotImplementedException();
+        }
+
+        private async Task<byte[]> ConvertIFormFileToByteArray(IFormFile formFile)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await formFile.CopyToAsync(memoryStream);
+                return memoryStream.ToArray();
+            }
         }
     }
 }

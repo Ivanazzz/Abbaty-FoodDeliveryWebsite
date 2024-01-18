@@ -11,6 +11,6 @@ export class NavComponent {
   role = Role;
 
   constructor(public userService: UserService){
-    console.log(userService.currentUser);
+    //console.log(userService.currentUser);
   }
 }

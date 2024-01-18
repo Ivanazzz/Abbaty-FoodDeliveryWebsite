@@ -20,6 +20,8 @@ import { UpdateAddressModalContent } from './modals/update-address-modal/update-
 import { DiscountComponent } from './discount/discount.component';
 import { AddDiscountModalContent } from './modals/add-discount-modal/add-discount-modal.component';
 import { DiscountService } from './discount-service';
+import { ProductComponent } from './product/product.component';
+import { MenuComponent } from './menu/menu.component';
 
 
 
@@ -39,6 +41,8 @@ export function appInitializer(userService: UserService) {
     UpdateAddressModalContent,
     DiscountComponent,
     AddDiscountModalContent,
+    ProductComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,

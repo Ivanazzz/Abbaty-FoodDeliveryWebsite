@@ -1,0 +1,50 @@
+.container {
+    margin-top: 10rem;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 3rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.card {
+    width: 17rem;
+}
+
+.product {
+    margin-bottom: 2rem;
+    background-color: white;
+}
+
+.product-info {
+    padding: 1rem;
+}
+
+.product-price-grams {
+    display: flex;
+    gap: 8px;
+}
+
+.line {
+    color: gray;
+}
+
+.grams {
+    color: gray;
+}
+
+.btns {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.btn-red {
+    background-color: #ed1c24;
+    color: white;
+}

@@ -8,11 +8,11 @@ namespace FoodDeliveryWebsite.Models.Validations
     {
         private const int NameMaxLength = 30;
         private const int DescriptionMaxLength = 500;
-        private const int PriceMinValue = 1;
+        private const decimal PriceMinValue = 0.01m;
         private const int GramsMinValue = 1;
 
         private const string NameRegex = @"^[А-я\s]+$";
-        private const string DescriptionRegex = @"^[.,А-я\s]+$";
+        private const string DescriptionRegex = @"^[-.,А-я\s]+$";
 
         public ProductValidator()
         {

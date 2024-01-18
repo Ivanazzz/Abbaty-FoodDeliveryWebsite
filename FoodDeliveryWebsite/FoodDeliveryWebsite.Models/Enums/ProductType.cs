@@ -6,9 +6,8 @@
         Starter = 2,
         Main = 3,
         Seafood = 4,
-        Vegetarian = 5,
-        Bread = 6,
-        Dessert = 7,
-        Children = 8
+        Bread = 5,
+        Dessert = 6,
+        Children = 7
     }
 }

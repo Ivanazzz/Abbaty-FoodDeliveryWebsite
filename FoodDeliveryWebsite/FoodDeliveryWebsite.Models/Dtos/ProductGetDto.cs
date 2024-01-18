@@ -2,7 +2,7 @@
 
 namespace FoodDeliveryWebsite.Models.Dtos
 {
-    public class ProductDto
+    public class ProductGetDto
     {
         public int Id { get; set; }
 
@@ -18,6 +18,10 @@ namespace FoodDeliveryWebsite.Models.Dtos
 
         public int Grams { get; set; }
 
-        // public byte[] Image { get; set; }
+        public byte[] Image { get; set; }
+
+        public string ImageName { get; set; }
+
+        public string ImageMimeType { get; set; }
     }
 }

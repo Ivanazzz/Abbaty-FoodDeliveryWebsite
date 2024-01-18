@@ -33,6 +33,10 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public byte[] Image { get; set; }
 
+        public string ImageName { get; set; }
+
+        public string ImageMimeType { get; set; }
+
         public ICollection<OrderItem> OrderItems { get; set; }
 
         public class ProductConfiguration : IEntityTypeConfiguration<Product>

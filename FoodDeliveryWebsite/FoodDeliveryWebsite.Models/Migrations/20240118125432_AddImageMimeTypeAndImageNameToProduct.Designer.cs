@@ -3,6 +3,7 @@ using System;
 using FoodDeliveryWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FoodDeliveryWebsite.Models.Migrations
 {
     [DbContext(typeof(FoodDeliveryWebsiteDbContext))]
-    partial class FoodDeliveryWebsiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240118125432_AddImageMimeTypeAndImageNameToProduct")]
+    partial class AddImageMimeTypeAndImageNameToProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

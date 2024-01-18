@@ -3,6 +3,6 @@
     public enum ProductStatus
     {
         Available = 1,
-        Unavailable= 2,
+        Unavailable = 2,
     }
 }

@@ -27,7 +27,7 @@ namespace FoodDeliveryWebsite.Controllers
         }
 
         [HttpPost("Add")]
-        public async Task<IActionResult> AddAsync([FromBody] ProductDto productDto)
+        public async Task<IActionResult> AddAsync([FromForm] ProductAddDto productDto)
         {
             await productRepository.AddProductAsync(productDto);
 
@@ -35,7 +35,7 @@ namespace FoodDeliveryWebsite.Controllers
         }
 
         [HttpPost("Update")]
-        public async Task<IActionResult> UpdateAsync([FromBody] ProductDto productDto)
+        public async Task<IActionResult> UpdateAsync([FromBody] ProductGetDto productDto)
         {
             await productRepository.UpdateProductAsync(productDto);
 
@@ -48,6 +48,18 @@ namespace FoodDeliveryWebsite.Controllers
             await productRepository.DeleteProductAsync(id);
 
             return Ok();
+        }
+
+        [HttpGet("{id:int}/File")]
+        public async Task<IActionResult> GetAsync([FromRoute] int id)
+        {
+            var products = await productRepository.GetProductsAsync();
+
+            var image = products.Single(e => e.Id == id).Image;
+            var mimeType = products.Single(e => e.Id == id).ImageMimeType;
+            var name = products.Single(e => e.Id == id).ImageName;
+
+            return File(image, mimeType, name);
         }
     }
 }
