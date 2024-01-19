@@ -12,7 +12,7 @@
                 <span class="total-price">Крайна цена:</span>
             </li>
             <li>
-                <h3 class="price">{{ productDto.price }}</h3>
+                <h3 class="price">{{ productTotalPrice | number:'1.2-2'}}</h3>
             </li>
             <li>
                 <button class="btn btn-outline-success btn-add-remove" (click)="decreaseProductQuantity()"><i class="fa-solid fa-minus"></i></button>

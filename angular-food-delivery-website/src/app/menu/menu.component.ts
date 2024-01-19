@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductDto, ProductTypeEnumLocalization } from '../product-dto';
+import { ProductDto, ProductType, ProductTypeEnumLocalization } from '../product-dto';
 import { ProductService } from '../product-service';
 import { catchError, throwError } from 'rxjs';
 
@@ -10,16 +10,26 @@ import { catchError, throwError } from 'rxjs';
 })
 
 export class MenuComponent implements OnInit {
-  products: ProductDto[];
-
   imageUrl = 'http://localhost:10001/api/Products/';
-
   productTypeEnumLocalization = ProductTypeEnumLocalization;
+  products: ProductDto[];
 
   constructor(private productService: ProductService) {}
 
   ngOnInit() {
     this.get();
+  }
+
+  getFiltered(selectedProductType: ProductType){
+    this.productService.getFilteredProducts(selectedProductType)
+    .pipe(
+      catchError((err) => {
+          return throwError(() => err);
+      })
+  )
+    .subscribe((res) => {
+      this.products = res;
+    });
   }
 
   get() {

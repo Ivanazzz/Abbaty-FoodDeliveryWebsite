@@ -14,14 +14,14 @@ form {
     margin-left: 100rem;
 }
 
+.nav-items {
+    width: 50%;
+}
+
 .btn {
     margin-right: 1rem;
     text-transform: uppercase;
     font-weight: bold;
-}
-
-.nav-items {
-    width: 50%;
 }
 
 .btn-hover {

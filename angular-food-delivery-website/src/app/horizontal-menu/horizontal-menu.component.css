@@ -1,0 +1,27 @@
+.container {
+    margin-top: 6rem;
+    background-color: #f7f7f7;
+    padding: 1rem;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn {
+    margin-right: 1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.btn-hover {
+    background-color: transparent;
+}
+
+.btn-hover:hover {
+    background-color: #ed1c24;
+    color: white;
+}
+
+.btn-center-text {
+    text-align: center;
+}

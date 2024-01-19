@@ -4,7 +4,7 @@ namespace FoodDeliveryWebsite.Repositories
 {
     public interface IAddressRepository
     {
-        Task<AddressDto[]> GetAddressesAsync(string userEmail);
+        Task<List<AddressDto>> GetAddressesAsync(string userEmail);
 
         Task AddAddressAsync(AddressDto addressDto, string userEmail);
 

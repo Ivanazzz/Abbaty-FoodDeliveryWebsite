@@ -8,6 +8,7 @@ import { DiscountComponent } from './discount/discount.component';
 import { ProductComponent } from './product/product.component';
 import { MenuComponent } from './menu/menu.component';
 import { ProductInfoComponent } from './product-info/product-info.component';
+import { HorizontalMenuComponent } from './horizontal-menu/horizontal-menu.component';
 
 const routes: Routes = [
   { path: 'registration', component: RegistrationComponent },
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'discount', component: DiscountComponent },
   { path: 'product', component: ProductComponent },
   { path: 'menu', component: MenuComponent },
-  { path: 'product-info/:id', component: ProductInfoComponent }
+  { path: 'product-info/:id', component: ProductInfoComponent },
+  { path: 'horizontal-menu', component: HorizontalMenuComponent },
 ];
 
 @NgModule({

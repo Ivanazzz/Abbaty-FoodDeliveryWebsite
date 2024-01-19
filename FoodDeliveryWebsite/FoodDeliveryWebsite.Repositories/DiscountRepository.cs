@@ -19,7 +19,7 @@ namespace FoodDeliveryWebsite.Repositories
             this.context = context;
         }
 
-        public async Task<DiscountDto[]> GetAvailableDiscountsAsync()
+        public async Task<List<DiscountDto>> GetAvailableDiscountsAsync()
         {
             var currentDiscounts = await context.Discount.ToListAsync();
 
@@ -37,10 +37,10 @@ namespace FoodDeliveryWebsite.Repositories
 
             discounts = discounts.Where(d => d.Status == DiscountStatus.Available).ToList();
 
-            return discounts.ToArray();
+            return discounts;
         }
 
-        public async Task<DiscountDto[]> GetUpcomingDiscountsAsync()
+        public async Task<List<DiscountDto>> GetUpcomingDiscountsAsync()
         {
             var upcomingDiscounts = await context.Discount.Where(d => d.StartDate > DateTime.UtcNow).ToListAsync();
 
@@ -56,7 +56,7 @@ namespace FoodDeliveryWebsite.Repositories
                 });
             }
 
-            return discounts.ToArray();
+            return discounts;
         }
 
         public async Task AddDiscountAsync(DiscountDto discountDto)

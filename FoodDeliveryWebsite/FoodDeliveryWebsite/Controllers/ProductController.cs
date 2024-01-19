@@ -2,6 +2,7 @@
 
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Repositories;
+using FoodDeliveryWebsite.Models.Enums;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -32,6 +33,14 @@ namespace FoodDeliveryWebsite.Controllers
             var product = await productRepository.GetSelectedProductAsync(id);
 
             return Ok(product);
+        }
+
+        [HttpGet("GetFiltered")]
+        public async Task<IActionResult> GetFilteredAsync([FromQuery] ProductType productType)
+        {
+            var products = await productRepository.GetFilteredProductAsync(productType);
+
+            return Ok(products);
         }
 
         [HttpPost("Add")]

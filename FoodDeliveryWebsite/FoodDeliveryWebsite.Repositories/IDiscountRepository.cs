@@ -4,9 +4,9 @@ namespace FoodDeliveryWebsite.Repositories
 {
     public interface IDiscountRepository
     {
-        Task<DiscountDto[]> GetAvailableDiscountsAsync();
+        Task<List<DiscountDto>> GetAvailableDiscountsAsync();
 
-        Task<DiscountDto[]> GetUpcomingDiscountsAsync();
+        Task<List<DiscountDto>> GetUpcomingDiscountsAsync();
 
         Task AddDiscountAsync(DiscountDto discountDto);
     }

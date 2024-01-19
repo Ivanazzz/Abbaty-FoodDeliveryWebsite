@@ -16,7 +16,7 @@ namespace FoodDeliveryWebsite.Repositories
             this.context = context;
         }
 
-        public async Task<AddressDto[]> GetAddressesAsync(string userEmail)
+        public async Task<List<AddressDto>> GetAddressesAsync(string userEmail)
         {
             var user = await context.Users
                 .Include(u => u.Addresses)
@@ -37,7 +37,7 @@ namespace FoodDeliveryWebsite.Repositories
                 });
             }
 
-            return addressesDtos.ToArray();
+            return addressesDtos;
         }
 
         public async Task AddAddressAsync(AddressDto addressDto, string userEmail)

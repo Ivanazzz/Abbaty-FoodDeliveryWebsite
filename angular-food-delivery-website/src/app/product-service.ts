@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ProductDto } from './product-dto';
+import { ProductDto, ProductType } from './product-dto';
  
 @Injectable({
   providedIn: 'root'
@@ -22,5 +22,9 @@ export class ProductService {
 
   getSelectedProduct(id: number): Observable<ProductDto> {
     return this.http.get<ProductDto>(`${this.baseUrl}/api/Products/GetSelected/${id}`);
+  }
+
+  getFilteredProducts(productType: ProductType): Observable<ProductDto[]> {
+    return this.http.get<ProductDto[]>(`${this.baseUrl}/api/Products/GetFiltered?productType=${productType}`);
   }
 }

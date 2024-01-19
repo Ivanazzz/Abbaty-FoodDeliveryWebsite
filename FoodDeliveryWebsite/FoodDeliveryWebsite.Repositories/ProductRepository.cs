@@ -20,7 +20,7 @@ namespace FoodDeliveryWebsite.Repositories
             this.context = context;
         }
 
-        public async Task<ProductGetDto[]> GetProductsAsync()
+        public async Task<List<ProductGetDto>> GetProductsAsync()
         {
             var currentProducts = await context.Product.Where(p => p.Status == ProductStatus.Available).ToListAsync();
 
@@ -42,7 +42,7 @@ namespace FoodDeliveryWebsite.Repositories
                 });
             }
 
-            return products.ToArray();
+            return products;
         }
 
         public async Task<ProductGetDto> GetSelectedProductAsync(int id)
@@ -69,6 +69,34 @@ namespace FoodDeliveryWebsite.Repositories
             };
 
             return productDto;
+        }
+
+        public async Task<List<ProductGetDto>> GetFilteredProductAsync(ProductType productType)
+        {
+            var currentProducts = await context.Product
+                .Where(p => p.Type == productType 
+                    && p.Status == ProductStatus.Available)
+                .ToListAsync();
+
+            List<ProductGetDto> products = new List<ProductGetDto>();
+            foreach (var product in currentProducts)
+            {
+                products.Add(new ProductGetDto
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Description = product.Description,
+                    Price = product.Price,
+                    Type = product.Type,
+                    Status = product.Status,
+                    Grams = product.Grams,
+                    Image = product.Image,
+                    ImageMimeType = product.ImageMimeType,
+                    ImageName = product.ImageName
+                });
+            }
+
+            return products;
         }
 
         public async Task AddProductAsync(ProductAddDto productDto)

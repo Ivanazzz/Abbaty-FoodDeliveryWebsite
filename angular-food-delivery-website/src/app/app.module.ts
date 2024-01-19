@@ -23,8 +23,7 @@ import { DiscountService } from './discount-service';
 import { ProductComponent } from './product/product.component';
 import { MenuComponent } from './menu/menu.component';
 import { ProductInfoComponent } from './product-info/product-info.component';
-
-
+import { HorizontalMenuComponent } from './horizontal-menu/horizontal-menu.component';
 
 export function appInitializer(userService: UserService) {
   return () => userService.initializeUser();
@@ -44,7 +43,8 @@ export function appInitializer(userService: UserService) {
     AddDiscountModalContent,
     ProductComponent,
     MenuComponent,
-    ProductInfoComponent
+    ProductInfoComponent,
+    HorizontalMenuComponent
   ],
   imports: [
     BrowserModule,
