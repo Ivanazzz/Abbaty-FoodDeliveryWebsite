@@ -1,15 +1,15 @@
 .container {
     margin-top: 10rem;
-    margin-left: 0px;
-    margin-right: 0px;
+    margin-left: 13rem;
     padding: 3rem;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    max-width: 1850px;
 }
 
 .card {
-    width: 17rem;
+    width: 23rem;
 }
 
 .product {

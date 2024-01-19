@@ -22,6 +22,7 @@ import { AddDiscountModalContent } from './modals/add-discount-modal/add-discoun
 import { DiscountService } from './discount-service';
 import { ProductComponent } from './product/product.component';
 import { MenuComponent } from './menu/menu.component';
+import { ProductInfoComponent } from './product-info/product-info.component';
 
 
 
@@ -42,7 +43,8 @@ export function appInitializer(userService: UserService) {
     DiscountComponent,
     AddDiscountModalContent,
     ProductComponent,
-    MenuComponent
+    MenuComponent,
+    ProductInfoComponent
   ],
   imports: [
     BrowserModule,

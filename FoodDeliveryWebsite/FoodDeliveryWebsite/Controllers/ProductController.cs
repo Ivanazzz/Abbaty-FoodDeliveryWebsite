@@ -26,6 +26,14 @@ namespace FoodDeliveryWebsite.Controllers
             return Ok(products);
         }
 
+        [HttpGet("GetSelected/{id:int}")]
+        public async Task<IActionResult> GetSelectedAsync([FromRoute] int id)
+        {
+            var product = await productRepository.GetSelectedProductAsync(id);
+
+            return Ok(product);
+        }
+
         [HttpPost("Add")]
         public async Task<IActionResult> AddAsync([FromForm] ProductAddDto productDto)
         {

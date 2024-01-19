@@ -19,4 +19,8 @@ export class ProductService {
   get(): Observable<ProductDto[]> {
     return this.http.get<ProductDto[]>(`${this.baseUrl}/api/Products/Get`);
   }
+
+  getSelectedProduct(id: number): Observable<ProductDto> {
+    return this.http.get<ProductDto>(`${this.baseUrl}/api/Products/GetSelected/${id}`);
+  }
 }

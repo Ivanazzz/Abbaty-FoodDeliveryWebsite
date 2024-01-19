@@ -6,6 +6,8 @@ namespace FoodDeliveryWebsite.Repositories
     {
         Task<ProductGetDto[]> GetProductsAsync();
 
+        Task<ProductGetDto> GetSelectedProductAsync(int id);
+
         Task AddProductAsync(ProductAddDto productDto);
 
         Task UpdateProductAsync(ProductGetDto productDto);

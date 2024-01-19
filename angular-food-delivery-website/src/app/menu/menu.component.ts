@@ -34,7 +34,6 @@ export class MenuComponent implements OnInit {
     });
   }
 
-
   constructProductImageUrl(productId: number){
     return this.imageUrl + productId + '/File';
   }

@@ -45,6 +45,32 @@ namespace FoodDeliveryWebsite.Repositories
             return products.ToArray();
         }
 
+        public async Task<ProductGetDto> GetSelectedProductAsync(int id)
+        {
+            var product = await context.Product.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null)
+            {
+                throw new Exception("Product unavailable.");
+            }
+
+            ProductGetDto productDto = new ProductGetDto
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Description = product.Description,
+                Price = product.Price,
+                Type = product.Type,
+                Status = product.Status,
+                Grams = product.Grams,
+                Image = product.Image,
+                ImageMimeType = product.ImageMimeType,
+                ImageName = product.ImageName
+            };
+
+            return productDto;
+        }
+
         public async Task AddProductAsync(ProductAddDto productDto)
         {
             byte[] imageBytes = await ConvertIFormFileToByteArray(productDto.Image);
