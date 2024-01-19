@@ -31,6 +31,8 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public int Grams { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public byte[] Image { get; set; }
 
         public string ImageName { get; set; }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductDto, ProductType, ProductTypeEnumLocalization } from '../product-dto';
 import { ProductService } from '../product-service';
 import { catchError, throwError } from 'rxjs';
+import { UserService } from '../user.service';
+import { Role } from '../user-dto';
 
 @Component({
   selector: 'app-menu',
@@ -13,8 +15,10 @@ export class MenuComponent implements OnInit {
   imageUrl = 'http://localhost:10001/api/Products/';
   productTypeEnumLocalization = ProductTypeEnumLocalization;
   products: ProductDto[];
+  role = Role;
+  modalService: any;
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService, private userService: UserService) {}
 
   ngOnInit() {
     this.get();
@@ -46,5 +50,15 @@ export class MenuComponent implements OnInit {
 
   constructProductImageUrl(productId: number){
     return this.imageUrl + productId + '/File';
+  }
+
+  deleteProduct(productId: number) {
+    this.productService.deleteProduct(productId)
+    .pipe(
+      catchError((err) => {
+          return throwError(() => err);
+      })
+  )
+    .subscribe(() => {});
   }
 }

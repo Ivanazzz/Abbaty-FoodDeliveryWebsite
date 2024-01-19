@@ -111,9 +111,10 @@ namespace FoodDeliveryWebsite.Repositories
                 Type = productDto.Type,
                 Status = productDto.Status,
                 Grams = productDto.Grams,
+                IsDeleted = false,
                 Image = imageBytes,
                 ImageName = productDto.Image.FileName,
-                ImageMimeType = productDto.Image.ContentType
+                ImageMimeType = productDto.Image.ContentType,
             };
 
             ProductValidator validator = new ProductValidator();
@@ -128,10 +129,18 @@ namespace FoodDeliveryWebsite.Repositories
             throw new NotImplementedException();
         }
 
-        public Task DeleteProductAsync(int id)
+        public async Task DeleteProductAsync(int id)
         {
-            // Staus = ProductStatus.Unavailable;
-            throw new NotImplementedException();
+            var product = await context.Product.FirstOrDefaultAsync(p => p.Id == id && p.IsDeleted == false);
+
+            if (product != null)
+            {
+                product.Status = ProductStatus.Unavailable;
+                product.IsDeleted = true;
+
+                context.Product.Update(product);
+                await context.SaveChangesAsync();
+            }
         }
 
         private async Task<byte[]> ConvertIFormFileToByteArray(IFormFile formFile)

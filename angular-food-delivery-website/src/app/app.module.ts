@@ -44,7 +44,7 @@ export function appInitializer(userService: UserService) {
     ProductComponent,
     MenuComponent,
     ProductInfoComponent,
-    HorizontalMenuComponent
+    HorizontalMenuComponent,
   ],
   imports: [
     BrowserModule,

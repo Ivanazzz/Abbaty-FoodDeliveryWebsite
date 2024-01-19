@@ -27,4 +27,8 @@ export class ProductService {
   getFilteredProducts(productType: ProductType): Observable<ProductDto[]> {
     return this.http.get<ProductDto[]>(`${this.baseUrl}/api/Products/GetFiltered?productType=${productType}`);
   }
+
+  deleteProduct(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/api/Products/Delete/${id}`);
+  }
 }

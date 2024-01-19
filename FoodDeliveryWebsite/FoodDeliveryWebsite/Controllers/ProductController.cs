@@ -59,8 +59,8 @@ namespace FoodDeliveryWebsite.Controllers
             return Ok();
         }
 
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteAsync([FromQuery] int id)
+        [HttpDelete("Delete/{id:int}")]
+        public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {
             await productRepository.DeleteProductAsync(id);
 
