@@ -20,9 +20,34 @@ namespace FoodDeliveryWebsite.Repositories
             this.context = context;
         }
 
-        public async Task<List<ProductGetDto>> GetProductsAsync()
+        public async Task<List<ProductGetDto>> GetAvailableProductsAsync()
         {
             var currentProducts = await context.Product.Where(p => p.Status == ProductStatus.Available).ToListAsync();
+
+            List<ProductGetDto> products = new List<ProductGetDto>();
+            foreach (var product in currentProducts)
+            {
+                products.Add(new ProductGetDto
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Description = product.Description,
+                    Price = product.Price,
+                    Type = product.Type,
+                    Status = product.Status,
+                    Grams = product.Grams,
+                    Image = product.Image,
+                    ImageMimeType = product.ImageMimeType,
+                    ImageName = product.ImageName
+                });
+            }
+
+            return products;
+        }
+
+        public async Task<List<ProductGetDto>> GetAllProductsAsync()
+        {
+            var currentProducts = await context.Product.ToListAsync();
 
             List<ProductGetDto> products = new List<ProductGetDto>();
             foreach (var product in currentProducts)
@@ -99,6 +124,33 @@ namespace FoodDeliveryWebsite.Repositories
             return products;
         }
 
+        public async Task<List<ProductGetDto>> GetProductsWithStatusAsync(ProductStatus productStatus)
+        {
+            var currentProducts = await context.Product
+                .Where(p => p.Status == productStatus)
+                .ToListAsync();
+
+            List<ProductGetDto> products = new List<ProductGetDto>();
+            foreach (var product in currentProducts)
+            {
+                products.Add(new ProductGetDto
+                {
+                    Id = product.Id,
+                    Name = product.Name,
+                    Description = product.Description,
+                    Price = product.Price,
+                    Type = product.Type,
+                    Status = product.Status,
+                    Grams = product.Grams,
+                    Image = product.Image,
+                    ImageMimeType = product.ImageMimeType,
+                    ImageName = product.ImageName
+                });
+            }
+
+            return products;
+        }
+
         public async Task AddProductAsync(ProductAddDto productDto)
         {
             byte[] imageBytes = await ConvertIFormFileToByteArray(productDto.Image);
@@ -124,9 +176,25 @@ namespace FoodDeliveryWebsite.Repositories
             await context.SaveChangesAsync();
         }
 
-        public Task UpdateProductAsync(ProductGetDto productDto)
+        public async Task UpdateProductAsync(ProductGetDto productDto)
         {
-            throw new NotImplementedException();
+            var product = await context.Product.FirstOrDefaultAsync(p => p.Id == productDto.Id);
+
+            if (product != null)
+            {
+                product.Name = productDto.Name;
+                product.Description = productDto.Description;
+                product.Price = productDto.Price;
+                product.Grams = productDto.Grams;
+                product.Type = productDto.Type;
+                product.Status = productDto.Status;
+
+                ProductValidator validator = new ProductValidator();
+                validator.ValidateAndThrow(product);
+
+                context.Product.Update(product);
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteProductAsync(int id)

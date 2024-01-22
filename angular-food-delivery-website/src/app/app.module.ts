@@ -24,6 +24,10 @@ import { ProductComponent } from './product/product.component';
 import { MenuComponent } from './menu/menu.component';
 import { ProductInfoComponent } from './product-info/product-info.component';
 import { HorizontalMenuComponent } from './horizontal-menu/horizontal-menu.component';
+import { AdminMenuComponent } from './admin-menu/admin-menu.component';
+import { ProductUpdateComponent } from './product-update/product-update.component';
+import { UpdateProductModalContent } from './modals/update-product-modal/update-product-modal.component';
+import { ProductService } from './product-service';
 
 export function appInitializer(userService: UserService) {
   return () => userService.initializeUser();
@@ -45,6 +49,9 @@ export function appInitializer(userService: UserService) {
     MenuComponent,
     ProductInfoComponent,
     HorizontalMenuComponent,
+    AdminMenuComponent,
+    ProductUpdateComponent,
+    UpdateProductModalContent
   ],
   imports: [
     BrowserModule,
@@ -59,6 +66,7 @@ export function appInitializer(userService: UserService) {
     UserService,
     AddressService,
     DiscountService,
+    ProductService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializer,

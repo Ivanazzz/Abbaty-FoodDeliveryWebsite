@@ -22,7 +22,7 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpGet("Get")]
         public async Task<IActionResult> GetAsync()
         {
-            var products = await productRepository.GetProductsAsync();
+            var products = await productRepository.GetAvailableProductsAsync();
 
             return Ok(products);
         }
@@ -39,6 +39,14 @@ namespace FoodDeliveryWebsite.Controllers
         public async Task<IActionResult> GetFilteredAsync([FromQuery] ProductType productType)
         {
             var products = await productRepository.GetFilteredProductAsync(productType);
+
+            return Ok(products);
+        }
+
+        [HttpGet("GetProductsWithStatus")]
+        public async Task<IActionResult> GetProductsWithStatusAsync([FromQuery] ProductStatus productStatus)
+        {
+            var products = await productRepository.GetProductsWithStatusAsync(productStatus);
 
             return Ok(products);
         }
@@ -70,7 +78,7 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpGet("{id:int}/File")]
         public async Task<IActionResult> GetAsync([FromRoute] int id)
         {
-            var products = await productRepository.GetProductsAsync();
+            var products = await productRepository.GetAllProductsAsync();
 
             var image = products.Single(e => e.Id == id).Image;
             var mimeType = products.Single(e => e.Id == id).ImageMimeType;

@@ -1,0 +1,59 @@
+<div class="container form">
+    <h1>Редактирай продукт</h1>
+    <div class="form-group">
+       <label for="name">
+       <span class="important">*</span> 
+       Име:
+       </label>
+       <input type="text" class="form-control" [(ngModel)]="productDto.name" id="name" required>
+    </div>
+    <div class="form-group">
+       <label for="description">
+       <span class="important">*</span> 
+       Описание:
+       </label>
+       <textarea type="text" class="form-control" [(ngModel)]="productDto.description" id="description" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="price">
+        <span class="important">*</span>
+        Цена:
+        </label>
+        <input type="number" class="form-control" [(ngModel)]="productDto.price" id="price" required min="0.01" step="any">
+     </div>
+     <div class="form-group">
+        <label for="grams">
+        <span class="important">*</span>
+        Грамаж:
+        </label>
+        <input type="number" class="form-control" [(ngModel)]="productDto.grams" id="grams" required min="1">
+     </div>
+    <div class="form-group">
+       <label for="productType">
+       <span class="important">*</span>
+       Тип:
+       </label>
+       <select name="productType" [(ngModel)]="productDto.type" id="productType" class="form-control">
+          <option [ngValue]="type.Salad">Салата</option>
+          <option [ngValue]="type.Starter">Предястие</option>
+          <option [ngValue]="type.Main">Основно</option>
+          <option [ngValue]="type.Seafood">Морска храна</option>
+          <option [ngValue]="type.Bread">Хляб</option>
+          <option [ngValue]="type.Dessert">Десерт</option>
+          <option [ngValue]="type.Children">Детско</option>
+       </select>
+    </div>
+    <div class="form-group">
+        <label for="productStatus">
+        <span class="important">*</span>
+        Статус:
+        </label>
+        <select name="productStatus" [(ngModel)]="productDto.status" id="productStatus" class="form-control">
+            <option [ngValue]="status.Available">Наличен</option>
+           <option [ngValue]="status.Unavailable">Неналичен</option>
+         </select>
+     </div>
+    <div class="btn-wrapper">
+       <button class="btn btn-success" (click)="updateProduct()">Реадктирай</button>
+    </div>
+ </div>

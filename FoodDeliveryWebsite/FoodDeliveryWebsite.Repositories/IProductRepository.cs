@@ -5,11 +5,15 @@ namespace FoodDeliveryWebsite.Repositories
 {
     public interface IProductRepository
     {
-        Task<List<ProductGetDto>> GetProductsAsync();
+        Task<List<ProductGetDto>> GetAvailableProductsAsync();
+
+        Task<List<ProductGetDto>> GetAllProductsAsync();
 
         Task<ProductGetDto> GetSelectedProductAsync(int id);
 
         Task<List<ProductGetDto>> GetFilteredProductAsync(ProductType productType);
+
+        Task<List<ProductGetDto>> GetProductsWithStatusAsync(ProductStatus productStatus);
 
         Task AddProductAsync(ProductAddDto productDto);
 

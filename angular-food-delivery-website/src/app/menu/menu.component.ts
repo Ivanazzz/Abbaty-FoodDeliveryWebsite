@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductDto, ProductType, ProductTypeEnumLocalization } from '../product-dto';
+import { ProductDto, ProductStatus, ProductType } from '../product-dto';
 import { ProductService } from '../product-service';
 import { catchError, throwError } from 'rxjs';
 import { UserService } from '../user.service';
 import { Role } from '../user-dto';
+import { UpdateProductModalContent } from '../modals/update-product-modal/update-product-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-menu',
@@ -13,12 +15,11 @@ import { Role } from '../user-dto';
 
 export class MenuComponent implements OnInit {
   imageUrl = 'http://localhost:10001/api/Products/';
-  productTypeEnumLocalization = ProductTypeEnumLocalization;
   products: ProductDto[];
+  productDto: ProductDto = new ProductDto();
   role = Role;
-  modalService: any;
 
-  constructor(private productService: ProductService, private userService: UserService) {}
+  constructor(private productService: ProductService, public userService: UserService, private modalService: NgbModal) {}
 
   ngOnInit() {
     this.get();
@@ -26,6 +27,18 @@ export class MenuComponent implements OnInit {
 
   getFiltered(selectedProductType: ProductType){
     this.productService.getFilteredProducts(selectedProductType)
+    .pipe(
+      catchError((err) => {
+          return throwError(() => err);
+      })
+  )
+    .subscribe((res) => {
+      this.products = res;
+    });
+  }
+
+  getWithStatus(selectedProductStatus: ProductStatus){
+    this.productService.getProductsWithStatus(selectedProductStatus)
     .pipe(
       catchError((err) => {
           return throwError(() => err);
@@ -60,5 +73,15 @@ export class MenuComponent implements OnInit {
       })
   )
     .subscribe(() => {});
+  }
+
+  openUpdateProductModal(productDto: ProductDto){
+    debugger
+    var modalRef = this.modalService.open(UpdateProductModalContent);
+    modalRef.componentInstance.productDto = productDto;
+    return modalRef.result.then((ok: boolean) => {
+      if (ok) {
+      }
+    })
   }
 }
