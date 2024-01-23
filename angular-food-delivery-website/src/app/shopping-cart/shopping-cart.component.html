@@ -1,0 +1,59 @@
+<div class="container">
+  <h2>Количка</h2>
+  <p *ngIf="userService.currentUser == null" class="empty-shopping-cart">
+    Вашата количка е празна
+  </p>
+  <ul *ngIf="userService.currentUser != null" class="list-group">
+    <li *ngFor="let orderItem of orderItems" class="list-group-item">
+      <div class="line-container">
+        <div class="order-item-info-left">
+          <img [src]="constructProductImageUrl(orderItem.product.id)" alt="" />
+          <h4>{{ orderItem.product.name }}</h4>
+        </div>
+        <div class="order-item-info-right">
+          <div class="quantity">
+            <button
+              class="btn btn-outline-success btn-sm btn-add-remove"
+              (click)="
+                decreaseOrderItemQuantity(
+                  orderItem.id,
+                  orderItem.productQuantity
+                )
+              "
+            >
+              <i class="fa-solid fa-minus"></i>
+            </button>
+            <input
+              class="add-qty"
+              type="text"
+              [value]="orderItem.productQuantity"
+              readonly=""
+            />
+            <button
+              class="btn btn-outline-success btn-sm btn-add-remove"
+              (click)="
+                increaseOrderItemQuantity(
+                  orderItem.id,
+                  orderItem.productQuantity
+                )
+              "
+            >
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </div>
+          <p>X {{ orderItem.product.price }}</p>
+          <button
+            class="btn btn-outline-danger btn-sm btn-add-remove"
+            (click)="deleteOrderItem(orderItem.id)"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <div *ngIf="userService.currentUser != null" class="total-price">
+    <h4>Total price: {{ getTotalPrice() | number : "1.2-2" }}</h4>
+  </div>
+</div>

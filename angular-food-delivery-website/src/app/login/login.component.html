@@ -1,15 +1,26 @@
 <div class="container login-form">
-    <h1>Вход</h1>
-    <div class="form-group">
-      <label for="email">Имейл:</label>
-      <input type="email" class="form-control" [(ngModel)]="userDto.email" id="email" required>
-    </div>
-    <div class="form-group">
-      <label for="password">Парола:</label>
-      <input type="password" class="form-control" [(ngModel)]="userDto.password" id="password" required>
-    </div>
-    <div class="btn-wrapper">
-        <button (click)="onSubmit()"
-      class="btn btn-success">Потвърди</button>
-    </div>
+  <h1>Вход</h1>
+  <div class="form-group">
+    <label for="email">Имейл:</label>
+    <input
+      type="email"
+      class="form-control"
+      [(ngModel)]="userDto.email"
+      id="email"
+      required
+    />
+  </div>
+  <div class="form-group">
+    <label for="password">Парола:</label>
+    <input
+      type="password"
+      class="form-control"
+      [(ngModel)]="userDto.password"
+      id="password"
+      required
+    />
+  </div>
+  <div class="btn-wrapper">
+    <button (click)="onSubmit()" class="btn btn-success">Потвърди</button>
+  </div>
 </div>

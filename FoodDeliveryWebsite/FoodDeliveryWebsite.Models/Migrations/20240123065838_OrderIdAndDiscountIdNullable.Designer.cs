@@ -3,6 +3,7 @@ using System;
 using FoodDeliveryWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FoodDeliveryWebsite.Models.Migrations
 {
     [DbContext(typeof(FoodDeliveryWebsiteDbContext))]
-    partial class FoodDeliveryWebsiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240123065838_OrderIdAndDiscountIdNullable")]
+    partial class OrderIdAndDiscountIdNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -169,10 +172,6 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("orderid");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric")
-                        .HasColumnName("price");
-
                     b.Property<int>("ProductId")
                         .HasColumnType("integer")
                         .HasColumnName("productid");
@@ -181,17 +180,11 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("productquantity");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer")
-                        .HasColumnName("userid");
-
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
 
                     b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("orderitem");
                 });
@@ -371,17 +364,9 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("FoodDeliveryWebsite.Models.Entities.User", "User")
-                        .WithMany("OrderItems")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("Order");
 
                     b.Navigation("Product");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.Order", b =>
@@ -397,8 +382,6 @@ namespace FoodDeliveryWebsite.Models.Migrations
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.User", b =>
                 {
                     b.Navigation("Addresses");
-
-                    b.Navigation("OrderItems");
 
                     b.Navigation("Orders");
                 });

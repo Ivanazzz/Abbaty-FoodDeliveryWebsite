@@ -18,6 +18,8 @@ namespace FoodDeliveryWebsite.Models
 
         public DbSet<Order> Order { get; set; }
 
+        public DbSet<OrderItem> OrderItems { get; set; }
+
         public DbSet<Product> Product { get; set; }
 
         public DbSet<User> Users { get; set; }
@@ -60,7 +62,7 @@ namespace FoodDeliveryWebsite.Models
                 {
                     var entity = entry.Entity as IAuditable;
                     entity.CreateDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
-                    //entity.CreatorUserId = email;
+                    //entity.CreatorUserId = ;
                 }
             }
             return base.SaveChangesAsync(cancellationToken);

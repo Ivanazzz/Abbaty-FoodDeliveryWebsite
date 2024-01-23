@@ -12,6 +12,7 @@ namespace FoodDeliveryWebsite.Models.Entities
         {
             Addresses = new List<Address>();
             Orders = new List<Order>();
+            OrderItems = new List<OrderItem>();
         }
 
         public int Id { get; set; }
@@ -41,6 +42,8 @@ namespace FoodDeliveryWebsite.Models.Entities
         public ICollection<Address> Addresses { get; set; }
 
         public UserRole Role { get; set; }
+
+        public ICollection<OrderItem> OrderItems { get; set; }
 
         public ICollection<Order> Orders { get; set; }
 

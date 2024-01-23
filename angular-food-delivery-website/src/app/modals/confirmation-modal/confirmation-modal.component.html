@@ -1,11 +1,24 @@
 <div class="modal-header">
-    <h4 class="modal-title">Потвърждение</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal(false)"></button>
+  <h4 class="modal-title">Потвърждение</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="closeModal(false)"
+  ></button>
 </div>
 <div class="modal-body">
-    <p>Сигурни ли сте, че искате да изтриете профила си?</p>
+  <p>Сигурни ли сте, че искате да изтриете профила си?</p>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="closeModal(false)">Не</button>
-<button type="button" class="btn btn-success" (click)="closeModal(true)">Да</button>
+  <button
+    type="button"
+    class="btn btn-outline-dark"
+    (click)="closeModal(false)"
+  >
+    Не
+  </button>
+  <button type="button" class="btn btn-success" (click)="closeModal(true)">
+    Да
+  </button>
 </div>

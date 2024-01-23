@@ -1,10 +1,12 @@
-﻿using FoodDeliveryWebsite.Models.Dtos;
-using FoodDeliveryWebsite.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+
+using FoodDeliveryWebsite.Models.Dtos;
+using FoodDeliveryWebsite.Repositories;
 
 namespace FoodDeliveryWebsite.Controllers
 {

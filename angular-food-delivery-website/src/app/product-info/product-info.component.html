@@ -1,27 +1,47 @@
 <div class="container">
-    <div class="card">
-        <img [src]="constructProductImageUrl(productDto.id)" alt="">
-        <div class="product-info">
-            <h3 class="product-name">{{ productDto.name }}</h3>
-            <p class="grams">{{ productDto.grams }} г</p>
-            <p class="description-title">Описание:</p>
-            <p class="description">{{ productDto.description }}</p>
-        </div>
-        <ul class="add-to-cart-holder">
-            <li>
-                <span class="total-price">Крайна цена:</span>
-            </li>
-            <li>
-                <h3 class="price">{{ productTotalPrice | number:'1.2-2'}}</h3>
-            </li>
-            <li>
-                <button class="btn btn-outline-success btn-add-remove" (click)="decreaseProductQuantity()"><i class="fa-solid fa-minus"></i></button>
-                <input class="add-qty" type="text" [value]="productQuantity" readonly="">
-                <button class="btn btn-outline-success btn-add-remove" (click)="increaseProductQuantity()"><i class="fa-solid fa-plus"></i></button>
-            </li>
-            <li>
-                <button class="btn btn-success btn-add-to-cart"><i class="fa-solid fa-cart-shopping"></i>Добавете в количката</button>
-            </li>
-        </ul>
+  <div class="card">
+    <img [src]="constructProductImageUrl(productDto.id)" alt="" />
+    <div class="product-info">
+      <h3 class="product-name">{{ productDto.name }}</h3>
+      <p class="grams">{{ productDto.grams }} г</p>
+      <p class="description-title">Описание:</p>
+      <p class="description">{{ productDto.description }}</p>
     </div>
+    <ul class="add-to-cart-holder">
+      <li>
+        <span class="total-price">Крайна цена:</span>
+      </li>
+      <li>
+        <h3 class="price">{{ productTotalPrice | number : "1.2-2" }}</h3>
+      </li>
+      <li>
+        <button
+          class="btn btn-outline-success btn-add-remove"
+          (click)="decreaseProductQuantity()"
+        >
+          <i class="fa-solid fa-minus"></i>
+        </button>
+        <input
+          class="add-qty"
+          type="text"
+          [value]="productQuantity"
+          readonly=""
+        />
+        <button
+          class="btn btn-outline-success btn-add-remove"
+          (click)="increaseProductQuantity()"
+        >
+          <i class="fa-solid fa-plus"></i>
+        </button>
+      </li>
+      <li>
+        <button
+          class="btn btn-success btn-add-to-cart"
+          (click)="addOrderItem(productDto.id, productQuantity)"
+        >
+          <i class="fa-solid fa-cart-shopping"></i>Добавете в количката
+        </button>
+      </li>
+    </ul>
+  </div>
 </div>

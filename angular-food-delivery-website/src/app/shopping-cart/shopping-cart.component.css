@@ -1,0 +1,55 @@
+.container {
+  margin: auto;
+  margin-top: 4rem;
+  padding: 3rem;
+  max-width: 1500px;
+}
+
+h2 {
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.line-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-item-info-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.order-item-info-right {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+img {
+  width: 10%;
+}
+
+.empty-shopping-cart {
+  text-align: center;
+}
+
+.btn-add-remove {
+  border-radius: 50%;
+}
+
+.add-qty {
+  text-align: center;
+  line-height: normal;
+  width: 52px;
+  height: 32px;
+  background: 0 0;
+  font-size: 16px;
+  font-weight: 500;
+  outline: 0;
+  padding: 0;
+  border: 0;
+}

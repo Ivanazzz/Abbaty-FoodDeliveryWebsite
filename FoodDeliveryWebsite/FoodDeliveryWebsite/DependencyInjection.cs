@@ -14,6 +14,7 @@ namespace FoodDeliveryWebsite
                 .AddScoped<IAddressRepository, AddressRepository>()
                 .AddScoped<IDiscountRepository, DiscountRepository>()
                 .AddScoped<IProductRepository, ProductRepository>()
+                .AddScoped<IOrderItemRepository, OrderItemRepository>()
                 .AddScoped<IValidator<User>, UserValidator>()
                 .AddScoped<IValidator<Address>, AddressValidator>()
                 .AddScoped<IValidator<Discount>, DiscountValidator>();

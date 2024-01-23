@@ -1,19 +1,41 @@
 <div class="container">
-    <h2>Адреси</h2>
-    <div *ngFor="let address of userAddresses" class="address">
-        <h4>Адрес:</h4>
-        <p> <strong>Град:</strong> {{ address.city }}</p>
-        <p> <strong>Улица:</strong> {{ address.street }}</p>
-        <p> <strong>Номер на улица:</strong> {{ address.streetNo }}</p>
-        <p> <strong>Етаж:</strong> {{ address.floor }}</p>
-        <p> <strong>Номер на апартамент:</strong> {{ address.apartmentNo }}</p>
-        <div class="btn-wrapper">
-            <button type="button" class="btn btn-danger btn-sm" (click)="deleteAddress(address.id)"><i class="fa-solid fa-trash"></i> Изтрий</button>
-            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="openUpdateAddressModal(address)"><i class="fa-solid fa-pencil"></i> Редактирай</button>
-          </div>
-    </div>
-
+  <h2>Адреси</h2>
+  <div *ngFor="let address of userAddresses" class="address">
+    <h4>Адрес:</h4>
+    <p><strong>Град:</strong> {{ address.city }}</p>
+    <p><strong>Улица:</strong> {{ address.street }}</p>
+    <p><strong>Номер на улица:</strong> {{ address.streetNo }}</p>
+    <p><strong>Етаж:</strong> {{ address.floor }}</p>
+    <p><strong>Номер на апартамент:</strong> {{ address.apartmentNo }}</p>
     <div class="btn-wrapper">
-        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" (click)="openAddAddressModal()">Добави</button>
-      </div>
+      <button
+        type="button"
+        class="btn btn-danger btn-sm"
+        (click)="deleteAddress(address.id)"
+      >
+        <i class="fa-solid fa-trash"></i> Изтрий
+      </button>
+      <button
+        type="button"
+        class="btn btn-warning btn-sm"
+        data-toggle="modal"
+        data-target="#exampleModal"
+        (click)="openUpdateAddressModal(address)"
+      >
+        <i class="fa-solid fa-pencil"></i> Редактирай
+      </button>
+    </div>
+  </div>
+
+  <div class="btn-wrapper">
+    <button
+      type="button"
+      class="btn btn-success"
+      data-toggle="modal"
+      data-target="#exampleModal"
+      (click)="openAddAddressModal()"
+    >
+      Добави
+    </button>
+  </div>
 </div>

@@ -1,5 +1,4 @@
 ﻿using FoodDeliveryWebsite.Models.Common;
-using FoodDeliveryWebsite.Models.Enums;
 
 namespace FoodDeliveryWebsite.Models.Entities
 {
@@ -18,8 +17,6 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public int CreatorUserId { get; set; }
 
-        public OrderStatus Status { get; set; }
-
         public int OrderNo { get; set; }
 
         public decimal DeliveryPrice => deliveryPrice;
@@ -27,6 +24,8 @@ namespace FoodDeliveryWebsite.Models.Entities
         public int UserId { get; set; }
 
         public User User { get; set; }
+
+        public int? DiscountId { get; set; }
 
         public Discount Discount { get; set; }
 

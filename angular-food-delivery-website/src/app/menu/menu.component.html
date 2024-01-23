@@ -1,33 +1,68 @@
-<app-horizontal-menu (selectProductTypeEvent)="$event ? getFiltered($event) : get()"></app-horizontal-menu>
-<app-admin-menu *ngIf="userService.currentUser != null && userService.currentUser.role == role.Admin" (selectProductsWithStatusEvent)="getWithStatus($event)"></app-admin-menu>
+<app-horizontal-menu
+  (selectProductTypeEvent)="$event ? getFiltered($event) : get()"
+></app-horizontal-menu>
+<app-admin-menu
+  *ngIf="
+    userService.currentUser != null &&
+    userService.currentUser.role == role.Admin
+  "
+  (selectProductsWithStatusEvent)="getWithStatus($event)"
+></app-admin-menu>
 
 <div class="container">
-    <div *ngFor="let product of products" class="card">
-        <img [src]="constructProductImageUrl(product.id)" alt="">
-        <div class="product-info">
-            <h5 class="product-name">{{ product.name }}</h5>
-            <div class="product-price-grams">
-                <p>{{ product.price }}</p>
-                <p class="line">|</p>
-                <p class="grams">{{ product.grams }} г</p>
-            </div>
-            <div class="btns">
-                <button [routerLink]="['/product-info', product.id]" class="btn btn-red" type="button">Опции</button>
-                <button routerLink="/menu" class="btn btn-success" type="button">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    Добави
-                </button>
-            </div>
-            <div class="btns btns-admin">
-                <button *ngIf="userService.currentUser != null && userService.currentUser.role == role.Admin" class="btn btn-warning" type="button" (click)="openUpdateProductModal(product)">
-                    <i class="fa-solid fa-pencil"></i> 
-                    Редактирай
-                </button>
-                <button *ngIf="userService.currentUser != null && userService.currentUser.role == role.Admin" class="btn btn-red" type="button" (click)="deleteProduct(product.id)">
-                    <i class="fa-solid fa-trash"></i> 
-                    Изтрий
-                </button>
-            </div>
-        </div>
+  <div *ngFor="let product of products" class="card">
+    <img [src]="constructProductImageUrl(product.id)" alt="" />
+    <div class="product-info">
+      <h5 class="product-name">{{ product.name }}</h5>
+      <div class="product-price-grams">
+        <p>{{ product.price }}</p>
+        <p class="line">|</p>
+        <p class="grams">{{ product.grams }} г</p>
+      </div>
+      <div class="btns">
+        <button
+          [routerLink]="['/product-info', product.id]"
+          class="btn btn-red"
+          type="button"
+        >
+          Опции
+        </button>
+        <button
+          routerLink="/menu"
+          class="btn btn-success"
+          type="button"
+          (click)="addOrderItem(product.id, 1)"
+        >
+          <i class="fa-solid fa-cart-shopping"></i>
+          Добави
+        </button>
+      </div>
+      <div class="btns btns-admin">
+        <button
+          *ngIf="
+            userService.currentUser != null &&
+            userService.currentUser.role == role.Admin
+          "
+          class="btn btn-warning"
+          type="button"
+          (click)="openUpdateProductModal(product)"
+        >
+          <i class="fa-solid fa-pencil"></i>
+          Редактирай
+        </button>
+        <button
+          *ngIf="
+            userService.currentUser != null &&
+            userService.currentUser.role == role.Admin
+          "
+          class="btn btn-red"
+          type="button"
+          (click)="deleteProduct(product.id)"
+        >
+          <i class="fa-solid fa-trash"></i>
+          Изтрий
+        </button>
+      </div>
     </div>
+  </div>
 </div>
