@@ -59,6 +59,22 @@ namespace FoodDeliveryWebsite.Repositories
             return discounts;
         }
 
+        public async Task<DiscountOrderDto> GetDiscountAsync(string code)
+        {
+            var discount = await context.Discount.FirstOrDefaultAsync(d => d.Code == code);
+
+            var discountOrderDto = new DiscountOrderDto();
+
+            if (discount != null)
+            {
+                discountOrderDto.Id = discount.Id;
+                discountOrderDto.Code = discount.Code;
+                discountOrderDto.Percentage = discount.Percentage;
+            }
+
+            return discountOrderDto;
+        }
+
         public async Task AddDiscountAsync(DiscountDto discountDto)
         {
             if (discountDto.StartDate == null || discountDto.ExpirationDate == null)

@@ -53,3 +53,26 @@ img {
   padding: 0;
   border: 0;
 }
+
+.total-price {
+  text-align: right;
+  margin-top: 1rem;
+}
+
+.discount {
+  font-size: 18px;
+}
+
+.discount-input {
+  width: 20%;
+}
+
+.discount-code {
+  text-transform: uppercase;
+  color: #ed1c24;
+}
+
+.discount-container {
+  display: flex;
+  gap: 1rem;
+}

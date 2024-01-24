@@ -8,6 +8,8 @@ namespace FoodDeliveryWebsite.Repositories
 
         Task<List<DiscountDto>> GetUpcomingDiscountsAsync();
 
+        Task<DiscountOrderDto> GetDiscountAsync(string code);
+
         Task AddDiscountAsync(DiscountDto discountDto);
     }
 }

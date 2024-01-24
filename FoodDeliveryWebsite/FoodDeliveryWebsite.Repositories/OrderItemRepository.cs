@@ -87,7 +87,7 @@ namespace FoodDeliveryWebsite.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task UpdateOrderItemAsync(int orderItemId, int quantity)
+        public async Task<OrderItemDto> UpdateOrderItemAsync(int orderItemId, int quantity)
         {
             var orderItem = await context.OrderItems
                 .Include(oi => oi.Product)
@@ -103,6 +103,24 @@ namespace FoodDeliveryWebsite.Repositories
 
             context.OrderItems.Update(orderItem);
             await context.SaveChangesAsync();
+
+            var orderItemDto = new OrderItemDto
+            {
+                Id = orderItem.Id,
+                Product = new ProductOrderDto
+                {
+                    Id = orderItem.Product.Id,
+                    Name = orderItem.Product.Name,
+                    Price = orderItem.Product.Price,
+                    Image = orderItem.Product.Image,
+                    ImageName = orderItem.Product.ImageName,
+                    ImageMimeType = orderItem.Product.ImageMimeType
+                },
+                Price = orderItem.Price,
+                ProductQuantity = orderItem.ProductQuantity
+            };
+
+            return orderItemDto;
         }
 
         public async Task DeleteOrderItemAsync(int orderItemId)

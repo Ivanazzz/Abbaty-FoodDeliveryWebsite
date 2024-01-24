@@ -8,7 +8,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         Task AddOrderItemAsync(string userEmail, int productId, int quantity);
 
-        Task UpdateOrderItemAsync(int productId, int quantity);
+        Task<OrderItemDto> UpdateOrderItemAsync(int productId, int quantity);
 
         Task DeleteOrderItemAsync(int productId);
     }

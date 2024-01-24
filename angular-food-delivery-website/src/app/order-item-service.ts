@@ -22,15 +22,19 @@ export class OrderItemService {
     });
   }
 
-  update(orderItemId: number, quantity: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}/api/OrderItems/Update`, null, {
-      headers: null,
-      params: { orderItemId, quantity },
-    });
+  update(orderItemId: number, quantity: number): Observable<OrderItemDto> {
+    return this.http.post<OrderItemDto>(
+      `${this.baseUrl}/api/OrderItems/Update`,
+      null,
+      {
+        headers: null,
+        params: { orderItemId, quantity },
+      }
+    );
   }
 
-  delete(orderItemId: number): Observable<number> {
-    return this.http.delete<number>(
+  delete(orderItemId: number): Observable<OrderItemDto[]> {
+    return this.http.delete<OrderItemDto[]>(
       `${this.baseUrl}/api/OrderItems/Delete/${orderItemId}`
     );
   }

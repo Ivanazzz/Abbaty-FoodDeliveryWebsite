@@ -46,9 +46,9 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpPost("Update")]
         public async Task<IActionResult> UpdateAsync([FromQuery] int orderItemId, [FromQuery] int quantity)
         {
-            await orderItemRepository.UpdateOrderItemAsync(orderItemId, quantity);
+            var orderItemDto = await orderItemRepository.UpdateOrderItemAsync(orderItemId, quantity);
 
-            return Ok();
+            return Ok(orderItemDto);
         }
 
         [HttpDelete("Delete/{orderItemId:int}")]

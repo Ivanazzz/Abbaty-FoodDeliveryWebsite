@@ -1,6 +1,11 @@
 <div class="container">
   <h2>Количка</h2>
-  <p *ngIf="userService.currentUser == null" class="empty-shopping-cart">
+  <p
+    *ngIf="
+      userService.currentUser == null || !orderItems || orderItems.length == 0
+    "
+    class="empty-shopping-cart"
+  >
     Вашата количка е празна
   </p>
   <ul *ngIf="userService.currentUser != null" class="list-group">
@@ -26,7 +31,7 @@
             <input
               class="add-qty"
               type="text"
-              [value]="orderItem.productQuantity"
+              [(ngModel)]="orderItem.productQuantity"
               readonly=""
             />
             <button
@@ -41,7 +46,7 @@
               <i class="fa-solid fa-plus"></i>
             </button>
           </div>
-          <p>X {{ orderItem.product.price }}</p>
+          <p>X {{ orderItem.product.price }} лв.</p>
           <button
             class="btn btn-outline-danger btn-sm btn-add-remove"
             (click)="deleteOrderItem(orderItem.id)"
@@ -53,7 +58,45 @@
     </li>
   </ul>
 
-  <div *ngIf="userService.currentUser != null" class="total-price">
-    <h4>Total price: {{ getTotalPrice() | number : "1.2-2" }}</h4>
+  <div
+    *ngIf="
+      userService.currentUser != null && orderItems && orderItems.length != 0
+    "
+    class="price-info"
+  >
+    <div
+      *ngIf="discount.percentage != 0 && discount.percentage != null"
+      class="total-price"
+    >
+      <p>Отстъпка: {{ getDiscountPrice() | number : "1.2-2" }} лв.</p>
+    </div>
+    <div class="total-price">
+      <h4>Общо: {{ getTotalPrice() | number : "1.2-2" }} лв.</h4>
+    </div>
+  </div>
+
+  <div
+    *ngIf="
+      userService.currentUser != null && orderItems && orderItems.length != 0
+    "
+    class="form-group"
+  >
+    <label for="discount" class="discount"
+      >Въведете Вашия
+      <strong class="discount-code">промокод</strong> тук:</label
+    >
+    <div class="discount-container">
+      <input
+        type="text"
+        class="form-control discount-input"
+        [(ngModel)]="discount.code"
+        id="discount"
+      />
+      <div class="btn-wrapper">
+        <button (click)="getDiscount(discount.code)" class="btn btn-success">
+          Приложи
+        </button>
+      </div>
+    </div>
   </div>
 </div>

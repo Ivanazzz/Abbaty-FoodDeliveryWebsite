@@ -33,6 +33,14 @@ namespace FoodDeliveryWebsite.Controllers
             return Ok(discounts);
         }
 
+        [HttpGet("GetDiscount")]
+        public async Task<IActionResult> GetDiscountAsync([FromQuery] string code)
+        {
+            var discount = await discountRepository.GetDiscountAsync(code);
+
+            return Ok(discount);
+        }
+
         [HttpPost("Add")]
         public async Task<IActionResult> AddAsync([FromBody] DiscountDto discountDto)
         {
