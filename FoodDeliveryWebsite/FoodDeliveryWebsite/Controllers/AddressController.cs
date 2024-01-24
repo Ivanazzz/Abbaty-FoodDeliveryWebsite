@@ -33,9 +33,9 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            await addressRepository.AddAddressAsync(addressDto, userEmail);
+            var addresses = await addressRepository.AddAddressAsync(addressDto, userEmail);
 
-            return Ok();
+            return Ok(addresses);
         }
 
         [HttpPost("Update")]

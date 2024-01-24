@@ -30,6 +30,8 @@ import { UpdateProductModalContent } from "./modals/update-product-modal/update-
 import { ProductService } from "./product-service";
 import { ShoppingCartComponent } from "./shopping-cart/shopping-cart.component";
 import { OrderItemService } from "./order-item-service";
+import { ToastrModule } from "ngx-toastr";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 export function appInitializer(userService: UserService) {
   return () => userService.initializeUser();
@@ -63,6 +65,8 @@ export function appInitializer(userService: UserService) {
     FormsModule,
     NgbModule,
     CommonModule,
+    ToastrModule.forRoot(), // ToastrModule added
+    BrowserAnimationsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

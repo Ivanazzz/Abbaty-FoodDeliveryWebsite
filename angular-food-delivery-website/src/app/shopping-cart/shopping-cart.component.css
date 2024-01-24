@@ -76,3 +76,7 @@ img {
   display: flex;
   gap: 1rem;
 }
+
+.discount-price {
+  color: #ed1c24;
+}

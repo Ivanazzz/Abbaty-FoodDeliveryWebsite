@@ -66,12 +66,12 @@
   >
     <div
       *ngIf="discount.percentage != 0 && discount.percentage != null"
-      class="total-price"
+      class="total-price discount-price"
     >
       <p>Отстъпка: {{ getDiscountPrice() | number : "1.2-2" }} лв.</p>
     </div>
     <div class="total-price">
-      <h4>Общо: {{ getTotalPrice() | number : "1.2-2" }} лв.</h4>
+      <h5>Общо: {{ getTotalPrice() | number : "1.2-2" }} лв.</h5>
     </div>
   </div>
 
@@ -97,6 +97,12 @@
           Приложи
         </button>
       </div>
+    </div>
+    <div class="total-price">
+      <h4>
+        Крайна цена с доставка:
+        {{ getTotalPrice() + deliveryPrice | number : "1.2-2" }} лв.
+      </h4>
     </div>
   </div>
 </div>

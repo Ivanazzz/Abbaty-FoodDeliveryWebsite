@@ -1,12 +1,13 @@
 import { Component, OnInit } from "@angular/core";
 import { ProductDto, ProductStatus, ProductType } from "../product-dto";
 import { ProductService } from "../product-service";
-import { catchError, throwError } from "rxjs";
+import { catchError, throwError, timeout } from "rxjs";
 import { UserService } from "../user.service";
 import { Role } from "../user-dto";
 import { UpdateProductModalContent } from "../modals/update-product-modal/update-product-modal.component";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { OrderItemService } from "../order-item-service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-menu",
@@ -23,7 +24,8 @@ export class MenuComponent implements OnInit {
     private productService: ProductService,
     public userService: UserService,
     private modalService: NgbModal,
-    private orderItemService: OrderItemService
+    private orderItemService: OrderItemService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
@@ -85,7 +87,6 @@ export class MenuComponent implements OnInit {
   }
 
   openUpdateProductModal(productDto: ProductDto) {
-    debugger;
     var modalRef = this.modalService.open(UpdateProductModalContent);
     modalRef.componentInstance.productDto = productDto;
     return modalRef.result.then((ok: boolean) => {
@@ -103,5 +104,9 @@ export class MenuComponent implements OnInit {
         })
       )
       .subscribe(() => {});
+  }
+
+  showSuccess() {
+    this.toastr.success("Добавено!", null, { timeOut: 1000 });
   }
 }

@@ -65,7 +65,6 @@ export class ShoppingCartComponent {
         })
       )
       .subscribe(() => {
-        let index = this.getIndex(orderItemId);
         this.orderItems = this.orderItems.filter(
           (item) => item.id !== orderItemId
         );

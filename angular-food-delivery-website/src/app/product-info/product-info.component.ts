@@ -60,7 +60,6 @@ export class ProductInfoComponent implements OnInit {
   }
 
   addOrderItem(productId: number, quantity: number) {
-    debugger;
     this.orderItemService
       .add(productId, quantity)
       .pipe(

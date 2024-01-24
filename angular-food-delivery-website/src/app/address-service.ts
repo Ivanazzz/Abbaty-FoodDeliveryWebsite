@@ -1,14 +1,13 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { AddressDto } from './address-dto';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { AddressDto } from "./address-dto";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: "root",
 })
-
 export class AddressService {
-  private baseUrl = 'http://localhost:10001';
+  private baseUrl = "http://localhost:10001";
 
   constructor(private http: HttpClient) {}
 
@@ -16,15 +15,23 @@ export class AddressService {
     return this.http.get<AddressDto[]>(`${this.baseUrl}/api/Addresses/Get`);
   }
 
-  add(addressDto: AddressDto): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/api/Addresses/Add`, addressDto);
+  add(addressDto: AddressDto): Observable<AddressDto[]> {
+    return this.http.post<AddressDto[]>(
+      `${this.baseUrl}/api/Addresses/Add`,
+      addressDto
+    );
   }
 
   update(addressDto: AddressDto): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/api/Addresses/Update`, addressDto);
+    return this.http.post<void>(
+      `${this.baseUrl}/api/Addresses/Update`,
+      addressDto
+    );
   }
 
   delete(addressId: number): Observable<number> {
-    return this.http.delete<number>(`${this.baseUrl}/api/Addresses/Delete` + "?id=" + addressId);
+    return this.http.delete<number>(
+      `${this.baseUrl}/api/Addresses/Delete` + "?id=" + addressId
+    );
   }
 }

@@ -66,11 +66,22 @@ namespace FoodDeliveryWebsite.Repositories
             }
 
             var user = await context.Users
+                .Include(u => u.OrderItems)
                 .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
 
             if (user == null)
             {
                 throw new Exception("Invalid user.");
+            }
+
+            var orderItemExisting = user.OrderItems.FirstOrDefault(oi => oi.ProductId == productId);
+            if (orderItemExisting != null)
+            {
+                orderItemExisting.ProductQuantity += quantity;
+                context.OrderItems.Update(orderItemExisting);
+                await context.SaveChangesAsync();
+
+                return;
             }
 
             var orderItem = new OrderItem

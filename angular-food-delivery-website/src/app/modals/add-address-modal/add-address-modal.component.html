@@ -4,7 +4,7 @@
     type="button"
     class="btn-close"
     aria-label="Close"
-    (click)="closeModal(false)"
+    (click)="this.activeModal.close()"
   ></button>
 </div>
 <div class="modal-body">
@@ -71,12 +71,7 @@
   </div>
 </div>
 <div class="modal-footer">
-  <button
-    type="button"
-    class="btn btn-success"
-    (click)="addAddress()"
-    (click)="closeModal(true)"
-  >
+  <button type="button" class="btn btn-success" (click)="addAddress()">
     Запази
   </button>
 </div>

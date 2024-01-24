@@ -40,7 +40,7 @@ namespace FoodDeliveryWebsite.Repositories
             return addressesDtos;
         }
 
-        public async Task AddAddressAsync(AddressDto addressDto, string userEmail)
+        public async Task<List<AddressDto>> AddAddressAsync(AddressDto addressDto, string userEmail)
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
 
@@ -60,6 +60,8 @@ namespace FoodDeliveryWebsite.Repositories
 
             context.Address.Add(address);
             await context.SaveChangesAsync();
+
+            return await GetAddressesAsync(userEmail);
         }
 
         public async Task UpdateAddressAsync(AddressDto addressDto)
