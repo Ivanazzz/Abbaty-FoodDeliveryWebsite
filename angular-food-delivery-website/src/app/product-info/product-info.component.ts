@@ -70,6 +70,3 @@ export class ProductInfoComponent implements OnInit {
       .subscribe(() => {});
   }
 }
-function ngOnDestroy() {
-  throw new Error("Function not implemented.");
-}

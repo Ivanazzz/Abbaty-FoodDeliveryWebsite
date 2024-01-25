@@ -90,6 +90,8 @@ namespace FoodDeliveryWebsite.Repositories
                 throw new Exception("Start date should not be greater than Expiration date.");
             }
 
+            //var discounts = await context.Discount.FirstOrDefaultAsync(d => d.Code == discountDto.Code);
+
             Discount discount = new Discount
             {
                 Code = discountDto.Code,

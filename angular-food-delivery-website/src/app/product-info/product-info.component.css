@@ -1,78 +1,78 @@
 .container {
-    margin-top: 6rem;
-    margin-left: 33rem;
-    padding: 3rem;
-    gap: 1rem;
-    max-width: 1850px;
+  margin-top: 6rem;
+  margin-left: 33rem;
+  padding: 3rem;
+  gap: 1rem;
+  max-width: 1850px;
 }
 
 .card {
-    width: 50rem;
+  width: 50rem;
 }
 
 .product {
-    margin-bottom: 2rem;
-    background-color: white;
+  margin-bottom: 2rem;
+  background-color: white;
 }
 
 .product-info {
-    padding: 1rem;
-    text-align: center;
+  padding: 1rem;
+  text-align: center;
 }
 
 .grams {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .description-title {
-    font-weight: bold;
-    margin-bottom: 0rem;
+  font-weight: bold;
+  margin-bottom: 0rem;
 }
 
 .product-order {
-    margin-left: 2rem;
-    margin-bottom: 2rem;
+  margin-left: 2rem;
+  margin-bottom: 2rem;
 }
 
 .add-to-cart-holder {
-    list-style: none;
-    display: flex;
-    justify-content: space-evenly;
-    gap: 2rem;
-    align-items: center;
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;
+  gap: 2rem;
+  align-items: center;
 }
 
 .total-price {
-    text-transform: uppercase;
-    font-weight: 500;
+  text-transform: uppercase;
+  font-weight: 500;
 }
 
 .price {
-    display: inline-block;
+  display: inline-block;
 }
 
 .btn-add-remove {
-    border-radius: 50%;
+  border-radius: 50%;
 }
 
 .add-qty {
-    text-align: center;
-    width: 52px;
-    height: 32px;
-    line-height: normal;
-    background: 0 0;
-    font-size: 20px;
-    font-weight: 400;
-    outline: 0;
-    padding: 0;
-    border: 0;
+  text-align: center;
+  width: 52px;
+  height: 32px;
+  line-height: normal;
+  background: 0 0;
+  font-size: 20px;
+  font-weight: 400;
+  outline: 0;
+  padding: 0;
+  border: 0;
 }
 
 .btn-add-to-cart {
-    text-transform: uppercase;
-    font-weight: 500;
+  text-transform: uppercase;
+  font-weight: 500;
 }
 
 .fa-cart-shopping {
-    margin-right: 8px;
+  margin-right: 8px;
 }

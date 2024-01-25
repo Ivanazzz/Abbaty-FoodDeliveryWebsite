@@ -3,6 +3,8 @@ import { Gender, UserRegistrationDto } from "../user-registration-dto";
 import { UserService } from "../user.service";
 import { catchError, throwError } from "rxjs";
 import { FormControl, Validators } from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-registration",
@@ -14,7 +16,11 @@ export class RegistrationComponent {
 
   gender = Gender;
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
 
   onSubmit() {
     this.userService
@@ -24,6 +30,9 @@ export class RegistrationComponent {
           return throwError(() => err);
         })
       )
-      .subscribe(() => {});
+      .subscribe(() => {
+        this.toastr.success("Успешна регистрация");
+        this.router.navigate(["/login"]);
+      });
   }
 }

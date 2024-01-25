@@ -10,7 +10,6 @@ import { MenuComponent } from "./menu/menu.component";
 import { ProductInfoComponent } from "./product-info/product-info.component";
 import { HorizontalMenuComponent } from "./horizontal-menu/horizontal-menu.component";
 import { AdminMenuComponent } from "./admin-menu/admin-menu.component";
-import { ProductUpdateComponent } from "./product-update/product-update.component";
 import { ShoppingCartComponent } from "./shopping-cart/shopping-cart.component";
 
 const routes: Routes = [

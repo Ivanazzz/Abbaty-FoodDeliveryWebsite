@@ -1,5 +1,11 @@
 <div class="container">
   <h2>Адреси</h2>
+  <p
+    *ngIf="!userAddresses || userAddresses.length == 0"
+    style="text-align: center"
+  >
+    Все още нямате добавени адреси
+  </p>
   <div *ngFor="let address of userAddresses" class="address">
     <h4>Адрес:</h4>
     <p><strong>Град:</strong> {{ address.city }}</p>

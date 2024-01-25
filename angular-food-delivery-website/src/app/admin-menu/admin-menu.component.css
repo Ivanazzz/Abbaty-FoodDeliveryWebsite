@@ -1,28 +1,28 @@
 .container {
-    margin-top: 1rem;
-    background-color: #f7f7f7;
-    padding: 1rem;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-around;
-    max-width: 20%;
+  margin-top: 1rem;
+  background-color: #f7f7f7;
+  padding: 1rem;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-around;
+  max-width: 20%;
 }
 
 .btn {
-    margin-right: 1rem;
-    text-transform: uppercase;
-    font-weight: bold;
+  margin-right: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .btn-hover {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .btn-hover:hover {
-    background-color: #ed1c24;
-    color: white;
+  background-color: #ed1c24;
+  color: white;
 }
 
 .btn-center-text {
-    text-align: center;
+  text-align: center;
 }

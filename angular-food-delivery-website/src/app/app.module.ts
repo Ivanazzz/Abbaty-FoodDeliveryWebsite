@@ -25,7 +25,6 @@ import { MenuComponent } from "./menu/menu.component";
 import { ProductInfoComponent } from "./product-info/product-info.component";
 import { HorizontalMenuComponent } from "./horizontal-menu/horizontal-menu.component";
 import { AdminMenuComponent } from "./admin-menu/admin-menu.component";
-import { ProductUpdateComponent } from "./product-update/product-update.component";
 import { UpdateProductModalContent } from "./modals/update-product-modal/update-product-modal.component";
 import { ProductService } from "./product-service";
 import { ShoppingCartComponent } from "./shopping-cart/shopping-cart.component";
@@ -54,7 +53,6 @@ export function appInitializer(userService: UserService) {
     ProductInfoComponent,
     HorizontalMenuComponent,
     AdminMenuComponent,
-    ProductUpdateComponent,
     UpdateProductModalContent,
     ShoppingCartComponent,
   ],

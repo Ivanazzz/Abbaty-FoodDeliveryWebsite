@@ -15,8 +15,8 @@ export class OrderItemService {
     return this.http.get<OrderItemDto[]>(`${this.baseUrl}/api/OrderItems/Get`);
   }
 
-  add(productId: number, quantity: number): Observable<any> {
-    return this.http.post(`${this.baseUrl}/api/OrderItems/Add`, null, {
+  add(productId: number, quantity: number): Observable<void> {
+    return this.http.post<void>(`${this.baseUrl}/api/OrderItems/Add`, null, {
       headers: null,
       params: { productId, quantity },
     });

@@ -1,61 +1,60 @@
 .navbar {
-    background-color: #f7f7f7;
+  background-color: #f7f7f7;
 }
 
 .nav-bar-left {
-    margin-left: 1rem;
+  margin-left: 1rem;
 }
 
 .nav-bar-right {
-    margin-right: 1rem;
+  margin-right: 1rem;
 }
 
 form {
-    margin-left: 100rem;
+  margin-left: 100rem;
 }
 
 .nav-items {
-    width: 50%;
+  width: 50%;
 }
 
 .btn {
-    margin-right: 1rem;
-    text-transform: uppercase;
-    font-weight: bold;
+  margin-right: 1rem;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .btn-hover {
-    background-color: transparent;
+  background-color: transparent;
 }
 
 .btn-hover:hover {
-    background-color: #ed1c24;
-    color: white;
+  background-color: #ed1c24;
+  color: white;
 }
 
 .btn-center-text {
-    text-align: center;
+  text-align: center;
 }
 
 .btn-logout {
-    font-weight: bold;
-    text-transform: uppercase;
-
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 .buttons {
-    width: 50%;
+  width: 50%;
 }
 
 .logo {
-    font-weight: 700;
-    font-size: 2rem;
-    margin-top: -10px;
+  font-weight: 700;
+  font-size: 2rem;
+  margin-top: -10px;
 }
- 
+
 svg {
-    color: #ed1c24;
-    margin: 0px -10px 5px -10px;
-    width: 20%;
-    height: 50%;
+  color: #ed1c24;
+  margin: 0px -10px 5px -10px;
+  width: 20%;
+  height: 50%;
 }

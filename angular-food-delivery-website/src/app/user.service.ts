@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { UserRegistrationDto } from "./user-registration-dto";
 import { UserLoginDto } from "./user-login-dto";
 import { UserDto } from "./user-dto";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: "root",
@@ -12,7 +13,7 @@ export class UserService {
   private baseUrl = "http://localhost:10001";
   public currentUser: UserDto = new UserDto();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   initializeUser(): Promise<{}> {
     return new Promise((resolve) => {
@@ -36,6 +37,7 @@ export class UserService {
   logout(): Observable<void> {
     this.currentUser = null;
     localStorage.clear();
+    this.router.navigate(["/menu"]);
     return;
   }
 

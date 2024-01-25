@@ -103,10 +103,8 @@ export class MenuComponent implements OnInit {
           return throwError(() => err);
         })
       )
-      .subscribe(() => {});
-  }
-
-  showSuccess() {
-    this.toastr.success("Добавено!", null, { timeOut: 1000 });
+      .subscribe(() => {
+        this.toastr.success("Добавено!", null, { timeOut: 1000 });
+      });
   }
 }

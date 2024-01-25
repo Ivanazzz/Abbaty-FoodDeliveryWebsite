@@ -31,10 +31,9 @@ export class UpdateAddressModalContent {
           return throwError(() => err);
         })
       )
-      .subscribe(() => {});
-  }
-
-  showUpdate() {
-    this.toastr.success("Редактирано!", null, { timeOut: 1000 });
+      .subscribe(() => {
+        this.toastr.success("Редактирано!", null, { timeOut: 1000 });
+        this.closeModal(true);
+      });
   }
 }
