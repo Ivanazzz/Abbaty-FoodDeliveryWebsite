@@ -5,6 +5,10 @@ import { OrderItemDto } from "../order-item-dto";
 import { UserService } from "../user.service";
 import { DiscountOrderDto } from "../discount-order-dto";
 import { DiscountService } from "../discount-service";
+import { AddressDto } from "../address-dto";
+import { GetAddressesModalContent } from "../modals/get-addresses-modal/get-addresses-modal.component";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { OrderDto } from "../modals/order-dto";
 
 @Component({
   selector: "app-shopping-cart",
@@ -14,13 +18,16 @@ import { DiscountService } from "../discount-service";
 export class ShoppingCartComponent {
   deliveryPrice = 7;
   imageUrl = "http://localhost:10001/api/Products/";
+  addressDto: AddressDto;
+  orderDto: OrderDto;
   orderItems: OrderItemDto[];
   discount: DiscountOrderDto = new DiscountOrderDto();
 
   constructor(
     private orderItemService: OrderItemService,
     public userService: UserService,
-    private discountService: DiscountService
+    private discountService: DiscountService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit() {
@@ -73,6 +80,13 @@ export class ShoppingCartComponent {
 
   constructProductImageUrl(productId: number) {
     return this.imageUrl + productId + "/File";
+  }
+
+  order() {
+    if (this.addressDto == null) {
+      this.openGetAddressesModal();
+    } else {
+    }
   }
 
   getDiscount(code: string) {
@@ -132,5 +146,15 @@ export class ShoppingCartComponent {
         return index;
       }
     }
+  }
+
+  openGetAddressesModal() {
+    const modalRef = this.modalService.open(GetAddressesModalContent);
+
+    return modalRef.result.then((result: AddressDto) => {
+      if (result) {
+        this.addressDto = result;
+      }
+    });
   }
 }

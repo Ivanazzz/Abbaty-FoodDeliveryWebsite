@@ -99,10 +99,37 @@
       </div>
     </div>
     <div class="total-price">
+      <p class="delivery-price">
+        Цена на доставка: {{ deliveryPrice | number : "1.2-2" }} лв.
+      </p>
       <h4>
         Крайна цена с доставка:
         {{ getTotalPrice() + deliveryPrice | number : "1.2-2" }} лв.
       </h4>
+    </div>
+
+    <div *ngIf="addressDto != null" class="address">
+      <h4>Адрес на доставка:</h4>
+      <p><strong>Град:</strong> {{ addressDto.city }}</p>
+      <p><strong>Улица:</strong> {{ addressDto.street }}</p>
+      <p><strong>Номер на улица:</strong> {{ addressDto.streetNo }}</p>
+      <p><strong>Етаж:</strong> {{ addressDto.floor }}</p>
+      <p><strong>Номер на апартамент:</strong> {{ addressDto.apartmentNo }}</p>
+      <div class="btn-wrapper">
+        <button
+          (click)="openGetAddressesModal()"
+          type="button"
+          class="btn btn-warning btn-sm"
+        >
+          Смени
+        </button>
+      </div>
+    </div>
+
+    <div class="btn-wrapper">
+      <button (click)="order()" class="btn btn-success btn-order">
+        Поръчай
+      </button>
     </div>
   </div>
 </div>

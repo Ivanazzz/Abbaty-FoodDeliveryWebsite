@@ -80,3 +80,30 @@ img {
 .discount-price {
   color: #ed1c24;
 }
+
+.delivery-price {
+  color: #ed1c24;
+}
+
+.btn-wrapper {
+  text-align: center;
+}
+
+.btn-order {
+  font-weight: bold;
+  font-size: 22px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 2rem;
+  text-align: center;
+  padding: 0.7rem 1rem;
+  width: 12rem;
+  height: 4rem;
+}
+
+.address {
+  background-color: #f7f7f7;
+  width: 25%;
+  padding: 2rem;
+  border-radius: 12px;
+}

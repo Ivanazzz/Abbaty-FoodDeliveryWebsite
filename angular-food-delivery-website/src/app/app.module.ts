@@ -31,6 +31,7 @@ import { ShoppingCartComponent } from "./shopping-cart/shopping-cart.component";
 import { OrderItemService } from "./order-item-service";
 import { ToastrModule } from "ngx-toastr";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { GetAddressesModalContent } from "./modals/get-addresses-modal/get-addresses-modal.component";
 
 export function appInitializer(userService: UserService) {
   return () => userService.initializeUser();
@@ -55,6 +56,7 @@ export function appInitializer(userService: UserService) {
     AdminMenuComponent,
     UpdateProductModalContent,
     ShoppingCartComponent,
+    GetAddressesModalContent,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +65,7 @@ export function appInitializer(userService: UserService) {
     FormsModule,
     NgbModule,
     CommonModule,
-    ToastrModule.forRoot(), // ToastrModule added
+    ToastrModule.forRoot(),
     BrowserAnimationsModule,
   ],
   providers: [

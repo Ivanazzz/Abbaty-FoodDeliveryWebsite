@@ -2,7 +2,6 @@ import { Component } from "@angular/core";
 import { Gender, UserRegistrationDto } from "../user-registration-dto";
 import { UserService } from "../user.service";
 import { catchError, throwError } from "rxjs";
-import { FormControl, Validators } from "@angular/forms";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 

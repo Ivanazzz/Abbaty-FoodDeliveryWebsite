@@ -15,6 +15,12 @@ export class AddressService {
     return this.http.get<AddressDto[]>(`${this.baseUrl}/api/Addresses/Get`);
   }
 
+  getSelected(id: number): Observable<AddressDto> {
+    return this.http.get<AddressDto>(
+      `${this.baseUrl}/api/Addresses/GetSelected/${id}`
+    );
+  }
+
   add(addressDto: AddressDto): Observable<AddressDto[]> {
     return this.http.post<AddressDto[]>(
       `${this.baseUrl}/api/Addresses/Add`,

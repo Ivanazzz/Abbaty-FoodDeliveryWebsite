@@ -1,0 +1,53 @@
+.container {
+  padding: 3rem;
+  border-radius: 12px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-form {
+  margin-top: 6rem;
+  width: 30%;
+  background-color: #ebebeb;
+  padding: 2rem;
+  border-radius: 1%;
+}
+
+.form-group {
+  margin-top: 1rem;
+}
+
+.form-group label {
+  font-weight: bold;
+}
+
+.btn-wrapper {
+  text-align: center;
+}
+
+button {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 2rem;
+  text-align: center;
+  padding: 0.7rem 1rem;
+}
+
+.btn-sm {
+  margin-top: 0rem;
+  margin-right: 1rem;
+}
+
+.important {
+  color: #c00;
+}
+
+.address {
+  border: 2px solid gray;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}

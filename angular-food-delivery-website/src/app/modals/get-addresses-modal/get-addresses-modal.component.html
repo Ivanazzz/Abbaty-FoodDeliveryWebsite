@@ -1,0 +1,38 @@
+<div class="container">
+  <h2>Адрес за доставка</h2>
+  <p
+    *ngIf="!userAddresses || userAddresses.length == 0"
+    style="text-align: center"
+  >
+    Все още нямате добавени адреси
+  </p>
+  <div *ngFor="let address of userAddresses" class="address">
+    <h4>Адрес:</h4>
+    <p><strong>Град:</strong> {{ address.city }}</p>
+    <p><strong>Улица:</strong> {{ address.street }}</p>
+    <p><strong>Номер на улица:</strong> {{ address.streetNo }}</p>
+    <p><strong>Етаж:</strong> {{ address.floor }}</p>
+    <p><strong>Номер на апартамент:</strong> {{ address.apartmentNo }}</p>
+    <div class="btn-wrapper">
+      <button
+        type="button"
+        class="btn btn-warning btn-sm"
+        (click)="chooseAddress(address.id)"
+      >
+        Избери
+      </button>
+    </div>
+  </div>
+
+  <div class="btn-wrapper">
+    <button
+      type="button"
+      class="btn btn-success"
+      data-toggle="modal"
+      data-target="#exampleModal"
+      (click)="addNewAddress()"
+    >
+      Добави
+    </button>
+  </div>
+</div>

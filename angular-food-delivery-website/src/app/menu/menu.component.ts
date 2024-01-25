@@ -8,6 +8,7 @@ import { UpdateProductModalContent } from "../modals/update-product-modal/update
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { OrderItemService } from "../order-item-service";
 import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-menu",
@@ -25,7 +26,8 @@ export class MenuComponent implements OnInit {
     public userService: UserService,
     private modalService: NgbModal,
     private orderItemService: OrderItemService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -96,6 +98,11 @@ export class MenuComponent implements OnInit {
   }
 
   addOrderItem(productId: number, quantity: number) {
+    if (this.userService.currentUser == null) {
+      this.router.navigate(["/login"]);
+      return;
+    }
+
     this.orderItemService
       .add(productId, quantity)
       .pipe(

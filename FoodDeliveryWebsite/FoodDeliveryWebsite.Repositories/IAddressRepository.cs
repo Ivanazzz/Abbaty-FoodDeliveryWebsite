@@ -6,6 +6,8 @@ namespace FoodDeliveryWebsite.Repositories
     {
         Task<List<AddressDto>> GetAddressesAsync(string userEmail);
 
+        Task<AddressDto> GetSelectedAddressAsync(int id);
+
         Task<List<AddressDto>> AddAddressAsync(AddressDto addressDto, string userEmail);
 
         Task UpdateAddressAsync(AddressDto addressDto);

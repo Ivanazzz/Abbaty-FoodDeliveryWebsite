@@ -2,8 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { ProductDto } from "../product-dto";
 import { ProductService } from "../product-service";
 import { Subscription, catchError, throwError } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { OrderItemService } from "../order-item-service";
+import { UserService } from "../user.service";
 
 @Component({
   selector: "app-product-info",
@@ -22,7 +23,9 @@ export class ProductInfoComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private orderItemService: OrderItemService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -60,6 +63,11 @@ export class ProductInfoComponent implements OnInit {
   }
 
   addOrderItem(productId: number, quantity: number) {
+    if (this.userService.currentUser == null) {
+      this.router.navigate(["/login"]);
+      return;
+    }
+
     this.orderItemService
       .add(productId, quantity)
       .pipe(

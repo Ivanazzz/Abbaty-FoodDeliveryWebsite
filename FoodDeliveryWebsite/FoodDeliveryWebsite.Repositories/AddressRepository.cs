@@ -40,6 +40,24 @@ namespace FoodDeliveryWebsite.Repositories
             return addressesDtos;
         }
 
+        public async Task<AddressDto> GetSelectedAddressAsync(int id)
+        {
+            var address = await context.Address
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            AddressDto addressDto = new AddressDto
+            {
+                Id = address.Id,
+                City = address.City,
+                Street = address.Street,
+                StreetNo = address.StreetNo,
+                Floor = address.Floor,
+                ApartmentNo = address.ApartmentNo
+            };
+
+            return addressDto;
+        }
+
         public async Task<List<AddressDto>> AddAddressAsync(AddressDto addressDto, string userEmail)
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
