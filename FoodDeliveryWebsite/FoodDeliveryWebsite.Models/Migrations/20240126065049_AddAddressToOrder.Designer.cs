@@ -3,6 +3,7 @@ using System;
 using FoodDeliveryWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FoodDeliveryWebsite.Models.Migrations
 {
     [DbContext(typeof(FoodDeliveryWebsiteDbContext))]
-    partial class FoodDeliveryWebsiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240126065049_AddAddressToOrder")]
+    partial class AddAddressToOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,17 +134,13 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("creatoruserid");
 
-                    b.Property<decimal>("DeliveryPrice")
-                        .HasColumnType("numeric")
-                        .HasColumnName("deliveryprice");
-
                     b.Property<int?>("DiscountId")
                         .HasColumnType("integer")
                         .HasColumnName("discountid");
 
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("numeric")
-                        .HasColumnName("totalprice");
+                    b.Property<int>("OrderNo")
+                        .HasColumnType("integer")
+                        .HasColumnName("orderno");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer")

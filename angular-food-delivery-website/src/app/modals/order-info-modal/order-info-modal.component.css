@@ -1,0 +1,48 @@
+.container {
+  padding: 1rem;
+}
+
+.title {
+  text-align: center;
+}
+
+.modal-body {
+  padding: 1rem;
+}
+
+.user-address-info {
+  display: flex;
+  gap: 2rem;
+}
+
+.order-item-info-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.line-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+thead th {
+  background-color: #f7f7f7;
+}
+
+.price {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 1rem;
+}
+
+.price-info {
+  text-transform: uppercase;
+  font-size: 22px;
+}
+
+.price-amount {
+  font-weight: bold;
+  font-size: 28px;
+}

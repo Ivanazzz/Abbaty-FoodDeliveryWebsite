@@ -10,6 +10,10 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public int CreatorUserId { get; set; }
 
+        public int ProductQuantity { get; set; }
+
+        public decimal Price { get; set; }
+
         public int UserId { get; set; }
 
         public User User { get; set; }
@@ -21,9 +25,5 @@ namespace FoodDeliveryWebsite.Models.Entities
         public int ProductId { get; set; }
 
         public Product Product { get; set; }
-
-        public int ProductQuantity { get; set; }
-
-        public decimal Price { get; set; }
     }
 }

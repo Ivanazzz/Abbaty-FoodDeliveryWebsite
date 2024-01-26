@@ -92,6 +92,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             var userDto = new UserDto
             {
+                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Gender = user.Gender,

@@ -41,14 +41,14 @@ export class GetAddressesModalContent {
         })
       )
       .subscribe((res) => {
-        debugger;
-        console.log(res);
         this.activeModal.close(res);
       });
   }
 
   addNewAddress() {
-    const modalRef = this.modalService.open(AddAddressModalContent);
+    const modalRef = this.modalService.open(AddAddressModalContent, {
+      size: "xl",
+    });
 
     modalRef.componentInstance.activeModal = modalRef;
 

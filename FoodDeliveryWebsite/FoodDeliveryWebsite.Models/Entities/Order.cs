@@ -4,8 +4,6 @@ namespace FoodDeliveryWebsite.Models.Entities
 {
     public class Order : IEntity, IAuditable
     {
-        private const decimal deliveryPrice = 7;
-
         public Order()
         {
             OrderItems = new List<OrderItem>();
@@ -17,10 +15,6 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public int CreatorUserId { get; set; }
 
-        public int OrderNo { get; set; }
-
-        public decimal DeliveryPrice => deliveryPrice;
-
         public int UserId { get; set; }
 
         public User User { get; set; }
@@ -29,8 +23,14 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public Discount Discount { get; set; }
 
+        public int AddressId { get; set; }
+
+        public Address Address { get; set; }
+
         public ICollection<OrderItem> OrderItems { get; set; }
 
-        public decimal TotalPrice => OrderItems.Sum(oi => oi.Price) + DeliveryPrice;
+        public decimal TotalPrice { get; set; }
+
+        public decimal DeliveryPrice { get; set; }
     }
 }

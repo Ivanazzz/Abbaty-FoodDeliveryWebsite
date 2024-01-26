@@ -8,7 +8,11 @@ import { DiscountService } from "../discount-service";
 import { AddressDto } from "../address-dto";
 import { GetAddressesModalContent } from "../modals/get-addresses-modal/get-addresses-modal.component";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { OrderDto } from "../modals/order-dto";
+import { OrderDto } from "../order-dto";
+import { UserDto } from "../user-dto";
+import { OrderInfoModalContent } from "../modals/order-info-modal/order-info-modal.component";
+import { ToastrService } from "ngx-toastr";
+import { OrderService } from "../order-service";
 
 @Component({
   selector: "app-shopping-cart",
@@ -19,19 +23,23 @@ export class ShoppingCartComponent {
   deliveryPrice = 7;
   imageUrl = "http://localhost:10001/api/Products/";
   addressDto: AddressDto;
-  orderDto: OrderDto;
+  orderDto: OrderDto = new OrderDto();
   orderItems: OrderItemDto[];
-  discount: DiscountOrderDto = new DiscountOrderDto();
+  discountDto: DiscountOrderDto = new DiscountOrderDto();
+  currentUser: UserDto;
 
   constructor(
     private orderItemService: OrderItemService,
     public userService: UserService,
     private discountService: DiscountService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService,
+    private orderService: OrderService
   ) {}
 
   ngOnInit() {
-    if (this.userService.currentUser != null) {
+    this.currentUser = this.userService.currentUser;
+    if (this.currentUser != null) {
       this.get();
     }
   }
@@ -86,6 +94,18 @@ export class ShoppingCartComponent {
     if (this.addressDto == null) {
       this.openGetAddressesModal();
     } else {
+      this.createOrderDto();
+      this.orderService
+        .add(this.orderDto)
+        .pipe(
+          catchError((err) => {
+            return throwError(() => err);
+          })
+        )
+        .subscribe(() => {
+          this.openOrderInfoModal();
+          this.toastr.success("Успешна поръчка");
+        });
     }
   }
 
@@ -98,7 +118,7 @@ export class ShoppingCartComponent {
         })
       )
       .subscribe((res) => {
-        this.discount = res;
+        this.discountDto = res;
       });
   }
 
@@ -121,8 +141,9 @@ export class ShoppingCartComponent {
       return total + orderItem.price;
     }, 0);
 
-    if (this.discount.percentage != null) {
-      totalPrice = totalPrice - totalPrice * (this.discount.percentage / 100);
+    if (this.discountDto.percentage != null) {
+      totalPrice =
+        totalPrice - totalPrice * (this.discountDto.percentage / 100);
     }
 
     return totalPrice;
@@ -137,7 +158,7 @@ export class ShoppingCartComponent {
       return total + orderItem.price;
     }, 0);
 
-    return totalPrice * (this.discount.percentage / 100);
+    return totalPrice * (this.discountDto.percentage / 100);
   }
 
   getIndex(orderItemId: number): number {
@@ -156,5 +177,27 @@ export class ShoppingCartComponent {
         this.addressDto = result;
       }
     });
+  }
+
+  openOrderInfoModal() {
+    const modalRef = this.modalService.open(OrderInfoModalContent, {
+      size: "xl",
+    });
+    modalRef.componentInstance.userDto = this.currentUser;
+    modalRef.componentInstance.addressDto = this.addressDto;
+    modalRef.componentInstance.discountDto = this.discountDto;
+    modalRef.componentInstance.orderDto = this.orderDto;
+    modalRef.componentInstance.orderItems = this.orderItems;
+  }
+
+  createOrderDto() {
+    this.orderDto.orderItems = this.orderItems;
+    this.orderDto.addressId = this.addressDto.id;
+    this.orderDto.discountId = this.discountDto.id;
+    this.orderDto.deliveryPrice = this.deliveryPrice;
+    this.orderDto.totalPrice = this.getTotalPrice() + this.deliveryPrice;
+    console.log(this.orderItems);
+    console.log(this.orderDto.orderItems);
+    debugger;
   }
 }

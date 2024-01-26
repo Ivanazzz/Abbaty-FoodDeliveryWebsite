@@ -1,10 +1,11 @@
-﻿using FoodDeliveryWebsite.Models.Entities;
-using FoodDeliveryWebsite.Models.Enums;
+﻿using FoodDeliveryWebsite.Models.Enums;
 
 namespace FoodDeliveryWebsite.Models.Dtos
 {
     public class UserDto
     {
+        public int Id { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }

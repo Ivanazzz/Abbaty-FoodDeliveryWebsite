@@ -32,6 +32,8 @@ import { OrderItemService } from "./order-item-service";
 import { ToastrModule } from "ngx-toastr";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { GetAddressesModalContent } from "./modals/get-addresses-modal/get-addresses-modal.component";
+import { OrderInfoModalContent } from "./modals/order-info-modal/order-info-modal.component";
+import { OrderService } from "./order-service";
 
 export function appInitializer(userService: UserService) {
   return () => userService.initializeUser();
@@ -57,6 +59,7 @@ export function appInitializer(userService: UserService) {
     UpdateProductModalContent,
     ShoppingCartComponent,
     GetAddressesModalContent,
+    OrderInfoModalContent,
   ],
   imports: [
     BrowserModule,
@@ -75,6 +78,7 @@ export function appInitializer(userService: UserService) {
     DiscountService,
     ProductService,
     OrderItemService,
+    OrderService,
     {
       provide: APP_INITIALIZER,
       useFactory: appInitializer,

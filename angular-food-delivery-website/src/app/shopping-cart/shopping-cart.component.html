@@ -65,7 +65,7 @@
     class="price-info"
   >
     <div
-      *ngIf="discount.percentage != 0 && discount.percentage != null"
+      *ngIf="discountDto.percentage != 0 && discountDto.percentage != null"
       class="total-price discount-price"
     >
       <p>Отстъпка: {{ getDiscountPrice() | number : "1.2-2" }} лв.</p>
@@ -89,11 +89,11 @@
       <input
         type="text"
         class="form-control discount-input"
-        [(ngModel)]="discount.code"
+        [(ngModel)]="discountDto.code"
         id="discount"
       />
       <div class="btn-wrapper">
-        <button (click)="getDiscount(discount.code)" class="btn btn-success">
+        <button (click)="getDiscount(discountDto.code)" class="btn btn-success">
           Приложи
         </button>
       </div>

@@ -1,0 +1,54 @@
+<div class="modal-header">
+  <h4 class="modal-title title">Потвърждение на поръчка</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="closeModal()"
+  ></button>
+</div>
+<div class="modal-body">
+  <div class="user-address-info">
+    <div class="contacts">
+      <h5>Лице за контакт:</h5>
+      <p><strong>Име:</strong> {{ userDto.fullName }}</p>
+      <p><strong>Тел. номер:</strong> {{ userDto.phoneNumber }}</p>
+    </div>
+    <div class="address">
+      <h5>Адрес:</h5>
+      <p><strong>Град:</strong> {{ addressDto.city }}</p>
+      <p><strong>Улица:</strong> {{ addressDto.street }}</p>
+      <p><strong>Номер на улица:</strong> {{ addressDto.streetNo }}</p>
+      <p><strong>Етаж:</strong> {{ addressDto.floor }}</p>
+      <p>
+        <strong>Номер на апартамент:</strong>
+        {{ addressDto.apartmentNo }}
+      </p>
+    </div>
+  </div>
+
+  <div class="items-wrapper">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Продукт</th>
+          <th scope="col">Количество</th>
+          <th scope="col">Цена за брой (лв.)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let orderItem of orderDto.orderItems; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ orderItem.product.name }}</td>
+          <td>{{ orderItem.productQuantity }}</td>
+          <td>{{ orderItem.product.price }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="price">
+    <p class="price-info">Крайна цена:</p>
+    <p class="price-amount">{{ orderDto.totalPrice | number : "1.2-2" }} лв.</p>
+  </div>
+</div>

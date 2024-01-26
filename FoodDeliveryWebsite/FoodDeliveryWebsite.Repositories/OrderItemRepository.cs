@@ -29,7 +29,9 @@ namespace FoodDeliveryWebsite.Repositories
 
             var orderItemDtos = new List<OrderItemDto>();
 
-            foreach (var orderItem in user.OrderItems)
+            var orderItemsWithoutOrder = user.OrderItems.Where(oi => oi.OrderId == null);
+
+            foreach (var orderItem in orderItemsWithoutOrder)
             {
                 orderItemDtos.Add(new OrderItemDto
                 {

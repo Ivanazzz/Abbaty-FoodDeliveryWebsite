@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Validations;
 using FoodDeliveryWebsite.Repositories;
@@ -15,6 +16,7 @@ namespace FoodDeliveryWebsite
                 .AddScoped<IDiscountRepository, DiscountRepository>()
                 .AddScoped<IProductRepository, ProductRepository>()
                 .AddScoped<IOrderItemRepository, OrderItemRepository>()
+                .AddScoped<IOrderRepository, OrderRepository>()
                 .AddScoped<IValidator<User>, UserValidator>()
                 .AddScoped<IValidator<Address>, AddressValidator>()
                 .AddScoped<IValidator<Discount>, DiscountValidator>();
