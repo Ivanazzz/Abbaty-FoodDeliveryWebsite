@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 using FoodDeliveryWebsite.Models.Dtos;
-using FoodDeliveryWebsite.Repositories;
 using FoodDeliveryWebsite.Models.Enums;
+using FoodDeliveryWebsite.Repositories.Product;
 
 namespace FoodDeliveryWebsite.Controllers
 {

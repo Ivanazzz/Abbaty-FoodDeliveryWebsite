@@ -12,15 +12,15 @@ namespace FoodDeliveryWebsite.Models
             : base(options)
         { }
 
-        public DbSet<Address> Address { get; set; }
+        public DbSet<Address> Addresses { get; set; }
 
-        public DbSet<Discount> Discount { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
 
-        public DbSet<Order> Order { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         public DbSet<OrderItem> OrderItems { get; set; }
 
-        public DbSet<Product> Product { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         public DbSet<User> Users { get; set; }
 

@@ -34,4 +34,16 @@ export class RegistrationComponent {
         this.router.navigate(["/login"]);
       });
   }
+
+  isFormValid(): boolean {
+    return (
+      this.userDto.firstName != null &&
+      this.userDto.lastName != null &&
+      this.userDto.gender != null &&
+      this.userDto.phoneNumber != null &&
+      this.userDto.email != null &&
+      this.userDto.password != null &&
+      this.userDto.passwordConfirmation != null
+    );
+  }
 }

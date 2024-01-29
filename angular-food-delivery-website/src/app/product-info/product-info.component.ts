@@ -5,6 +5,7 @@ import { Subscription, catchError, throwError } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { OrderItemService } from "../order-item-service";
 import { UserService } from "../user.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-product-info",
@@ -25,7 +26,8 @@ export class ProductInfoComponent implements OnInit {
     private orderItemService: OrderItemService,
     private route: ActivatedRoute,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -75,6 +77,8 @@ export class ProductInfoComponent implements OnInit {
           return throwError(() => err);
         })
       )
-      .subscribe(() => {});
+      .subscribe(() => {
+        this.toastr.success("Добавено!", null, { timeOut: 1000 });
+      });
   }
 }

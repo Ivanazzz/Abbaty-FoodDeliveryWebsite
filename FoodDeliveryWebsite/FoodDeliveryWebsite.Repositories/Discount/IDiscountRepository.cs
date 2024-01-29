@@ -1,6 +1,6 @@
 ﻿using FoodDeliveryWebsite.Models.Dtos;
 
-namespace FoodDeliveryWebsite.Repositories
+namespace FoodDeliveryWebsite.Repositories.Discount
 {
     public interface IDiscountRepository
     {

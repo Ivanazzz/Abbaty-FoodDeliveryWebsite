@@ -27,8 +27,8 @@ export class AddAddressModalContent {
           return throwError(() => err);
         })
       )
-      .subscribe(() => {
-        this.activeModal.close(this.addressDto);
+      .subscribe((res) => {
+        this.activeModal.close(res);
         this.toastr.success("Добавено!", null, { timeOut: 1000 });
       });
   }

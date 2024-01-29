@@ -1,18 +1,22 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using FoodDeliveryWebsite.Models;
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Validations;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace FoodDeliveryWebsite.Repositories
 {
     public class AddressRepository : IAddressRepository
     {
+        private readonly IMapper mapper;
         private readonly FoodDeliveryWebsiteDbContext context;
 
-        public AddressRepository(FoodDeliveryWebsiteDbContext context)
+        public AddressRepository(FoodDeliveryWebsiteDbContext context, IMapper mapper)
         {
+            this.mapper = mapper;
             this.context = context;
         }
 
@@ -22,61 +26,33 @@ namespace FoodDeliveryWebsite.Repositories
                 .Include(u => u.Addresses)
                 .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
 
-            List<AddressDto> addressesDtos = new List<AddressDto>();
+            var userAddresses = user.Addresses
+                .Where(a => a.IsDeleted == false)
+                .Select(a => mapper.Map<AddressDto>(a))
+                .ToList();
 
-            foreach (var address in user.Addresses)
-            {
-                addressesDtos.Add(new AddressDto
-                {
-                    Id = address.Id,
-                    City = address.City,
-                    Street = address.Street,
-                    StreetNo = address.StreetNo,
-                    Floor = address.Floor,
-                    ApartmentNo = address.ApartmentNo
-                });
-            }
-
-            return addressesDtos;
+            return userAddresses;
         }
 
         public async Task<AddressDto> GetSelectedAddressAsync(int id)
         {
-            var address = await context.Address
-                .FirstOrDefaultAsync(a => a.Id == id);
+            var address = await context.Addresses
+                .FirstOrDefaultAsync(a => a.Id == id && a.IsDeleted == false);
 
-            AddressDto addressDto = new AddressDto
-            {
-                Id = address.Id,
-                City = address.City,
-                Street = address.Street,
-                StreetNo = address.StreetNo,
-                Floor = address.Floor,
-                ApartmentNo = address.ApartmentNo
-            };
-
-            return addressDto;
+            return mapper.Map<AddressDto>(address);
         }
 
         public async Task<List<AddressDto>> AddAddressAsync(AddressDto addressDto, string userEmail)
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
 
-            Address address = new Address
-            {
-                City = addressDto.City,
-                Street = addressDto.Street,
-                StreetNo = addressDto.StreetNo,
-                Floor = addressDto.Floor,
-                ApartmentNo = addressDto.ApartmentNo,
-                UserId = user.Id,
-                User = user
-            };
+            var address = mapper.Map<Address>(addressDto);
+            address.UserId = user.Id;
 
             AddressValidator validator = new AddressValidator();
             validator.ValidateAndThrow(address);
 
-            context.Address.Add(address);
+            context.Addresses.Add(address);
             await context.SaveChangesAsync();
 
             return await GetAddressesAsync(userEmail);
@@ -84,7 +60,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task UpdateAddressAsync(AddressDto addressDto)
         {
-            var address = await context.Address.FirstOrDefaultAsync(a => a.Id == addressDto.Id);
+            var address = await context.Addresses.FirstOrDefaultAsync(a => a.Id == addressDto.Id && a.IsDeleted == false);
 
             address.City = addressDto.City;
             address.Street = addressDto.Street;
@@ -95,15 +71,16 @@ namespace FoodDeliveryWebsite.Repositories
             AddressValidator validator = new AddressValidator();
             validator.ValidateAndThrow(address);
 
-            context.Address.Update(address);
+            context.Addresses.Update(address);
             await context.SaveChangesAsync();
         }
 
         public async Task DeleteAddressAsync(int id)
         {
-            var address = await context.Address.FirstOrDefaultAsync(a => a.Id == id);
+            var address = await context.Addresses.FirstOrDefaultAsync(a => a.Id == id && a.IsDeleted == false);
+            address.IsDeleted = true;
 
-            context.Address.Remove(address);
+            context.Addresses.Update(address);
             context.SaveChanges();
         }
     }

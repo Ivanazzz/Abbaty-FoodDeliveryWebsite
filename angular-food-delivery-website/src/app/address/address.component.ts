@@ -57,9 +57,10 @@ export class AddressComponent implements OnInit {
 
   openAddAddressModal() {
     var modalRef = this.modalService.open(AddAddressModalContent);
-    return modalRef.result.then((result: AddressDto) => {
+    return modalRef.result.then((result: AddressDto[]) => {
       if (result) {
-        this.userAddresses[this.userAddresses.length] = result;
+        //this.userAddresses[this.userAddresses.length] = result;
+        this.userAddresses = result;
       }
     });
   }

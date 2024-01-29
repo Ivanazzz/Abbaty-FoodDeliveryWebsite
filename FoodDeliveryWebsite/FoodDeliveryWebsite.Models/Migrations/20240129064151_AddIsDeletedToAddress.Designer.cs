@@ -3,6 +3,7 @@ using System;
 using FoodDeliveryWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FoodDeliveryWebsite.Models.Migrations
 {
     [DbContext(typeof(FoodDeliveryWebsiteDbContext))]
-    partial class FoodDeliveryWebsiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240129064151_AddIsDeletedToAddress")]
+    partial class AddIsDeletedToAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -73,7 +76,7 @@ namespace FoodDeliveryWebsite.Models.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("address", (string)null);
+                    b.ToTable("address");
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.Discount", b =>
@@ -111,7 +114,7 @@ namespace FoodDeliveryWebsite.Models.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("discount", (string)null);
+                    b.ToTable("discount");
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.Order", b =>
@@ -159,7 +162,7 @@ namespace FoodDeliveryWebsite.Models.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("order", (string)null);
+                    b.ToTable("order");
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.OrderItem", b =>
@@ -207,7 +210,7 @@ namespace FoodDeliveryWebsite.Models.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("orderitem", (string)null);
+                    b.ToTable("orderitem");
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.Product", b =>
@@ -272,7 +275,7 @@ namespace FoodDeliveryWebsite.Models.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("product", (string)null);
+                    b.ToTable("product");
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.User", b =>
@@ -342,7 +345,7 @@ namespace FoodDeliveryWebsite.Models.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("user", (string)null);
+                    b.ToTable("user");
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.Address", b =>

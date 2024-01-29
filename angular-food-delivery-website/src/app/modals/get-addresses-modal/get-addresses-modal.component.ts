@@ -46,15 +46,14 @@ export class GetAddressesModalContent {
   }
 
   addNewAddress() {
-    const modalRef = this.modalService.open(AddAddressModalContent, {
-      size: "xl",
-    });
+    const modalRef = this.modalService.open(AddAddressModalContent);
 
     modalRef.componentInstance.activeModal = modalRef;
 
-    modalRef.result.then((result: AddressDto) => {
-      this.userAddresses.push(result);
-      this.activeModal.close(result);
+    modalRef.result.then((result: AddressDto[]) => {
+      this.userAddresses = result;
+      debugger;
+      this.chooseAddress(result[0].id);
     });
   }
 }

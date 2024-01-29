@@ -29,7 +29,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             var orderItemDtos = new List<OrderItemDto>();
 
-            var orderItemsWithoutOrder = user.OrderItems.Where(oi => oi.OrderId == null);
+            var orderItemsWithoutOrder = user.OrderItems.Where(oi => oi.OrderId == null).ToList();
 
             foreach (var orderItem in orderItemsWithoutOrder)
             {
@@ -55,7 +55,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task AddOrderItemAsync(string userEmail, int productId, int quantity)
         {
-            var product = await context.Product.FirstOrDefaultAsync(p => p.Id == productId);
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productId);
 
             if (product == null)
             {
@@ -76,7 +76,7 @@ namespace FoodDeliveryWebsite.Repositories
                 throw new Exception("Invalid user.");
             }
 
-            var orderItemExisting = user.OrderItems.FirstOrDefault(oi => oi.ProductId == productId);
+            var orderItemExisting = user.OrderItems.FirstOrDefault(oi => oi.ProductId == productId && oi.OrderId == null);
             if (orderItemExisting != null)
             {
                 orderItemExisting.ProductQuantity += quantity;

@@ -7,21 +7,24 @@ using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Validations;
 using FoodDeliveryWebsite.Models.Enums;
+using AutoMapper;
 
-namespace FoodDeliveryWebsite.Repositories
+namespace FoodDeliveryWebsite.Repositories.Discount
 {
     public class DiscountRepository : IDiscountRepository
     {
+        private readonly IMapper mapper;
         private readonly FoodDeliveryWebsiteDbContext context;
 
-        public DiscountRepository(FoodDeliveryWebsiteDbContext context)
+        public DiscountRepository(FoodDeliveryWebsiteDbContext context, IMapper mapper)
         {
+            this.mapper = mapper;
             this.context = context;
         }
 
         public async Task<List<DiscountDto>> GetAvailableDiscountsAsync()
         {
-            var currentDiscounts = await context.Discount.ToListAsync();
+            var currentDiscounts = await context.Discounts.ToListAsync();
 
             List<DiscountDto> discounts = new List<DiscountDto>();
             foreach (var discount in currentDiscounts)
@@ -42,7 +45,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<List<DiscountDto>> GetUpcomingDiscountsAsync()
         {
-            var upcomingDiscounts = await context.Discount.Where(d => d.StartDate > DateTime.UtcNow).ToListAsync();
+            var upcomingDiscounts = await context.Discounts.Where(d => d.StartDate > DateTime.UtcNow).ToListAsync();
 
             List<DiscountDto> discounts = new List<DiscountDto>();
             foreach (var discount in upcomingDiscounts)
@@ -61,7 +64,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<DiscountOrderDto> GetDiscountAsync(string code)
         {
-            var discount = await context.Discount.FirstOrDefaultAsync(d => d.Code == code);
+            var discount = await context.Discounts.FirstOrDefaultAsync(d => d.Code == code);
 
             var discountOrderDto = new DiscountOrderDto();
 
@@ -103,7 +106,7 @@ namespace FoodDeliveryWebsite.Repositories
             DiscountValidator validator = new DiscountValidator();
             validator.ValidateAndThrow(discount);
 
-            context.Discount.Add(discount);
+            context.Discounts.Add(discount);
             await context.SaveChangesAsync();
         }
     }

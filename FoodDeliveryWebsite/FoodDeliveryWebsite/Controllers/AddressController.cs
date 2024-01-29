@@ -31,9 +31,9 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpGet("GetSelected/{id:int}")]
         public async Task<IActionResult> GetSelectedAsync([FromRoute] int id)
         {
-            var product = await addressRepository.GetSelectedAddressAsync(id);
+            var address = await addressRepository.GetSelectedAddressAsync(id);
 
-            return Ok(product);
+            return Ok(address);
         }
 
         [HttpPost("Add")]
@@ -45,6 +45,7 @@ namespace FoodDeliveryWebsite.Controllers
 
             return Ok(addresses);
         }
+
 
         [HttpPost("Update")]
         public async Task<IActionResult> UpdateAsync([FromBody] AddressDto addressDto)

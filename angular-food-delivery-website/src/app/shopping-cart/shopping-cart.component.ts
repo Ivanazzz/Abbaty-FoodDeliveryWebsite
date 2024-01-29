@@ -196,8 +196,5 @@ export class ShoppingCartComponent {
     this.orderDto.discountId = this.discountDto.id;
     this.orderDto.deliveryPrice = this.deliveryPrice;
     this.orderDto.totalPrice = this.getTotalPrice() + this.deliveryPrice;
-    console.log(this.orderItems);
-    console.log(this.orderDto.orderItems);
-    debugger;
   }
 }

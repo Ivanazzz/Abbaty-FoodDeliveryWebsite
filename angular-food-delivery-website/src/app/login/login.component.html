@@ -21,7 +21,13 @@
     />
   </div>
   <div class="btn-wrapper">
-    <button (click)="onSubmit()" class="btn btn-success">Потвърди</button>
+    <button
+      (click)="onSubmit()"
+      class="btn btn-success"
+      [disabled]="!isFormValid()"
+    >
+      Потвърди
+    </button>
   </div>
   <div class="registration">
     <p>

@@ -22,7 +22,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<List<ProductGetDto>> GetAvailableProductsAsync()
         {
-            var currentProducts = await context.Product.Where(p => p.Status == ProductStatus.Available).ToListAsync();
+            var currentProducts = await context.Products.Where(p => p.Status == ProductStatus.Available).ToListAsync();
 
             List<ProductGetDto> products = new List<ProductGetDto>();
             foreach (var product in currentProducts)
@@ -47,7 +47,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<List<ProductGetDto>> GetAllProductsAsync()
         {
-            var currentProducts = await context.Product.ToListAsync();
+            var currentProducts = await context.Products.ToListAsync();
 
             List<ProductGetDto> products = new List<ProductGetDto>();
             foreach (var product in currentProducts)
@@ -72,7 +72,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<ProductGetDto> GetSelectedProductAsync(int id)
         {
-            var product = await context.Product.FirstOrDefaultAsync(p => p.Id == id);
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == id);
 
             if (product == null)
             {
@@ -98,7 +98,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<List<ProductGetDto>> GetFilteredProductAsync(ProductType productType)
         {
-            var currentProducts = await context.Product
+            var currentProducts = await context.Products
                 .Where(p => p.Type == productType 
                     && p.Status == ProductStatus.Available)
                 .ToListAsync();
@@ -126,7 +126,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<List<ProductGetDto>> GetProductsWithStatusAsync(ProductStatus productStatus)
         {
-            var currentProducts = await context.Product
+            var currentProducts = await context.Products
                 .Where(p => p.Status == productStatus)
                 .ToListAsync();
 
@@ -172,13 +172,13 @@ namespace FoodDeliveryWebsite.Repositories
             ProductValidator validator = new ProductValidator();
             validator.ValidateAndThrow(product);
 
-            context.Product.Add(product);
+            context.Products.Add(product);
             await context.SaveChangesAsync();
         }
 
         public async Task UpdateProductAsync(ProductGetDto productDto)
         {
-            var product = await context.Product.FirstOrDefaultAsync(p => p.Id == productDto.Id);
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productDto.Id);
 
             if (product != null)
             {
@@ -192,21 +192,21 @@ namespace FoodDeliveryWebsite.Repositories
                 ProductValidator validator = new ProductValidator();
                 validator.ValidateAndThrow(product);
 
-                context.Product.Update(product);
+                context.Products.Update(product);
                 await context.SaveChangesAsync();
             }
         }
 
         public async Task DeleteProductAsync(int id)
         {
-            var product = await context.Product.FirstOrDefaultAsync(p => p.Id == id && p.IsDeleted == false);
+            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == id && p.IsDeleted == false);
 
             if (product != null)
             {
                 product.Status = ProductStatus.Unavailable;
                 product.IsDeleted = true;
 
-                context.Product.Update(product);
+                context.Products.Update(product);
                 await context.SaveChangesAsync();
             }
         }

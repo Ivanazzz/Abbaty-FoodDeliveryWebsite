@@ -1,6 +1,6 @@
 ﻿using FoodDeliveryWebsite.Models.Dtos;
 
-namespace FoodDeliveryWebsite.Repositories
+namespace FoodDeliveryWebsite.Repositories.OrderItem
 {
     public interface IOrderItemRepository
     {

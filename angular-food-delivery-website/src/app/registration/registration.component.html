@@ -95,6 +95,12 @@
     />
   </div>
   <div class="btn-wrapper">
-    <button (click)="onSubmit()" class="btn btn-success">Завърши</button>
+    <button
+      (click)="onSubmit()"
+      class="btn btn-success"
+      [disabled]="!isFormValid()"
+    >
+      Завърши
+    </button>
   </div>
 </div>

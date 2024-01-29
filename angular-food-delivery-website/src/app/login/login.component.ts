@@ -22,4 +22,8 @@ export class LoginComponent {
       }
     });
   }
+
+  isFormValid(): boolean {
+    return this.userDto.email != null && this.userDto.password != null;
+  }
 }

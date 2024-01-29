@@ -1,5 +1,5 @@
 ﻿using FoodDeliveryWebsite.Models.Dtos;
-using FoodDeliveryWebsite.Repositories;
+using FoodDeliveryWebsite.Repositories.Discount;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDeliveryWebsite.Controllers

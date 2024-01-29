@@ -26,6 +26,8 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public User User { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public class AddressConfiguration : IEntityTypeConfiguration<Address>
         {
             public void Configure(EntityTypeBuilder<Address> builder)
