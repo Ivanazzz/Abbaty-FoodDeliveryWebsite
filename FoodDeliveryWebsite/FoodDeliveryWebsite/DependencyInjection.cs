@@ -2,12 +2,7 @@
 
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Validations;
-using FoodDeliveryWebsite.Repositories.Address;
-using FoodDeliveryWebsite.Repositories.Discount;
-using FoodDeliveryWebsite.Repositories.Order;
-using FoodDeliveryWebsite.Repositories.OrderItem;
-using FoodDeliveryWebsite.Repositories.Product;
-using FoodDeliveryWebsite.Repositories.User;
+using FoodDeliveryWebsite.Repositories;
 
 namespace FoodDeliveryWebsite
 {

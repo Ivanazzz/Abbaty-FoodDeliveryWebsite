@@ -1,6 +1,9 @@
 import { Component } from "@angular/core";
 import { ProductDto, ProductStatus, ProductType } from "../product-dto";
 import { ProductService } from "../product-service";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
+import { catchError, throwError } from "rxjs";
 
 @Component({
   selector: "app-product",
@@ -14,7 +17,11 @@ export class ProductComponent {
   type = ProductType;
   status = ProductStatus;
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private toastr: ToastrService,
+    private router: Router
+  ) {}
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0] as File;
@@ -30,7 +37,18 @@ export class ProductComponent {
       formData.append("type", this.productDto.type.toString());
       formData.append("status", this.productDto.status.toString());
       formData.append("image", this.selectedFile, this.selectedFile.name);
-      this.productService.addProductWithImage(formData).subscribe();
+
+      this.productService
+        .addProductWithImage(formData)
+        .pipe(
+          catchError((err) => {
+            return throwError(() => err);
+          })
+        )
+        .subscribe(() => {
+          this.toastr.success("Добавено!", null, { timeOut: 1000 });
+          this.router.navigate(["/menu"]);
+        });
     } else {
       // Handle the case where no file is selected
       console.warn("No file selected");

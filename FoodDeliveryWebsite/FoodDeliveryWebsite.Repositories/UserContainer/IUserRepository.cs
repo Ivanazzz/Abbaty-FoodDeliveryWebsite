@@ -1,7 +1,7 @@
 ﻿using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 
-namespace FoodDeliveryWebsite.Repositories.User
+namespace FoodDeliveryWebsite.Repositories
 {
     public interface IUserRepository
     {

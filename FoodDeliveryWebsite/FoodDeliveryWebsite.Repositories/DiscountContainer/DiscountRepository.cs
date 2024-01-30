@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using FluentValidation;
+using AutoMapper;
 
 using FoodDeliveryWebsite.Models;
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Validations;
 using FoodDeliveryWebsite.Models.Enums;
-using AutoMapper;
 
-namespace FoodDeliveryWebsite.Repositories.Discount
+namespace FoodDeliveryWebsite.Repositories
 {
     public class DiscountRepository : IDiscountRepository
     {

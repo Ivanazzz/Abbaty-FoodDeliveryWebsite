@@ -1,11 +1,8 @@
-﻿using FoodDeliveryWebsite.Models.Dtos;
-using FoodDeliveryWebsite.Models.Entities;
-using FoodDeliveryWebsite.Repositories.OrderItem;
+﻿using System.Security.Claims;
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+
+using FoodDeliveryWebsite.Repositories;
 
 namespace FoodDeliveryWebsite.Controllers
 {

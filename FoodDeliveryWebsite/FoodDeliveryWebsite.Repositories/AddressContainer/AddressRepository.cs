@@ -1,11 +1,12 @@
-﻿using AutoMapper;
+﻿using Microsoft.EntityFrameworkCore;
+
+using AutoMapper;
 using FluentValidation;
+
 using FoodDeliveryWebsite.Models;
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Validations;
-using Microsoft.EntityFrameworkCore;
-using System.Net;
 
 namespace FoodDeliveryWebsite.Repositories
 {

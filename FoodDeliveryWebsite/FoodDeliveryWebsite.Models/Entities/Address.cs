@@ -1,6 +1,7 @@
-﻿using FoodDeliveryWebsite.Models.Common;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
+
+using FoodDeliveryWebsite.Models.Common;
 
 namespace FoodDeliveryWebsite.Models.Entities
 {

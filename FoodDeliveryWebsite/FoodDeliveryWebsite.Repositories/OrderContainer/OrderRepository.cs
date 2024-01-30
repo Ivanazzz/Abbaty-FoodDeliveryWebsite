@@ -1,18 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Transactions;
+
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 using FoodDeliveryWebsite.Models;
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
-using System.Transactions;
 
 namespace FoodDeliveryWebsite.Repositories
 {
     public class OrderRepository : IOrderRepository
     {
+        private readonly IMapper mapper;
         private readonly FoodDeliveryWebsiteDbContext context;
 
-        public OrderRepository(FoodDeliveryWebsiteDbContext context)
+        public OrderRepository(FoodDeliveryWebsiteDbContext context, IMapper mapper)
         {
+            this.mapper = mapper;
             this.context = context;
         }
 
@@ -34,14 +38,9 @@ namespace FoodDeliveryWebsite.Repositories
                         throw new Exception("Invalid user.");
                     }
 
-                    Order order = new Order
-                    {
-                        UserId = user.Id,
-                        AddressId = orderDto.AddressId,
-                        DiscountId = orderDto.DiscountId,
-                        TotalPrice = Math.Round(orderDto.TotalPrice, 2),
-                        DeliveryPrice = orderDto.DeliveryPrice
-                    };
+                    var order = mapper.Map<Order>(orderDto);
+                    order.TotalPrice = Math.Round(orderDto.TotalPrice, 2);
+                    order.UserId = user.Id;
 
                     context.Orders.Add(order);
                     await context.SaveChangesAsync();

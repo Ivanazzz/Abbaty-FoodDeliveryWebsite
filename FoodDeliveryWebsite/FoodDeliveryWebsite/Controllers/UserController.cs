@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 using FoodDeliveryWebsite.Models.Dtos;
-using FoodDeliveryWebsite.Repositories.User;
+using FoodDeliveryWebsite.Repositories;
 
 namespace FoodDeliveryWebsite.Controllers
 {

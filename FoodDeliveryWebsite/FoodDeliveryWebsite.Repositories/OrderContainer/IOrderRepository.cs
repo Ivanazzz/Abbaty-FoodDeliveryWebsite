@@ -1,5 +1,4 @@
 ﻿using FoodDeliveryWebsite.Models.Dtos;
-using Microsoft.AspNetCore.Mvc;
 
 namespace FoodDeliveryWebsite.Repositories
 {

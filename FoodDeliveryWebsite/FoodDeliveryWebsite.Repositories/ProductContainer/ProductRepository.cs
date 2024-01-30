@@ -8,64 +8,36 @@ using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Enums;
 using FoodDeliveryWebsite.Models.Validations;
+using AutoMapper;
 
 namespace FoodDeliveryWebsite.Repositories
 {
     public class ProductRepository : IProductRepository
     {
+        private readonly IMapper mapper;
         private readonly FoodDeliveryWebsiteDbContext context;
 
-        public ProductRepository(FoodDeliveryWebsiteDbContext context)
+        public ProductRepository(FoodDeliveryWebsiteDbContext context, IMapper mapper)
         {
+            this.mapper = mapper;
             this.context = context;
         }
 
         public async Task<List<ProductGetDto>> GetAvailableProductsAsync()
         {
-            var currentProducts = await context.Products.Where(p => p.Status == ProductStatus.Available).ToListAsync();
-
-            List<ProductGetDto> products = new List<ProductGetDto>();
-            foreach (var product in currentProducts)
-            {
-                products.Add(new ProductGetDto
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Description = product.Description,
-                    Price = product.Price,
-                    Type = product.Type,
-                    Status = product.Status,
-                    Grams = product.Grams,
-                    Image = product.Image,
-                    ImageMimeType = product.ImageMimeType,
-                    ImageName = product.ImageName
-                });
-            }
+            var products = await context.Products
+                .Where(p => p.Status == ProductStatus.Available)
+                .Select(p => mapper.Map<ProductGetDto>(p))
+                .ToListAsync();
 
             return products;
         }
 
         public async Task<List<ProductGetDto>> GetAllProductsAsync()
         {
-            var currentProducts = await context.Products.ToListAsync();
-
-            List<ProductGetDto> products = new List<ProductGetDto>();
-            foreach (var product in currentProducts)
-            {
-                products.Add(new ProductGetDto
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Description = product.Description,
-                    Price = product.Price,
-                    Type = product.Type,
-                    Status = product.Status,
-                    Grams = product.Grams,
-                    Image = product.Image,
-                    ImageMimeType = product.ImageMimeType,
-                    ImageName = product.ImageName
-                });
-            }
+            var products = await context.Products
+                .Select(p => mapper.Map<ProductGetDto>(p))
+                .ToListAsync();
 
             return products;
         }
@@ -79,74 +51,28 @@ namespace FoodDeliveryWebsite.Repositories
                 throw new Exception("Product unavailable.");
             }
 
-            ProductGetDto productDto = new ProductGetDto
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                Type = product.Type,
-                Status = product.Status,
-                Grams = product.Grams,
-                Image = product.Image,
-                ImageMimeType = product.ImageMimeType,
-                ImageName = product.ImageName
-            };
+            ProductGetDto productDto = mapper.Map<ProductGetDto>(product);
 
             return productDto;
         }
 
         public async Task<List<ProductGetDto>> GetFilteredProductAsync(ProductType productType)
         {
-            var currentProducts = await context.Products
-                .Where(p => p.Type == productType 
+            var products = await context.Products
+                .Where(p => p.Type == productType
                     && p.Status == ProductStatus.Available)
+                .Select(p => mapper.Map<ProductGetDto>(p))
                 .ToListAsync();
-
-            List<ProductGetDto> products = new List<ProductGetDto>();
-            foreach (var product in currentProducts)
-            {
-                products.Add(new ProductGetDto
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Description = product.Description,
-                    Price = product.Price,
-                    Type = product.Type,
-                    Status = product.Status,
-                    Grams = product.Grams,
-                    Image = product.Image,
-                    ImageMimeType = product.ImageMimeType,
-                    ImageName = product.ImageName
-                });
-            }
 
             return products;
         }
 
         public async Task<List<ProductGetDto>> GetProductsWithStatusAsync(ProductStatus productStatus)
         {
-            var currentProducts = await context.Products
+            var products = await context.Products
                 .Where(p => p.Status == productStatus)
+                .Select(p => mapper.Map<ProductGetDto>(p))
                 .ToListAsync();
-
-            List<ProductGetDto> products = new List<ProductGetDto>();
-            foreach (var product in currentProducts)
-            {
-                products.Add(new ProductGetDto
-                {
-                    Id = product.Id,
-                    Name = product.Name,
-                    Description = product.Description,
-                    Price = product.Price,
-                    Type = product.Type,
-                    Status = product.Status,
-                    Grams = product.Grams,
-                    Image = product.Image,
-                    ImageMimeType = product.ImageMimeType,
-                    ImageName = product.ImageName
-                });
-            }
 
             return products;
         }

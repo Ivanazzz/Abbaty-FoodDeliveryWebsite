@@ -1,49 +1,44 @@
-﻿using FluentValidation;
+﻿using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
+
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
 using FoodDeliveryWebsite.Models;
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Enums;
 using FoodDeliveryWebsite.Models.Validations;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.RegularExpressions;
+using AutoMapper;
 
 namespace FoodDeliveryWebsite.Repositories
 {
     public class UserRepository : IUserRepository
     {
+        private readonly IMapper mapper;
         private readonly FoodDeliveryWebsiteDbContext context;
         const int keySize = 64;
         const int iterations = 350000;
         HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
 
-        public UserRepository(FoodDeliveryWebsiteDbContext context)
+        public UserRepository(FoodDeliveryWebsiteDbContext context, IMapper mapper)
         {
+            this.mapper = mapper;
             this.context = context;
         }
 
         public async Task RegisterAsync(UserRegistrationDto userRegistrationDto)
         {
-            User user = new User
-            {
-                FirstName = userRegistrationDto.FirstName,
-                LastName = userRegistrationDto.LastName,
-                Gender = userRegistrationDto.Gender,
-                Email = userRegistrationDto.Email,
-                Password = userRegistrationDto.Password,
-                PasswordConfirmation = userRegistrationDto.PasswordConfirmation,
-                PhoneNumber = String.Concat(userRegistrationDto.PhoneNumber.Where(c => !Char.IsWhiteSpace(c))),
-                Addresses = userRegistrationDto.Addresses,
-                Role = UserRole.Client
-            };
+            User user = mapper.Map<User>(userRegistrationDto);
+            user.PhoneNumber = string.Concat(userRegistrationDto.PhoneNumber.Where(c => !char.IsWhiteSpace(c)));
+            user.Role = UserRole.Client;
 
             UserValidator validator = new UserValidator();
             validator.ValidateAndThrow(user);
 
-            bool userExists = await context.Users.FirstOrDefaultAsync(u => u.Email == user.Email && u.IsDeleted == false) != null 
-                ? true 
+            bool userExists = await context.Users.FirstOrDefaultAsync(u => u.Email == user.Email && u.IsDeleted == false) != null
+                ? true
                 : false;
 
             if (userExists)
@@ -72,7 +67,7 @@ namespace FoodDeliveryWebsite.Repositories
             }
 
             bool isPasswordValid = VerifyPassword(userLoginDto.Password, user.Password, Convert.FromHexString(user.Salt));
-            
+
             if (!isPasswordValid)
             {
                 throw new Exception("Invalid password.");
@@ -83,24 +78,15 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<UserDto> GetUserAsync(string email)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email && u.IsDeleted == false);
+            var user = await context.Users
+                .FirstOrDefaultAsync(u => u.Email == email && u.IsDeleted == false);
 
             if (user == null)
             {
                 return null;
             }
 
-            var userDto = new UserDto
-            {
-                Id = user.Id,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Gender = user.Gender,
-                PhoneNumber = user.PhoneNumber,
-                //Addresses = user.Addresses,
-                Role = user.Role,
-                //Orders = user.Orders
-            };
+            var userDto = mapper.Map<UserDto>(user);
 
             return userDto;
         }
@@ -108,13 +94,13 @@ namespace FoodDeliveryWebsite.Repositories
         public async Task UpdateUserAsync(UserDto userDto, string email)
         {
             var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email && u.IsDeleted == false);
-            
+
             if (user != null)
             {
                 user.FirstName = userDto.FirstName;
                 user.LastName = userDto.LastName;
                 user.Gender = userDto.Gender;
-                user.PhoneNumber = String.Concat(userDto.PhoneNumber.Where(c => !Char.IsWhiteSpace(c)));
+                user.PhoneNumber = string.Concat(userDto.PhoneNumber.Where(c => !char.IsWhiteSpace(c)));
 
                 UserUpdateValidator validator = new UserUpdateValidator();
                 validator.ValidateAndThrow(user);

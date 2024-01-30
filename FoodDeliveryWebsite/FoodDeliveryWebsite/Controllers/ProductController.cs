@@ -2,7 +2,7 @@
 
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Enums;
-using FoodDeliveryWebsite.Repositories.Product;
+using FoodDeliveryWebsite.Repositories;
 
 namespace FoodDeliveryWebsite.Controllers
 {

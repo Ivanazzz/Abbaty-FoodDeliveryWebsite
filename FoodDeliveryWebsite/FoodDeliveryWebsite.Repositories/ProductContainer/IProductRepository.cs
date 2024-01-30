@@ -1,7 +1,7 @@
 ﻿using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Enums;
 
-namespace FoodDeliveryWebsite.Repositories.Product
+namespace FoodDeliveryWebsite.Repositories
 {
     public interface IProductRepository
     {

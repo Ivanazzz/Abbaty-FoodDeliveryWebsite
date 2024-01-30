@@ -3,15 +3,18 @@
 using FoodDeliveryWebsite.Models;
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
+using AutoMapper;
 
 namespace FoodDeliveryWebsite.Repositories
 {
     public class OrderItemRepository : IOrderItemRepository
     {
+        private readonly IMapper mapper;
         private readonly FoodDeliveryWebsiteDbContext context;
 
-        public OrderItemRepository(FoodDeliveryWebsiteDbContext context)
+        public OrderItemRepository(FoodDeliveryWebsiteDbContext context, IMapper mapper)
         {
+            this.mapper = mapper;
             this.context = context;
         }
 
