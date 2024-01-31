@@ -27,6 +27,11 @@ namespace FoodDeliveryWebsite.Repositories
                 .Include(u => u.Addresses)
                 .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
 
+            if (user == null)
+            {
+                return null;
+            }
+
             var userAddresses = user.Addresses
                 .Where(a => a.IsDeleted == false)
                 .Select(a => mapper.Map<AddressDto>(a))
@@ -35,17 +40,37 @@ namespace FoodDeliveryWebsite.Repositories
             return userAddresses;
         }
 
-        public async Task<AddressDto> GetSelectedAddressAsync(int id)
+        public async Task<AddressDto> GetSelectedAddressAsync(string userEmail, int id)
         {
-            var address = await context.Addresses
-                .FirstOrDefaultAsync(a => a.Id == id && a.IsDeleted == false);
+            var user = await context.Users
+                .Include(u => u.Addresses)
+                .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
+
+            if (user == null)
+            {
+                throw new Exception("Invalid user");
+            }
+
+            var address = user.Addresses
+                .FirstOrDefault(a => a.Id == id && a.IsDeleted == false);
+
+            if (address == null)
+            {
+                throw new Exception("Invalid address");
+            }
 
             return mapper.Map<AddressDto>(address);
         }
 
-        public async Task<List<AddressDto>> AddAddressAsync(AddressDto addressDto, string userEmail)
+        public async Task<List<AddressDto>> AddAddressAsync(string userEmail, AddressDto addressDto)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
+            var user = await context.Users
+                .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
+
+            if (user == null)
+            {
+                throw new Exception("Invalid user");
+            }
 
             var address = mapper.Map<Address>(addressDto);
             address.UserId = user.Id;
@@ -59,9 +84,23 @@ namespace FoodDeliveryWebsite.Repositories
             return await GetAddressesAsync(userEmail);
         }
 
-        public async Task UpdateAddressAsync(AddressDto addressDto)
+        public async Task UpdateAddressAsync(string userEmail, AddressDto addressDto)
         {
-            var address = await context.Addresses.FirstOrDefaultAsync(a => a.Id == addressDto.Id && a.IsDeleted == false);
+            var user = await context.Users
+                .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
+
+            if (user == null)
+            {
+                throw new Exception("Invalid user");
+            }
+
+            var address = await context.Addresses
+                .FirstOrDefaultAsync(a => a.Id == addressDto.Id && a.IsDeleted == false);
+
+            if (address == null)
+            {
+                throw new Exception("Invalid address");
+            }
 
             address.City = addressDto.City;
             address.Street = addressDto.Street;
@@ -76,10 +115,23 @@ namespace FoodDeliveryWebsite.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task DeleteAddressAsync(int id)
+        public async Task DeleteAddressAsync(string userEmail, int id)
         {
-            var address = await context.Addresses.FirstOrDefaultAsync(a => a.Id == id && a.IsDeleted == false);
-            address.IsDeleted = true;
+            var user = await context.Users
+                .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
+
+            if (user == null)
+            {
+                throw new Exception("Invalid user");
+            }
+
+            var address = await context.Addresses
+                .FirstOrDefaultAsync(a => a.Id == id && a.IsDeleted == false);
+
+            if (address == null)
+            {
+                throw new Exception("Invalid address");
+            }
 
             context.Addresses.Update(address);
             context.SaveChanges();

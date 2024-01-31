@@ -3,6 +3,7 @@
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Enums;
 using FoodDeliveryWebsite.Repositories;
+using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -44,6 +45,7 @@ namespace FoodDeliveryWebsite.Controllers
         }
 
         [HttpGet("GetProductsWithStatus")]
+        [AuthorizedAdmin]
         public async Task<IActionResult> GetProductsWithStatusAsync([FromQuery] ProductStatus productStatus)
         {
             var products = await productRepository.GetProductsWithStatusAsync(productStatus);
@@ -52,6 +54,7 @@ namespace FoodDeliveryWebsite.Controllers
         }
 
         [HttpPost("Add")]
+        [AuthorizedAdmin]
         public async Task<IActionResult> AddAsync([FromForm] ProductAddDto productDto)
         {
             await productRepository.AddProductAsync(productDto);
@@ -60,6 +63,7 @@ namespace FoodDeliveryWebsite.Controllers
         }
 
         [HttpPost("Update")]
+        [AuthorizedAdmin]
         public async Task<IActionResult> UpdateAsync([FromBody] ProductGetDto productDto)
         {
             await productRepository.UpdateProductAsync(productDto);
@@ -68,6 +72,7 @@ namespace FoodDeliveryWebsite.Controllers
         }
 
         [HttpDelete("Delete/{id:int}")]
+        [AuthorizedAdmin]
         public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {
             await productRepository.DeleteProductAsync(id);

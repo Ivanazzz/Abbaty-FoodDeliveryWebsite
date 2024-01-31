@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { UserLoginDto } from "../user-login-dto";
 import { UserService } from "../user.service";
 import { Router } from "@angular/router";
+import { EmailRegex, PasswordRegex } from "../validation-consts";
 
 @Component({
   selector: "app-login",
@@ -10,6 +11,8 @@ import { Router } from "@angular/router";
 })
 export class LoginComponent {
   userDto: UserLoginDto = new UserLoginDto();
+  passwordRegex = PasswordRegex;
+  emailRegex = EmailRegex;
 
   constructor(private userService: UserService, private router: Router) {}
 

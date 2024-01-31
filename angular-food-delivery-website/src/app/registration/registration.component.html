@@ -6,12 +6,27 @@
       Име:
     </label>
     <input
+      #firstNameInput="ngModel"
       type="text"
       class="form-control"
       [(ngModel)]="userDto.firstName"
       id="firstName"
       required
+      [maxlength]="firstNameMaxLength"
+      [pattern]="nameRegex"
+      [ngClass]="{
+        'is-invalid': firstNameInput.touched && firstNameInput.invalid
+      }"
     />
+    <div
+      class="invalid-feedback"
+      *ngIf="firstNameInput.touched && firstNameInput.errors"
+    >
+      <div *ngIf="firstNameInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="firstNameInput.errors.pattern">
+        Името трябва да бъде написано на кирилица
+      </div>
+    </div>
   </div>
   <div class="form-group">
     <label for="lastName">
@@ -19,12 +34,27 @@
       Фамилия:
     </label>
     <input
+      #lastNameInput="ngModel"
       type="text"
       class="form-control"
       [(ngModel)]="userDto.lastName"
       id="lastName"
       required
+      [maxlength]="lastNameMaxLength"
+      [pattern]="nameRegex"
+      [ngClass]="{
+        'is-invalid': lastNameInput.touched && lastNameInput.invalid
+      }"
     />
+    <div
+      class="invalid-feedback"
+      *ngIf="lastNameInput.touched && lastNameInput.errors"
+    >
+      <div *ngIf="lastNameInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="lastNameInput.errors.pattern">
+        Фамилията трябва да бъде написана на кирилица
+      </div>
+    </div>
   </div>
   <div class="form-group">
     <label for="gender">
@@ -32,15 +62,25 @@
       Пол:
     </label>
     <select
+      #genderInput="ngModel"
       name="gender"
       [(ngModel)]="userDto.gender"
       id="gender"
       class="form-control"
       required
+      [ngClass]="{
+        'is-invalid': genderInput.touched && isGenderEntered() == false
+      }"
     >
       <option [ngValue]="gender.Male">Мъж</option>
       <option [ngValue]="gender.Female">Жена</option>
     </select>
+    <div
+      class="invalid-feedback"
+      *ngIf="genderInput.touched && isGenderEntered() == false"
+    >
+      <div>Полето е задължителено</div>
+    </div>
   </div>
   <div class="form-group">
     <label for="phoneNumber">
@@ -48,12 +88,26 @@
       Телефонен номер:
     </label>
     <input
+      #phoneNumberInput="ngModel"
       type="text"
       class="form-control"
       [(ngModel)]="userDto.phoneNumber"
       id="phoneNumber"
       required
+      [pattern]="phoneNumberRegex"
+      [ngClass]="{
+        'is-invalid': phoneNumberInput.touched && phoneNumberInput.invalid
+      }"
     />
+    <div
+      class="invalid-feedback"
+      *ngIf="phoneNumberInput.touched && phoneNumberInput.errors"
+    >
+      <div *ngIf="phoneNumberInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="phoneNumberInput.errors.pattern">
+        Телефонният номер трябва да бъде във формат: +359XXXXXXXXX
+      </div>
+    </div>
   </div>
   <div class="form-group">
     <label for="email">
@@ -61,46 +115,93 @@
       Имейл:
     </label>
     <input
+      #emailInput="ngModel"
       type="email"
       class="form-control"
       [(ngModel)]="userDto.email"
       id="email"
       required
+      [pattern]="emailRegex"
+      [ngClass]="{
+        'is-invalid': emailInput.touched && emailInput.invalid
+      }"
     />
-  </div>
-  <div class="form-group">
-    <label for="password">
-      <span class="important">*</span>
-      Парола:
-    </label>
-    <input
-      type="password"
-      class="form-control"
-      [(ngModel)]="userDto.password"
-      id="password"
-      required
-    />
-  </div>
-  <div class="form-group">
-    <label for="passwordConfirmation">
-      <span class="important">*</span>
-      Потвърждаване на парола:
-    </label>
-    <input
-      type="password"
-      class="form-control"
-      [(ngModel)]="userDto.passwordConfirmation"
-      id="passwordConfirmation"
-      required
-    />
-  </div>
-  <div class="btn-wrapper">
-    <button
-      (click)="onSubmit()"
-      class="btn btn-success"
-      [disabled]="!isFormValid()"
+    <div
+      class="invalid-feedback"
+      *ngIf="emailInput.touched && emailInput.errors"
     >
-      Завърши
-    </button>
+      <div *ngIf="emailInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="emailInput.errors.pattern">Неправилен формат на имейла</div>
+    </div>
+    <div class="form-group">
+      <label for="password">
+        <span class="important">*</span>
+        Парола:
+      </label>
+      <input
+        #passwordInput="ngModel"
+        type="password"
+        class="form-control"
+        [(ngModel)]="userDto.password"
+        id="password"
+        required
+        [pattern]="passwordRegex"
+        [ngClass]="{
+          'is-invalid': passwordInput.touched && passwordInput.invalid
+        }"
+      />
+      <div
+        class="invalid-feedback"
+        *ngIf="passwordInput.touched && passwordInput.errors"
+      >
+        <div *ngIf="passwordInput.errors.required">Полето е задължителено</div>
+        <div *ngIf="passwordInput.errors.pattern">
+          Паролата трябва:
+          <ul class="pass-error-list">
+            <li>- да бъде поне 8 символа</li>
+            <li>- да съдържа поне една главна буква</li>
+            <li>- да съдържа поне една малка буква</li>
+            <li>- да съдържа поне една цифра</li>
+            <li>- да съдържа поне един специален символ</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="passwordConfirmation">
+        <span class="important">*</span>
+        Потвърждаване на парола:
+      </label>
+      <input
+        #passwordConfirmationInput="ngModel"
+        type="password"
+        class="form-control"
+        [(ngModel)]="userDto.passwordConfirmation"
+        id="passwordConfirmation"
+        required
+        [ngClass]="{
+          'is-invalid':
+            passwordConfirmationInput.touched || arePasswordsEqual() == false
+        }"
+      />
+      <div
+        class="invalid-feedback"
+        *ngIf="
+          passwordConfirmationInput.touched || arePasswordsEqual() == false
+        "
+      >
+        <div *ngIf="passwordInput.errors.required">Полето е задължителено</div>
+        <div *ngIf="arePasswordsEqual() == false">Паролите не съвпадат</div>
+      </div>
+    </div>
+    <div class="btn-wrapper">
+      <button
+        (click)="onSubmit()"
+        class="btn btn-success"
+        [disabled]="!isFormValid()"
+      >
+        Завърши
+      </button>
+    </div>
   </div>
 </div>

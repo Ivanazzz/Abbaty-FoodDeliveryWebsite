@@ -3,11 +3,13 @@
 using Microsoft.AspNetCore.Mvc;
 
 using FoodDeliveryWebsite.Repositories;
+using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
 
 namespace FoodDeliveryWebsite.Controllers
 {
     [ApiController]
     [Route("api/[controller]s")]
+    [AuthorizedClient]
     public class OrderItemController : ControllerBase
     {
         private IOrderItemRepository orderItemRepository { get; set; }
@@ -43,7 +45,9 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpPost("Update")]
         public async Task<IActionResult> UpdateAsync([FromQuery] int orderItemId, [FromQuery] int quantity)
         {
-            var orderItemDto = await orderItemRepository.UpdateOrderItemAsync(orderItemId, quantity);
+            var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+
+            var orderItemDto = await orderItemRepository.UpdateOrderItemAsync(userEmail, orderItemId, quantity);
 
             return Ok(orderItemDto);
         }
@@ -51,7 +55,9 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpDelete("Delete/{orderItemId:int}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] int orderItemId)
         {
-            await orderItemRepository.DeleteOrderItemAsync(orderItemId);
+            var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+
+            await orderItemRepository.DeleteOrderItemAsync(userEmail, orderItemId);
 
             return Ok();
         }

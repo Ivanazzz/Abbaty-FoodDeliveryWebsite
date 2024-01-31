@@ -1,6 +1,9 @@
-﻿using FoodDeliveryWebsite.Models.Dtos;
+﻿using Microsoft.AspNetCore.Mvc;
+
+using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Repositories;
-using Microsoft.AspNetCore.Mvc;
+using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -18,6 +21,7 @@ namespace FoodDeliveryWebsite.Controllers
         }
 
         [HttpGet("GetAvailable")]
+        [AuthorizedAdmin]
         public async Task<IActionResult> GetAvailableAsync()
         {
             var discounts = await discountRepository.GetAvailableDiscountsAsync();
@@ -26,6 +30,7 @@ namespace FoodDeliveryWebsite.Controllers
         }
 
         [HttpGet("GetUpcoming")]
+        [AuthorizedAdmin]
         public async Task<IActionResult> GetUpcomingAsync()
         {
             var discounts = await discountRepository.GetUpcomingDiscountsAsync();
@@ -34,6 +39,7 @@ namespace FoodDeliveryWebsite.Controllers
         }
 
         [HttpGet("GetDiscount")]
+        [AuthorizedClient]
         public async Task<IActionResult> GetDiscountAsync([FromQuery] string code)
         {
             var discount = await discountRepository.GetDiscountAsync(code);
@@ -42,6 +48,7 @@ namespace FoodDeliveryWebsite.Controllers
         }
 
         [HttpPost("Add")]
+        [AuthorizedAdmin]
         public async Task<IActionResult> AddAsync([FromBody] DiscountDto discountDto)
         {
             await discountRepository.AddDiscountAsync(discountDto);

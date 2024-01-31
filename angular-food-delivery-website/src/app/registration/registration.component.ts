@@ -4,6 +4,14 @@ import { UserService } from "../user.service";
 import { catchError, throwError } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
+import {
+  EmailRegex,
+  FirstNameMaxLength,
+  LastNameMaxLength,
+  NameRegex,
+  PasswordRegex,
+  PhoneNumberRegex,
+} from "../validation-consts";
 
 @Component({
   selector: "app-registration",
@@ -14,6 +22,13 @@ export class RegistrationComponent {
   userDto: UserRegistrationDto = new UserRegistrationDto();
 
   gender = Gender;
+
+  firstNameMaxLength = FirstNameMaxLength;
+  lastNameMaxLength = LastNameMaxLength;
+  nameRegex = NameRegex;
+  passwordRegex = PasswordRegex;
+  phoneNumberRegex = PhoneNumberRegex;
+  emailRegex = EmailRegex;
 
   constructor(
     private userService: UserService,
@@ -43,7 +58,17 @@ export class RegistrationComponent {
       this.userDto.phoneNumber != null &&
       this.userDto.email != null &&
       this.userDto.password != null &&
-      this.userDto.passwordConfirmation != null
+      this.userDto.passwordConfirmation != null &&
+      this.userDto.password == this.userDto.passwordConfirmation
     );
+  }
+
+  arePasswordsEqual(): boolean {
+    debugger;
+    return this.userDto.password == this.userDto.passwordConfirmation;
+  }
+
+  isGenderEntered(): boolean {
+    return this.userDto.gender > 0;
   }
 }

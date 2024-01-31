@@ -1,12 +1,16 @@
-﻿using FoodDeliveryWebsite.Models.Dtos;
-using FoodDeliveryWebsite.Repositories;
+﻿using System.Security.Claims;
+
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+
+using FoodDeliveryWebsite.Models.Dtos;
+using FoodDeliveryWebsite.Repositories;
+using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
 
 namespace FoodDeliveryWebsite.Controllers
 {
     [ApiController]
     [Route("api/[controller]s")]
+    [AuthorizedClient]
     public class OrderController : ControllerBase
     {
         private IOrderRepository orderRepository { get; set; }
@@ -23,7 +27,7 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            await orderRepository.AddOrderAsync(orderDto, userEmail);
+            await orderRepository.AddOrderAsync(userEmail, orderDto);
 
             return Ok();
         }

@@ -6,12 +6,12 @@ namespace FoodDeliveryWebsite.Repositories
     {
         Task<List<AddressDto>> GetAddressesAsync(string userEmail);
 
-        Task<AddressDto> GetSelectedAddressAsync(int id);
+        Task<AddressDto> GetSelectedAddressAsync(string userEmail, int id);
 
-        Task<List<AddressDto>> AddAddressAsync(AddressDto addressDto, string userEmail);
+        Task<List<AddressDto>> AddAddressAsync(string userEmail, AddressDto addressDto);
 
-        Task UpdateAddressAsync(AddressDto addressDto);
+        Task UpdateAddressAsync(string userEmail, AddressDto addressDto);
 
-        Task DeleteAddressAsync(int id);
+        Task DeleteAddressAsync(string userEmail, int id);
     }
 }

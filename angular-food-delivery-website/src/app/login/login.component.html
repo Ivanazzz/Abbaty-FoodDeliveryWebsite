@@ -3,22 +3,57 @@
   <div class="form-group">
     <label for="email">Имейл:</label>
     <input
-      type="email"
+      #emailInput="ngModel"
+      type="text"
       class="form-control"
       [(ngModel)]="userDto.email"
       id="email"
       required
+      [pattern]="emailRegex"
+      [ngClass]="{
+        'is-invalid': emailInput.touched && emailInput.invalid
+      }"
     />
+
+    <div
+      class="invalid-feedback"
+      *ngIf="emailInput.touched && emailInput.errors"
+    >
+      <div *ngIf="emailInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="emailInput.errors.pattern">Неправилен формат на имейла</div>
+    </div>
   </div>
   <div class="form-group">
     <label for="password">Парола:</label>
     <input
+      #passwordInput="ngModel"
       type="password"
       class="form-control"
       [(ngModel)]="userDto.password"
       id="password"
       required
+      [pattern]="passwordRegex"
+      [ngClass]="{
+        'is-invalid': passwordInput.touched && passwordInput.invalid
+      }"
     />
+
+    <div
+      class="invalid-feedback"
+      *ngIf="passwordInput.touched && passwordInput.errors"
+    >
+      <div *ngIf="passwordInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="passwordInput.errors.pattern">
+        Паролата трябва:
+        <ul class="pass-error-list">
+          <li>- да бъде поне 8 символа</li>
+          <li>- да съдържа поне една главна буква</li>
+          <li>- да съдържа поне една малка буква</li>
+          <li>- да съдържа поне една цифра</li>
+          <li>- да съдържа поне един специален символ</li>
+        </ul>
+      </div>
+    </div>
   </div>
   <div class="btn-wrapper">
     <button

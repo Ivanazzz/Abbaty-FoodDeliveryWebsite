@@ -11,7 +11,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         Task<UserDto> GetUserAsync(string email);
 
-        Task UpdateUserAsync(UserDto userDto, string email);
+        Task UpdateUserAsync(string email, UserDto userDto);
 
         Task DeleteUserAsync(string email);
     }

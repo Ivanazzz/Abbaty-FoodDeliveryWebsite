@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { UserDto, Gender } from "../user-dto";
 import { UserService } from "../user.service";
 import { catchError, throwError } from "rxjs";
-import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgbdModalContent } from "../modals/confirmation-modal/confirmation-modal.component";
 import { ToastrService } from "ngx-toastr";
-import { Router, RouterLink } from "@angular/router";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-profile",
@@ -36,7 +36,9 @@ export class ProfileComponent implements OnInit {
           return throwError(() => err);
         })
       )
-      .subscribe(() => {});
+      .subscribe(() => {
+        this.toastr.success("Редактирано!", null, { timeOut: 1000 });
+      });
   }
 
   deleteUser() {
@@ -57,7 +59,7 @@ export class ProfileComponent implements OnInit {
     return modalRef.result.then((ok: boolean) => {
       if (ok) {
         this.deleteUser();
-        this.toastr.error("Профилът е изтрит");
+        this.toastr.success("Профилът е изтрит");
         this.router.navigate(["/menu"]);
       }
     });

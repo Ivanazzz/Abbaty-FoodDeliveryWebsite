@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Repositories;
+using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -45,7 +46,8 @@ namespace FoodDeliveryWebsite.Controllers
                 Audience = "http://localhost:10001",
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.Email, user.Email)
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.Role, user.Role.ToString())
                 }),
                 Expires = DateTime.Now.AddMinutes(120),
                 SigningCredentials = credentials
@@ -60,21 +62,23 @@ namespace FoodDeliveryWebsite.Controllers
         }
 
         [HttpPost("Update")]
+        [AuthorizedClient]
         public async Task<IActionResult> UpdateAsync([FromBody] UserDto userDto)
         {
-            var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+            var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            await userRepository.UpdateUserAsync(userDto, email);
+            await userRepository.UpdateUserAsync(userEmail, userDto);
 
             return Ok();
         }
 
         [HttpDelete("Delete")]
+        [AuthorizedClient]
         public async Task<IActionResult> DeleteAsync()
         {
-            var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+            var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            await userRepository.DeleteUserAsync(email);
+            await userRepository.DeleteUserAsync(userEmail);
 
             return Ok();
         }

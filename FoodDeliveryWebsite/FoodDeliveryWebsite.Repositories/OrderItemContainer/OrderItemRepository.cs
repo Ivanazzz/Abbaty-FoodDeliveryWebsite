@@ -27,12 +27,14 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (user == null)
             {
-                throw new Exception("Invalid user.");
+                throw new Exception("Invalid user");
             }
 
             var orderItemDtos = new List<OrderItemDto>();
 
-            var orderItemsWithoutOrder = user.OrderItems.Where(oi => oi.OrderId == null).ToList();
+            var orderItemsWithoutOrder = user.OrderItems
+                .Where(oi => oi.OrderId == null)
+                .ToList();
 
             foreach (var orderItem in orderItemsWithoutOrder)
             {
@@ -58,31 +60,35 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task AddOrderItemAsync(string userEmail, int productId, int quantity)
         {
-            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productId);
-
-            if (product == null)
-            {
-                throw new Exception("Invalid product.");
-            }
-
-            if (quantity < 1)
-            {
-                throw new Exception("Product quantity must be greater than 0.");
-            }
-
             var user = await context.Users
                 .Include(u => u.OrderItems)
                 .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
 
             if (user == null)
             {
-                throw new Exception("Invalid user.");
+                throw new Exception("Invalid user");
             }
 
-            var orderItemExisting = user.OrderItems.FirstOrDefault(oi => oi.ProductId == productId && oi.OrderId == null);
+            var product = await context.Products
+                .FirstOrDefaultAsync(p => p.Id == productId);
+
+            if (product == null)
+            {
+                throw new Exception("Invalid product");
+            }
+
+            if (quantity < 1)
+            {
+                throw new Exception("Product quantity must be greater than 0");
+            }
+
+            var orderItemExisting = user.OrderItems
+                .FirstOrDefault(oi => oi.ProductId == productId && oi.OrderId == null);
+
             if (orderItemExisting != null)
             {
                 orderItemExisting.ProductQuantity += quantity;
+
                 context.OrderItems.Update(orderItemExisting);
                 await context.SaveChangesAsync();
 
@@ -103,15 +109,24 @@ namespace FoodDeliveryWebsite.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task<OrderItemDto> UpdateOrderItemAsync(int orderItemId, int quantity)
+        public async Task<OrderItemDto> UpdateOrderItemAsync(string userEmail, int orderItemId, int quantity)
         {
+            var user = await context.Users
+                .Include(u => u.OrderItems)
+                .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
+
+            if (user == null)
+            {
+                throw new Exception("Invalid user");
+            }
+
             var orderItem = await context.OrderItems
                 .Include(oi => oi.Product)
                 .FirstOrDefaultAsync(oi => oi.Id == orderItemId);
 
             if (orderItem == null)
             {
-                throw new Exception("Invalid order item.");
+                throw new Exception("Invalid order item");
             }
 
             orderItem.ProductQuantity = quantity;
@@ -139,13 +154,27 @@ namespace FoodDeliveryWebsite.Repositories
             return orderItemDto;
         }
 
-        public async Task DeleteOrderItemAsync(int orderItemId)
+        public async Task DeleteOrderItemAsync(string userEmail, int orderItemId)
         {
-            var orderItem = await context.OrderItems.FirstOrDefaultAsync(oi => oi.Id == orderItemId);
+            var orderItem = await context.OrderItems
+                .FirstOrDefaultAsync(oi => oi.Id == orderItemId);
 
             if (orderItem == null)
             {
-                throw new Exception("Invalid order item.");
+                throw new Exception("Invalid order item");
+            }
+
+            var user = await context.Users
+                .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
+
+            if (user == null)
+            {
+                throw new Exception("Invalid user");
+            }
+
+            if (user.Id != orderItem.UserId)
+            {
+                throw new Exception("Invalid order item for user");
             }
 
             context.OrderItems.Remove(orderItem);

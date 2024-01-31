@@ -20,18 +20,19 @@ namespace FoodDeliveryWebsite.Repositories
             this.context = context;
         }
 
-        public async Task AddOrderAsync(OrderDto orderDto, string userEmail)
+        public async Task AddOrderAsync(string userEmail, OrderDto orderDto)
         {
             using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 try
                 {
-                    var user = await context.Users.FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
-
                     if (orderDto == null)
                     {
                         throw new Exception("Invalid order.");
                     }
+
+                    var user = await context.Users
+                        .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
 
                     if (user == null)
                     {
@@ -41,6 +42,7 @@ namespace FoodDeliveryWebsite.Repositories
                     var order = mapper.Map<Order>(orderDto);
                     order.TotalPrice = Math.Round(orderDto.TotalPrice, 2);
                     order.UserId = user.Id;
+                    order.OrderItems = null;
 
                     context.Orders.Add(order);
                     await context.SaveChangesAsync();

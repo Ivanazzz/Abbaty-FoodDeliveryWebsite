@@ -4,6 +4,6 @@ namespace FoodDeliveryWebsite.Repositories
 {
     public interface IOrderRepository
     {
-        Task AddOrderAsync(OrderDto orderDto, string userEmail);
+        Task AddOrderAsync(string userEmail, OrderDto orderDto);
     }
 }

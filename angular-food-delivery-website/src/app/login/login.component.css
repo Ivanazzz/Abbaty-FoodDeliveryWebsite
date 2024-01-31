@@ -40,3 +40,9 @@ button {
   text-align: center;
   padding: 0.7rem 1rem;
 }
+
+.pass-error-list {
+  list-style: none;
+  padding: 0rem;
+  margin: 0rem;
+}

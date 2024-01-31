@@ -37,13 +37,14 @@ namespace FoodDeliveryWebsite.Repositories
             UserValidator validator = new UserValidator();
             validator.ValidateAndThrow(user);
 
-            bool userExists = await context.Users.FirstOrDefaultAsync(u => u.Email == user.Email && u.IsDeleted == false) != null
-                ? true
-                : false;
+            bool userExists = await context.Users
+                .FirstOrDefaultAsync(u => u.Email == user.Email && u.IsDeleted == false) != null
+                    ? true
+                    : false;
 
             if (userExists)
             {
-                throw new Exception("User with the given email already exists.");
+                throw new Exception("User with the given email already exists");
             }
 
             user.PhoneNumber = FormatPhoneNumber(user.PhoneNumber);
@@ -59,18 +60,19 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<User> LoginAsync(UserLoginDto userLoginDto)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == userLoginDto.Email && u.IsDeleted == false);
+            var user = await context.Users
+                .FirstOrDefaultAsync(u => u.Email == userLoginDto.Email && u.IsDeleted == false);
 
             if (user == null)
             {
-                throw new Exception("There isn't user with the given email.");
+                throw new Exception("There isn't user with the given email");
             }
 
             bool isPasswordValid = VerifyPassword(userLoginDto.Password, user.Password, Convert.FromHexString(user.Salt));
 
             if (!isPasswordValid)
             {
-                throw new Exception("Invalid password.");
+                throw new Exception("Invalid password");
             }
 
             return user;
@@ -91,36 +93,42 @@ namespace FoodDeliveryWebsite.Repositories
             return userDto;
         }
 
-        public async Task UpdateUserAsync(UserDto userDto, string email)
+        public async Task UpdateUserAsync(string email, UserDto userDto)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email && u.IsDeleted == false);
+            var user = await context.Users
+                .FirstOrDefaultAsync(u => u.Email == email && u.IsDeleted == false);
 
-            if (user != null)
+            if (user == null)
             {
-                user.FirstName = userDto.FirstName;
-                user.LastName = userDto.LastName;
-                user.Gender = userDto.Gender;
-                user.PhoneNumber = string.Concat(userDto.PhoneNumber.Where(c => !char.IsWhiteSpace(c)));
-
-                UserUpdateValidator validator = new UserUpdateValidator();
-                validator.ValidateAndThrow(user);
-
-                user.PhoneNumber = FormatPhoneNumber(user.PhoneNumber);
-
-                context.Users.Update(user);
-                await context.SaveChangesAsync();
+                throw new Exception("Invalid user");
             }
+
+            user.FirstName = userDto.FirstName;
+            user.LastName = userDto.LastName;
+            user.Gender = userDto.Gender;
+            user.PhoneNumber = string.Concat(userDto.PhoneNumber.Where(c => !char.IsWhiteSpace(c)));
+
+            UserUpdateValidator validator = new UserUpdateValidator();
+            validator.ValidateAndThrow(user);
+
+            user.PhoneNumber = FormatPhoneNumber(user.PhoneNumber);
+
+            context.Users.Update(user);
+            await context.SaveChangesAsync();
         }
 
         public async Task DeleteUserAsync(string email)
         {
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email == email && u.IsDeleted == false);
+            var user = await context.Users
+                .FirstOrDefaultAsync(u => u.Email == email && u.IsDeleted == false);
 
-            if (user != null)
+            if (user == null)
             {
-                user.IsDeleted = true;
-                await context.SaveChangesAsync();
+                throw new Exception("Invalid user");
             }
+
+            user.IsDeleted = true;
+            await context.SaveChangesAsync();
         }
 
         private static string FormatPhoneNumber(string phoneNumber)

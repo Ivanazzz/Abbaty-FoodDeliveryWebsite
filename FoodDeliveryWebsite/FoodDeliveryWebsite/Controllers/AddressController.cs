@@ -1,12 +1,16 @@
-﻿using FoodDeliveryWebsite.Models.Dtos;
-using FoodDeliveryWebsite.Repositories;
+﻿using System.Security.Claims;
+
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+
+using FoodDeliveryWebsite.Models.Dtos;
+using FoodDeliveryWebsite.Repositories;
+using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
 
 namespace FoodDeliveryWebsite.Controllers
 {
     [ApiController]
     [Route("api/[controller]es")]
+    [AuthorizedClient]
     public class AddressController : ControllerBase
     {
         private IAddressRepository addressRepository { get; set; }
@@ -31,7 +35,9 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpGet("GetSelected/{id:int}")]
         public async Task<IActionResult> GetSelectedAsync([FromRoute] int id)
         {
-            var address = await addressRepository.GetSelectedAddressAsync(id);
+            var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+
+            var address = await addressRepository.GetSelectedAddressAsync(userEmail, id);
 
             return Ok(address);
         }
@@ -41,7 +47,7 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            var addresses = await addressRepository.AddAddressAsync(addressDto, userEmail);
+            var addresses = await addressRepository.AddAddressAsync(userEmail, addressDto);
 
             return Ok(addresses);
         }
@@ -50,7 +56,9 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpPost("Update")]
         public async Task<IActionResult> UpdateAsync([FromBody] AddressDto addressDto)
         {
-            await addressRepository.UpdateAddressAsync(addressDto);
+            var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+
+            await addressRepository.UpdateAddressAsync(userEmail, addressDto);
 
             return Ok();
         }
@@ -58,7 +66,9 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteAsync([FromQuery] int id)
         {
-            await addressRepository.DeleteAddressAsync(id);
+            var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+
+            await addressRepository.DeleteAddressAsync(userEmail, id);
 
             return Ok();
         }
