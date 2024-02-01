@@ -1,46 +1,113 @@
 <div class="container">
   <h2>Настройки</h2>
   <div class="form-group">
-    <label for="firstName">Име:</label>
+    <label for="firstName">
+      <span class="important">*</span>
+      Име:
+    </label>
     <input
+      #firstNameInput="ngModel"
       type="text"
       class="form-control"
       [(ngModel)]="userDto.firstName"
       id="firstName"
       required
+      [maxlength]="firstNameMaxLength"
+      [pattern]="nameRegex"
+      [ngClass]="{
+        'is-invalid': firstNameInput.touched && firstNameInput.invalid
+      }"
     />
+    <div
+      class="invalid-feedback"
+      *ngIf="firstNameInput.touched && firstNameInput.errors"
+    >
+      <div *ngIf="firstNameInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="firstNameInput.errors.pattern">
+        Името трябва да бъде написано на кирилица
+      </div>
+    </div>
   </div>
   <div class="form-group">
-    <label for="lastName">Фамилия:</label>
+    <label for="lastName">
+      <span class="important">*</span>
+      Фамилия:
+    </label>
     <input
+      #lastNameInput="ngModel"
       type="text"
       class="form-control"
       [(ngModel)]="userDto.lastName"
       id="lastName"
       required
+      [maxlength]="lastNameMaxLength"
+      [pattern]="nameRegex"
+      [ngClass]="{
+        'is-invalid': lastNameInput.touched && lastNameInput.invalid
+      }"
     />
+    <div
+      class="invalid-feedback"
+      *ngIf="lastNameInput.touched && lastNameInput.errors"
+    >
+      <div *ngIf="lastNameInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="lastNameInput.errors.pattern">
+        Фамилията трябва да бъде написана на кирилица
+      </div>
+    </div>
   </div>
   <div class="form-group">
-    <label for="gender">Пол:</label>
+    <label for="gender">
+      <span class="important">*</span>
+      Пол:
+    </label>
     <select
+      #genderInput="ngModel"
       name="gender"
       [(ngModel)]="userDto.gender"
       id="gender"
       class="form-control"
+      required
+      [ngClass]="{
+        'is-invalid': genderInput.touched && isGenderEntered() == false
+      }"
     >
       <option [ngValue]="gender.Male">Мъж</option>
       <option [ngValue]="gender.Female">Жена</option>
     </select>
+    <div
+      class="invalid-feedback"
+      *ngIf="genderInput.touched && isGenderEntered() == false"
+    >
+      <div>Полето е задължителено</div>
+    </div>
   </div>
   <div class="form-group">
-    <label for="phoneNumber">Телефонен номер:</label>
+    <label for="phoneNumber">
+      <span class="important">*</span>
+      Телефонен номер:
+    </label>
     <input
+      #phoneNumberInput="ngModel"
       type="text"
       class="form-control"
       [(ngModel)]="userDto.phoneNumber"
       id="phoneNumber"
       required
+      [pattern]="phoneNumberRegex"
+      [ngClass]="{
+        'is-invalid': phoneNumberInput.touched && phoneNumberInput.invalid
+      }"
     />
+    <div
+      class="invalid-feedback"
+      *ngIf="phoneNumberInput.touched && phoneNumberInput.errors"
+    >
+      <div *ngIf="phoneNumberInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="phoneNumberInput.errors.pattern">
+        Телефонният номер трябва да бъде във формат: +359XXXXXXXXX
+      </div>
+    </div>
   </div>
   <div class="btn-wrapper">
     <button class="btn btn-outline-success" (click)="updateUser()">

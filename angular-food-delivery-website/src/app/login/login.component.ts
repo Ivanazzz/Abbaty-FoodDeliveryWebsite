@@ -11,6 +11,7 @@ import { EmailRegex, PasswordRegex } from "../validation-consts";
 })
 export class LoginComponent {
   userDto: UserLoginDto = new UserLoginDto();
+
   passwordRegex = PasswordRegex;
   emailRegex = EmailRegex;
 

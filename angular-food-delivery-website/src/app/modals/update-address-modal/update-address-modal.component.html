@@ -8,65 +8,134 @@
   ></button>
 </div>
 <div class="modal-body">
-  <div class="container">
-    <div class="form-group">
-      <label for="city" class="test">
-        <span class="important">*</span>
-        Град:
-      </label>
-      <input
-        type="text"
-        class="form-control"
-        id="city"
-        [(ngModel)]="addressDto.city"
-        required
-      />
+  <div class="form-group">
+    <label for="city">
+      <span class="important">*</span>
+      Град:
+    </label>
+    <input
+      #cityInput="ngModel"
+      type="text"
+      class="form-control"
+      id="city"
+      [(ngModel)]="addressDto.city"
+      required
+      [maxlength]="cityMaxLength"
+      [pattern]="cityRegex"
+      [ngClass]="{
+        'is-invalid': cityInput.touched && cityInput.invalid
+      }"
+    />
+    <div class="invalid-feedback" *ngIf="cityInput.touched && cityInput.errors">
+      <div *ngIf="cityInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="cityInput.errors.pattern">
+        Градът трябва да бъде написан на кирилица
+      </div>
+      <div *ngIf="cityInput.errors.maxlength">
+        Градът не трябва да бъде повече от {{ cityMaxLength }} символа
+      </div>
     </div>
-    <div class="form-group">
-      <label for="street">
-        <span class="important">*</span>
-        Улица
-      </label>
-      <input
-        type="text"
-        class="form-control"
-        id="street"
-        [(ngModel)]="addressDto.street"
-        required
-      />
+  </div>
+  <div class="form-group">
+    <label for="street">
+      <span class="important">*</span>
+      Улица:
+    </label>
+    <input
+      #streetInput="ngModel"
+      type="text"
+      class="form-control"
+      id="street"
+      [(ngModel)]="addressDto.street"
+      required
+      [maxlength]="streetMaxLength"
+      [pattern]="streetRegex"
+      [ngClass]="{
+        'is-invalid': streetInput.touched && streetInput.invalid
+      }"
+    />
+    <div
+      class="invalid-feedback"
+      *ngIf="streetInput.touched && streetInput.errors"
+    >
+      <div *ngIf="streetInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="streetInput.errors.pattern">
+        Улицата трябва да бъде написана на кирилица
+      </div>
+      <div *ngIf="streetInput.errors.maxlength">
+        Улицата не трябва да бъде повече от {{ streetMaxLength }} символа
+      </div>
     </div>
-    <div class="form-group">
-      <label for="streetNo">
-        <span class="important">*</span>
-        Номер на улица:
-      </label>
-      <input
-        type="number"
-        class="form-control"
-        id="streetNo"
-        [(ngModel)]="addressDto.streetNo"
-        min="1"
-      />
+  </div>
+  <div class="form-group">
+    <label for="streetNo">
+      <span class="important">*</span>
+      Номер на улица:
+    </label>
+    <input
+      #streetNoInput="ngModel"
+      type="number"
+      class="form-control"
+      id="streetNo"
+      [(ngModel)]="addressDto.streetNo"
+      required
+      [min]="streetNoMinValue"
+      [ngClass]="{
+        'is-invalid': streetNoInput.touched && streetNoInput.invalid
+      }"
+    />
+    <div
+      class="invalid-feedback"
+      *ngIf="streetNoInput.touched && streetNoInput.errors"
+    >
+      <div *ngIf="streetNoInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="streetNoInput.errors.min">
+        Номерът на улицата не трябва да бъде по-малък от {{ streetNoMinValue }}
+      </div>
     </div>
-    <div class="form-group">
-      <label for="floor">Етаж:</label>
-      <input
-        type="number"
-        class="form-control"
-        id="floor"
-        [(ngModel)]="addressDto.floor"
-        min="0"
-      />
+  </div>
+  <div class="form-group">
+    <label for="floor">Етаж:</label>
+    <input
+      #floorInput="ngModel"
+      type="number"
+      class="form-control"
+      id="floor"
+      [(ngModel)]="addressDto.floor"
+      [min]="floorMinValue"
+      [ngClass]="{
+        'is-invalid': floorInput.touched && floorInput.invalid
+      }"
+    />
+    <div
+      class="invalid-feedback"
+      *ngIf="floorInput.touched && floorInput.errors"
+    >
+      <div *ngIf="floorInput.errors.min">
+        Номерът на етажа не трябва да бъде по-малък от {{ floorMinValue }}
+      </div>
     </div>
-    <div class="form-group">
-      <label for="apartmentNo">Номер на апартамент:</label>
-      <input
-        type="number"
-        class="form-control"
-        id="apartmentNo"
-        [(ngModel)]="addressDto.apartmentNo"
-        min="1"
-      />
+  </div>
+  <div class="form-group">
+    <label for="apartmentNo">Номер на апартамент:</label>
+    <input
+      #apartmentNoInput="ngModel"
+      type="number"
+      class="form-control"
+      id="apartmentNo"
+      [(ngModel)]="addressDto.apartmentNo"
+      [min]="apartmentNoMinValue"
+      [ngClass]="{
+        'is-invalid': apartmentNoInput.touched && apartmentNoInput.invalid
+      }"
+    />
+    <div
+      class="invalid-feedback"
+      *ngIf="apartmentNoInput.touched && apartmentNoInput.errors"
+    >
+      <div *ngIf="apartmentNoInput.errors.min">
+        Номерът на апартамента не трябва да бъде по-малък от {{ floorMinValue }}
+      </div>
     </div>
   </div>
 </div>

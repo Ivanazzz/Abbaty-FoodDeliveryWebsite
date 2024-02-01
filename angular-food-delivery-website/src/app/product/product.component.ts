@@ -4,6 +4,14 @@ import { ProductService } from "../product-service";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { catchError, throwError } from "rxjs";
+import {
+  DescriptionMaxLength,
+  DescriptionRegex,
+  GramsMinValue,
+  NameMaxLength,
+  PriceMinValue,
+  ProductNameRegex,
+} from "../validation-consts";
 
 @Component({
   selector: "app-product",
@@ -16,6 +24,13 @@ export class ProductComponent {
 
   type = ProductType;
   status = ProductStatus;
+
+  nameMaxLength = NameMaxLength;
+  descriptionMaxLength = DescriptionMaxLength;
+  priceMinValue = PriceMinValue;
+  gramsMinValue = GramsMinValue;
+  productNameRegex = ProductNameRegex;
+  descriptionRegex = DescriptionRegex;
 
   constructor(
     private productService: ProductService,
@@ -53,5 +68,13 @@ export class ProductComponent {
       // Handle the case where no file is selected
       console.warn("No file selected");
     }
+  }
+
+  isProductTypeEntered(): boolean {
+    return this.productDto.type > 0;
+  }
+
+  isStatusEntered(): boolean {
+    return this.productDto.status > 0;
   }
 }

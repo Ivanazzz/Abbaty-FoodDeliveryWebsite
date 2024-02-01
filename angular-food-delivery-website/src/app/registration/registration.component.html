@@ -181,17 +181,17 @@
         required
         [ngClass]="{
           'is-invalid':
-            passwordConfirmationInput.touched || arePasswordsEqual() == false
+            passwordConfirmationInput.touched && !arePasswordsEqual()
         }"
       />
       <div
         class="invalid-feedback"
-        *ngIf="
-          passwordConfirmationInput.touched || arePasswordsEqual() == false
-        "
+        *ngIf="passwordConfirmationInput.touched && !arePasswordsEqual()"
       >
-        <div *ngIf="passwordInput.errors.required">Полето е задължителено</div>
-        <div *ngIf="arePasswordsEqual() == false">Паролите не съвпадат</div>
+        <div *ngIf="passwordConfirmationInput?.errors?.required">
+          Полето е задължителено
+        </div>
+        <div *ngIf="!arePasswordsEqual()">Паролите не съвпадат</div>
       </div>
     </div>
     <div class="btn-wrapper">

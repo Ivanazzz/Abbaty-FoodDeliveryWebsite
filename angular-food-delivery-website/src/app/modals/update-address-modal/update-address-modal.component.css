@@ -2,6 +2,11 @@ input {
   margin-bottom: 1rem;
 }
 
+.invalid-feedback {
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+
 .important {
   color: #c00;
 }

@@ -4,6 +4,12 @@ import { catchError, throwError } from "rxjs";
 import { DiscountDto } from "../../discount-dto";
 import { DiscountService } from "../../discount-service";
 import { ToastrService } from "ngx-toastr";
+import {
+  CodeRegex,
+  PercentageMaxValue,
+  PercentageMinValue,
+} from "../../validation-consts";
+import { NgModel } from "@angular/forms";
 
 @Component({
   selector: "add-address-modal-content",
@@ -12,6 +18,11 @@ import { ToastrService } from "ngx-toastr";
 })
 export class AddDiscountModalContent {
   discountDto: DiscountDto = new DiscountDto();
+
+  percentageMinValue = PercentageMinValue;
+  percentageMaxValue = PercentageMaxValue;
+  codeRegex = CodeRegex;
+  today = new Date();
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -31,5 +42,25 @@ export class AddDiscountModalContent {
         this.toastr.success("Добавено!", null, { timeOut: 1000 });
         this.activeModal.close();
       });
+  }
+
+  isDateValid(chosenDateInput: NgModel): boolean {
+    const chosenDate: Date = new Date(chosenDateInput.value);
+
+    // Check if the date is a valid Date object
+    if (isNaN(chosenDate.getTime())) {
+      return false;
+    }
+
+    // Check if the chosen date is after the current date
+    const isAfterToday = chosenDate > this.today;
+
+    // Additional check for expiration date to be after the start date
+    if (chosenDateInput.name === "expirationDateInput") {
+      const startDate: Date = new Date(this.discountDto.startDate);
+      return isAfterToday && chosenDate > startDate;
+    }
+
+    return isAfterToday;
   }
 }

@@ -64,8 +64,7 @@ export class RegistrationComponent {
   }
 
   arePasswordsEqual(): boolean {
-    debugger;
-    return this.userDto.password == this.userDto.passwordConfirmation;
+    return this.userDto.password === this.userDto.passwordConfirmation;
   }
 
   isGenderEntered(): boolean {

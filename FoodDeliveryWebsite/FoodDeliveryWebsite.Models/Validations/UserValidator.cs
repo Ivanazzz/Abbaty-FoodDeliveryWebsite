@@ -9,7 +9,7 @@ namespace FoodDeliveryWebsite.Models.Validations
         private const int FirstNameMaxLength = 20;
         private const int LastNameMaxLength = 20;
 
-        private const string NameRegex = @"^[А-я\s]+$";
+        private const string NameRegex = @"^[А-я\s-]+$";
         private const string PasswordRegex = @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[.,#?!@$%^&*-]).{8,}$";
         private const string PhoneNumberRegex = @"^\+359\d{9}$";
         private const string emailRegex = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$";

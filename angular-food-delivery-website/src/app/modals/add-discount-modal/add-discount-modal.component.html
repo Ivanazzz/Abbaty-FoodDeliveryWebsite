@@ -8,46 +8,83 @@
   ></button>
 </div>
 <div class="modal-body">
-  <div class="container">
-    <div class="form-group">
-      <label for="code">
-        <span class="important">*</span>
-        Код:
-      </label>
-      <input
-        type="text"
-        class="form-control"
-        id="code"
-        [(ngModel)]="discountDto.code"
-        required
-      />
+  <div class="form-group">
+    <label for="code">
+      <span class="important">*</span>
+      Код:
+    </label>
+    <input
+      #codeInput="ngModel"
+      type="text"
+      class="form-control"
+      id="code"
+      [(ngModel)]="discountDto.code"
+      required
+      [pattern]="codeRegex"
+      [ngClass]="{
+        'is-invalid': codeInput.touched && codeInput.invalid
+      }"
+    />
+    <div class="invalid-feedback" *ngIf="codeInput.touched && codeInput.errors">
+      <div *ngIf="codeInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="codeInput.errors.pattern">Неправилен формат на кода</div>
     </div>
-    <div class="form-group">
-      <label for="percentage">
-        <span class="important">*</span>
-        Процент:
-      </label>
-      <input
-        type="number"
-        class="form-control"
-        id="percentage"
-        [(ngModel)]="discountDto.percentage"
-        required
-        min="1"
-        max="100"
-      />
+  </div>
+  <div class="form-group">
+    <label for="percentage">
+      <span class="important">*</span>
+      Процент:
+    </label>
+    <input
+      #percentageInput="ngModel"
+      type="number"
+      class="form-control"
+      id="percentage"
+      [(ngModel)]="discountDto.percentage"
+      required
+      [min]="percentageMinValue"
+      [max]="percentageMaxValue"
+      [ngClass]="{
+        'is-invalid': percentageInput.touched && percentageInput.invalid
+      }"
+    />
+    <div
+      class="invalid-feedback"
+      *ngIf="percentageInput.touched && percentageInput.errors"
+    >
+      <div *ngIf="percentageInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="percentageInput.errors.min">
+        Процентът не може да бъде по-малък от {{ percentageMinValue }}
+      </div>
+      <div *ngIf="percentageInput.errors.max">
+        Процентът не може да бъде по-голям от {{ percentageMaxValue }}
+      </div>
     </div>
-    <div class="form-group">
-      <label for="startDate">
-        <span class="important">*</span>
-        Валиден от:
-      </label>
-      <input
-        type="date"
-        class="form-control"
-        id="startDate"
-        [(ngModel)]="discountDto.startDate"
-      />
+  </div>
+  <div class="form-group">
+    <label for="startDate">
+      <span class="important">*</span>
+      Валиден от:
+    </label>
+    <input
+      #startDateInput="ngModel"
+      type="date"
+      class="form-control"
+      id="startDate"
+      [(ngModel)]="discountDto.startDate"
+      required
+      [ngClass]="{
+        'is-invalid': startDateInput.touched && !isDateValid(startDateInput)
+      }"
+    />
+    <div
+      class="invalid-feedback"
+      *ngIf="startDateInput.touched && !isDateValid(startDateInput)"
+    >
+      <div *ngIf="startDateInput?.errors?.required">Полето е задължителено</div>
+      <div *ngIf="!isDateValid(startDateInput)">
+        Датата на стартиране трябва да бъде след текущата дата
+      </div>
     </div>
     <div class="form-group">
       <label for="expirationDate">
@@ -55,16 +92,34 @@
         Валиден до:
       </label>
       <input
+        #expirationDateInput="ngModel"
         type="date"
         class="form-control"
         id="expirationDate"
         [(ngModel)]="discountDto.expirationDate"
+        required
+        [ngClass]="{
+          'is-invalid':
+            expirationDateInput.touched && !isDateValid(expirationDateInput)
+        }"
       />
+      <div
+        class="invalid-feedback"
+        *ngIf="expirationDateInput.touched && !isDateValid(expirationDateInput)"
+      >
+        <div *ngIf="expirationDateInput?.errors?.required">
+          Полето е задължителено
+        </div>
+        <div *ngIf="!isDateValid(expirationDateInput)">
+          Датата на приключване трябва да бъде след текущата дата и след датата
+          на стартиране
+        </div>
+      </div>
     </div>
   </div>
-</div>
-<div class="modal-footer">
-  <button type="button" class="btn btn-success" (click)="addDiscount()">
-    Запази
-  </button>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="addDiscount()">
+      Запази
+    </button>
+  </div>
 </div>

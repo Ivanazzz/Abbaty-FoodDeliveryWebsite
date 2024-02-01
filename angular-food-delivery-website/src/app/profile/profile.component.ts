@@ -6,6 +6,14 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgbdModalContent } from "../modals/confirmation-modal/confirmation-modal.component";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
+import {
+  EmailRegex,
+  FirstNameMaxLength,
+  LastNameMaxLength,
+  NameRegex,
+  PasswordRegex,
+  PhoneNumberRegex,
+} from "../validation-consts";
 
 @Component({
   selector: "app-profile",
@@ -16,6 +24,13 @@ export class ProfileComponent implements OnInit {
   userDto: UserDto = new UserDto();
 
   gender = Gender;
+
+  firstNameMaxLength = FirstNameMaxLength;
+  lastNameMaxLength = LastNameMaxLength;
+  nameRegex = NameRegex;
+  passwordRegex = PasswordRegex;
+  phoneNumberRegex = PhoneNumberRegex;
+  emailRegex = EmailRegex;
 
   constructor(
     private userService: UserService,
@@ -63,5 +78,9 @@ export class ProfileComponent implements OnInit {
         this.router.navigate(["/menu"]);
       }
     });
+  }
+
+  isGenderEntered(): boolean {
+    return this.userDto.gender > 0;
   }
 }

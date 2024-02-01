@@ -6,12 +6,24 @@
       Име:
     </label>
     <input
+      #nameInput="ngModel"
       type="text"
       class="form-control"
       [(ngModel)]="productDto.name"
       id="name"
       required
+      [maxlength]="nameMaxLength"
+      [pattern]="productNameRegex"
+      [ngClass]="{
+        'is-invalid': nameInput.touched && nameInput.invalid
+      }"
     />
+    <div class="invalid-feedback" *ngIf="nameInput.touched && nameInput.errors">
+      <div *ngIf="nameInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="nameInput.errors.pattern">
+        Името трябва да бъде написано на кирилица
+      </div>
+    </div>
   </div>
   <div class="form-group">
     <label for="description">
@@ -19,12 +31,27 @@
       Описание:
     </label>
     <textarea
+      #descriptionInput="ngModel"
       type="text"
       class="form-control"
       [(ngModel)]="productDto.description"
       id="description"
       required
+      [maxlength]="descriptionMaxLength"
+      [pattern]="descriptionRegex"
+      [ngClass]="{
+        'is-invalid': descriptionInput.touched && descriptionInput.invalid
+      }"
     ></textarea>
+    <div
+      class="invalid-feedback"
+      *ngIf="descriptionInput.touched && descriptionInput.errors"
+    >
+      <div *ngIf="descriptionInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="descriptionInput.errors.pattern">
+        Описанието трябва да бъде написано на кирилица / Неправилен формат
+      </div>
+    </div>
   </div>
   <div class="form-group">
     <label for="price">
@@ -32,14 +59,27 @@
       Цена:
     </label>
     <input
+      #priceInput="ngModel"
       type="number"
       class="form-control"
       [(ngModel)]="productDto.price"
       id="price"
       required
-      min="0.01"
+      [min]="priceMinValue"
       step="any"
+      [ngClass]="{
+        'is-invalid': priceInput.touched && priceInput.invalid
+      }"
     />
+    <div
+      class="invalid-feedback"
+      *ngIf="priceInput.touched && priceInput.errors"
+    >
+      <div *ngIf="priceInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="priceInput.errors.min">
+        Цената не може да бъде по-малка от {{ priceMinValue }}
+      </div>
+    </div>
   </div>
   <div class="form-group">
     <label for="grams">
@@ -47,13 +87,26 @@
       Грамаж:
     </label>
     <input
+      #gramsInput="ngModel"
       type="number"
       class="form-control"
       [(ngModel)]="productDto.grams"
       id="grams"
       required
-      min="1"
+      [min]="gramsMinValue"
+      [ngClass]="{
+        'is-invalid': gramsInput.touched && gramsInput.invalid
+      }"
     />
+    <div
+      class="invalid-feedback"
+      *ngIf="gramsInput.touched && gramsInput.errors"
+    >
+      <div *ngIf="gramsInput.errors.required">Полето е задължителено</div>
+      <div *ngIf="gramsInput.errors.min">
+        Грамажът не може да бъде по-малкък от {{ gramsMinValue }}
+      </div>
+    </div>
   </div>
   <div class="form-group">
     <label for="productType">
@@ -61,10 +114,16 @@
       Тип:
     </label>
     <select
+      #productTypeInput="ngModel"
       name="productType"
       [(ngModel)]="productDto.type"
       id="productType"
       class="form-control"
+      required
+      [ngClass]="{
+        'is-invalid':
+          productTypeInput.touched && isProductTypeEntered() == false
+      }"
     >
       <option [ngValue]="type.Salad">Салата</option>
       <option [ngValue]="type.Starter">Предястие</option>
@@ -74,6 +133,12 @@
       <option [ngValue]="type.Dessert">Десерт</option>
       <option [ngValue]="type.Children">Детско</option>
     </select>
+    <div
+      class="invalid-feedback"
+      *ngIf="productTypeInput.touched && isProductTypeEntered() == false"
+    >
+      <div>Полето е задължителено</div>
+    </div>
   </div>
   <div class="form-group">
     <label for="productStatus">
@@ -81,14 +146,25 @@
       Статус:
     </label>
     <select
+      #statusInput="ngModel"
       name="productStatus"
       [(ngModel)]="productDto.status"
       id="productStatus"
       class="form-control"
+      required
+      [ngClass]="{
+        'is-invalid': statusInput.touched && isStatusEntered() == false
+      }"
     >
       <option [ngValue]="status.Available">Наличен</option>
       <option [ngValue]="status.Unavailable">Неналичен</option>
     </select>
+    <div
+      class="invalid-feedback"
+      *ngIf="statusInput.touched && isStatusEntered() == false"
+    >
+      <div>Полето е задължителено</div>
+    </div>
   </div>
   <div class="form-group">
     <label for="image">
