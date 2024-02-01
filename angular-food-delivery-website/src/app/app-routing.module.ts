@@ -1,18 +1,18 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { RegistrationComponent } from "./registration/registration.component";
-import { LoginComponent } from "./login/login.component";
-import { ProfileComponent } from "./profile/profile.component";
-import { AddressComponent } from "./address/address.component";
-import { DiscountComponent } from "./discount/discount.component";
-import { ProductComponent } from "./product/product.component";
-import { MenuComponent } from "./menu/menu.component";
-import { ProductInfoComponent } from "./product-info/product-info.component";
-import { HorizontalMenuComponent } from "./horizontal-menu/horizontal-menu.component";
-import { AdminMenuComponent } from "./admin-menu/admin-menu.component";
-import { ShoppingCartComponent } from "./shopping-cart/shopping-cart.component";
-import { AdminAuthGuard } from "./admin-auth.guard";
-import { ClientAuthGuard } from "./client-auth.guard";
+import { RegistrationComponent } from "../user-module/registration/registration.component";
+import { LoginComponent } from "../user-module/login/login.component";
+import { ProfileComponent } from "../user-module/profile/profile.component";
+import { AddressComponent } from "../address-module/address/address.component";
+import { DiscountComponent } from "../discount-module/discount/discount.component";
+import { ProductComponent } from "../product-module/components/main/product.component";
+import { MenuComponent } from "../menu-module/components/main/menu.component";
+import { ProductInfoComponent } from "../product-module/components/info/product-info.component";
+import { HorizontalMenuComponent } from "../menu-module/components/horizontal/horizontal-menu.component";
+import { AdminMenuComponent } from "../menu-module/components/admin/admin-menu.component";
+import { ShoppingCartComponent } from "../order-module/components/shopping-cart/shopping-cart.component";
+import { AdminAuthGuard } from "./auth-guards/admin-auth.guard";
+import { ClientAuthGuard } from "./auth-guards/client-auth.guard";
 
 const routes: Routes = [
   {
