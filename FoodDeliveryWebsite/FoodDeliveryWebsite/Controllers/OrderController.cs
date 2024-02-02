@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Repositories;
 using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
+using FoodDeliveryWebsite.CustomExceptions;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -27,9 +28,16 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            await orderRepository.AddOrderAsync(userEmail, orderDto);
+            try
+            {
+                await orderRepository.AddOrderAsync(userEmail, orderDto);
 
-            return Ok();
+                return Ok();
+            }
+            catch (NotFoundException nfe)
+            {
+                return NotFound(nfe.Message);
+            }
         }
     }
 }

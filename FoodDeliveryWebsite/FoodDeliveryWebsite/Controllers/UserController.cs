@@ -8,6 +8,8 @@ using Microsoft.IdentityModel.Tokens;
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Repositories;
 using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
+using FoodDeliveryWebsite.Repositories.CustomExceptions;
+using FoodDeliveryWebsite.CustomExceptions;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -27,38 +29,57 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> RegisterAsync([FromBody] UserRegistrationDto userRegistrationDto)
         {
-            await userRepository.RegisterAsync(userRegistrationDto);
-            return Ok();
+            try
+            {
+                await userRepository.RegisterAsync(userRegistrationDto);
+
+                return Ok();
+            }
+            catch (BadRequestException bre)
+            {
+                return BadRequest(bre.Message);
+            }
         }
 
         [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync([FromBody] UserLoginDto userLoginDto)
         {
-            var user = await userRepository.LoginAsync(userLoginDto);
-
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var tokenDescriptor = new SecurityTokenDescriptor
+            try
             {
-                Issuer = "http://localhost:10001",
-                Audience = "http://localhost:10001",
-                Subject = new ClaimsIdentity(new Claim[]
+                var user = await userRepository.LoginAsync(userLoginDto);
+
+                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var tokenDescriptor = new SecurityTokenDescriptor
                 {
+                    Issuer = "http://localhost:10001",
+                    Audience = "http://localhost:10001",
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
                     new Claim(ClaimTypes.Email, user.Email),
                     new Claim(ClaimTypes.Role, user.Role.ToString())
-                }),
-                Expires = DateTime.Now.AddMinutes(120),
-                SigningCredentials = credentials
-            };
+                    }),
+                    Expires = DateTime.Now.AddMinutes(120),
+                    SigningCredentials = credentials
+                };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            string userToken = tokenHandler.WriteToken(token);
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                string userToken = tokenHandler.WriteToken(token);
 
-            ResponseTokenDto accessToken = new ResponseTokenDto(userToken);
+                ResponseTokenDto accessToken = new ResponseTokenDto(userToken);
 
-            return Ok(accessToken);
+                return Ok(accessToken);
+            }
+            catch (NotFoundException nfe)
+            {
+                return BadRequest(nfe.Message);
+            }
+            catch (BadRequestException bre)
+            {
+                return BadRequest(bre.Message);
+            }
         }
 
         [HttpPost("Update")]
@@ -67,9 +88,20 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            await userRepository.UpdateUserAsync(userEmail, userDto);
+            try
+            {
+                await userRepository.UpdateUserAsync(userEmail, userDto);
 
-            return Ok();
+                return Ok();
+            }
+            catch (NotFoundException nfe)
+            {
+                return BadRequest(nfe.Message);
+            }
+            catch (BadRequestException bre)
+            {
+                return BadRequest(bre.Message);
+            }
         }
 
         [HttpDelete("Delete")]
@@ -78,9 +110,16 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            await userRepository.DeleteUserAsync(userEmail);
+            try
+            {
+                await userRepository.DeleteUserAsync(userEmail);
 
-            return Ok();
+                return Ok();
+            }
+            catch (NotFoundException nfe)
+            {
+                return BadRequest(nfe.Message);
+            }
         }
 
         [HttpGet("CurrentUser")]

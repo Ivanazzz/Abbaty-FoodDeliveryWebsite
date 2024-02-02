@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 
 using FoodDeliveryWebsite.Models.Entities;
+using FoodDeliveryWebsite.Repositories.CustomExceptions;
 
 namespace FoodDeliveryWebsite.Models.Validations
 {
@@ -17,22 +18,22 @@ namespace FoodDeliveryWebsite.Models.Validations
         public UserValidator()
         {
             RuleFor(u => u.FirstName)
-                .NotEmpty().WithMessage("First name is required.")
-                .MaximumLength(FirstNameMaxLength).WithMessage($"First name must not exceed {FirstNameMaxLength} characters.")
-                .Matches(NameRegex).WithMessage("First name must be written in cyrilic.");
+                .NotEmpty().WithState(a => new BadRequestException("First name is required"))
+                .MaximumLength(FirstNameMaxLength).WithState(a => new BadRequestException($"First name must not exceed {FirstNameMaxLength} characters"))
+                .Matches(NameRegex).WithState(a => new BadRequestException("First name must be written in cyrilic"));
 
             RuleFor(u => u.LastName)
-                .NotEmpty().WithMessage("Last name is required.")
-                .MaximumLength(LastNameMaxLength).WithMessage($"Last name must not exceed {LastNameMaxLength} characters.")
-                .Matches(NameRegex).WithMessage("Last name must be written in cyrilic.");
+                .NotEmpty().WithState(a => new BadRequestException("Last name is required"))
+                .MaximumLength(LastNameMaxLength).WithState(a => new BadRequestException($"Last name must not exceed {LastNameMaxLength} characters"))
+                .Matches(NameRegex).WithState(a => new BadRequestException("Last name must be written in cyrilic"));
 
             RuleFor(u => u.Email)
-                .NotEmpty().WithMessage("Email address is required.")
-                .Matches(emailRegex).WithMessage("A valid email address is required.");
+                .NotEmpty().WithState(a => new BadRequestException("Email address is required"))
+                .Matches(emailRegex).WithState(a => new BadRequestException("A valid email address is required"));
 
             RuleFor(u => u.Password)
-                .NotEmpty().WithMessage("Password is required.")
-                .Matches(PasswordRegex).WithMessage(
+                .NotEmpty().WithState(a => new BadRequestException("Password is required"))
+                .Matches(PasswordRegex).WithState(a => new BadRequestException(
                     "Password must have:"
                     + Environment.NewLine
                     + "- Minimum 8 characters in length"
@@ -43,23 +44,23 @@ namespace FoodDeliveryWebsite.Models.Validations
                     + Environment.NewLine
                     + "- At least one digit"
                     + Environment.NewLine
-                    + "- At least one special character");
+                    + "- At least one special character"));
 
             RuleFor(u => u.PasswordConfirmation)
-                .NotEmpty().WithMessage("Password confirmation is required.");
+                .NotEmpty().WithState(a => new BadRequestException("Password confirmation is required"));
 
             RuleFor(u => u.PasswordConfirmation.Equals(u.Password))
-                .NotEmpty().WithMessage("Password confirmation must be equal to password.");
+                .NotEmpty().WithState(a => new BadRequestException("Password confirmation must be equal to password"));
 
             RuleFor(u => u.PhoneNumber)
-                .NotEmpty().WithMessage("Phone number is required.")
-                .Matches(PhoneNumberRegex).WithMessage("Phone number must be in format: +359 XX XXXX XXX.");
+                .NotEmpty().WithState(a => new BadRequestException("Phone number is required"))
+                .Matches(PhoneNumberRegex).WithState(a => new BadRequestException("Phone number must be in format: +359 XX XXXX XXX"));
 
             RuleFor(u => u.Gender)
-                .IsInEnum().WithMessage("Invalid gender.");
+                .IsInEnum().WithState(a => new BadRequestException("Invalid gender"));
 
             RuleFor(u => u.Role)
-                .IsInEnum().WithMessage("Invalid role.");
+                .IsInEnum().WithState(a => new BadRequestException("Invalid role"));
         }
     }
 }

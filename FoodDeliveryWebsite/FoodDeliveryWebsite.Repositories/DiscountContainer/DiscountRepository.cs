@@ -8,6 +8,9 @@ using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Validations;
 using FoodDeliveryWebsite.Models.Enums;
+using Microsoft.AspNetCore.Http.HttpResults;
+using FoodDeliveryWebsite.Repositories.CustomExceptions;
+using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
 
 namespace FoodDeliveryWebsite.Repositories
 {
@@ -38,14 +41,18 @@ namespace FoodDeliveryWebsite.Repositories
                 });
             }
 
-            discounts = discounts.Where(d => d.Status == DiscountStatus.Available).ToList();
+            discounts = discounts
+                .Where(d => d.Status == DiscountStatus.Available)
+                .ToList();
 
             return discounts;
         }
 
         public async Task<List<DiscountDto>> GetUpcomingDiscountsAsync()
         {
-            var upcomingDiscounts = await context.Discounts.Where(d => d.StartDate > DateTime.UtcNow).ToListAsync();
+            var upcomingDiscounts = await context.Discounts
+                .Where(d => d.StartDate > DateTime.UtcNow)
+                .ToListAsync();
 
             List<DiscountDto> discounts = new List<DiscountDto>();
             foreach (var discount in upcomingDiscounts)
@@ -64,7 +71,8 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<DiscountOrderDto> GetDiscountAsync(string code)
         {
-            var discount = await context.Discounts.FirstOrDefaultAsync(d => d.Code == code);
+            var discount = await context.Discounts
+                .FirstOrDefaultAsync(d => d.Code == code);
 
             var discountOrderDto = new DiscountOrderDto();
 
@@ -82,7 +90,7 @@ namespace FoodDeliveryWebsite.Repositories
         {
             if (discountDto.StartDate == null || discountDto.ExpirationDate == null)
             {
-                throw new Exception("Start date and Expiration date are required.");
+                throw new BadRequestException(ExceptionMessages.StartExpirationDateRequired);
             }
 
             DateTime startDate = DateTime.Parse(discountDto.StartDate);
@@ -90,7 +98,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (startDate > expirationDate)
             {
-                throw new Exception("Start date should not be greater than Expiration date.");
+                throw new BadRequestException(ExceptionMessages.StartDateGreaterThanExpirationDate);
             }
 
             //var discounts = await context.Discount.FirstOrDefaultAsync(d => d.Code == discountDto.Code);
@@ -104,7 +112,15 @@ namespace FoodDeliveryWebsite.Repositories
             };
 
             DiscountValidator validator = new DiscountValidator();
-            validator.ValidateAndThrow(discount);
+            var result = validator.Validate(discount);
+
+            foreach (var failure in result.Errors)
+            {
+                if (failure.CustomState is BadRequestException bre)
+                {
+                    throw bre;
+                }
+            }
 
             context.Discounts.Add(discount);
             await context.SaveChangesAsync();

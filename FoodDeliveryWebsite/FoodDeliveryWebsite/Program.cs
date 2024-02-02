@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 using FoodDeliveryWebsite.Models;
+using FoodDeliveryWebsite.Middlewares;
 
 namespace FoodDeliveryWebsite
 {
@@ -51,6 +52,8 @@ namespace FoodDeliveryWebsite
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
             var app = builder.Build();
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

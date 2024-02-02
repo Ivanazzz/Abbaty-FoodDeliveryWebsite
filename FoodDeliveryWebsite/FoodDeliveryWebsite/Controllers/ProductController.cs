@@ -4,6 +4,8 @@ using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Enums;
 using FoodDeliveryWebsite.Repositories;
 using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
+using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Repositories.CustomExceptions;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -31,9 +33,16 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpGet("GetSelected/{id:int}")]
         public async Task<IActionResult> GetSelectedAsync([FromRoute] int id)
         {
-            var product = await productRepository.GetSelectedProductAsync(id);
+            try
+            {
+                var product = await productRepository.GetSelectedProductAsync(id);
 
-            return Ok(product);
+                return Ok(product);
+            }
+            catch (NotFoundException nfe)
+            {
+                return NotFound(nfe.Message);
+            }
         }
 
         [HttpGet("GetFiltered")]
@@ -57,27 +66,52 @@ namespace FoodDeliveryWebsite.Controllers
         [AuthorizedAdmin]
         public async Task<IActionResult> AddAsync([FromForm] ProductAddDto productDto)
         {
-            await productRepository.AddProductAsync(productDto);
+            try
+            {
+                await productRepository.AddProductAsync(productDto);
 
-            return Ok();
+                return Ok();
+            }
+            catch (BadRequestException bre)
+            {
+                return BadRequest(bre.Message);
+            }
         }
 
         [HttpPost("Update")]
         [AuthorizedAdmin]
         public async Task<IActionResult> UpdateAsync([FromBody] ProductGetDto productDto)
         {
-            await productRepository.UpdateProductAsync(productDto);
+            try
+            {
+                await productRepository.UpdateProductAsync(productDto);
 
-            return Ok();
+                return Ok();
+            }
+            catch (NotFoundException nfe)
+            {
+                return NotFound(nfe.Message);
+            }
+            catch (BadRequestException bre)
+            {
+                return BadRequest(bre.Message);
+            }
         }
 
         [HttpDelete("Delete/{id:int}")]
         [AuthorizedAdmin]
         public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {
-            await productRepository.DeleteProductAsync(id);
+            try
+            {
+                await productRepository.DeleteProductAsync(id);
 
-            return Ok();
+                return Ok();
+            }
+            catch (NotFoundException nfe)
+            {
+                return NotFound(nfe.Message);
+            }
         }
 
         [HttpGet("{id:int}/File")]

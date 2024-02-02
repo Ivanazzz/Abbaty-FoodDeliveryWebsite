@@ -4,6 +4,8 @@ using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Repositories;
 using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
 using Microsoft.AspNetCore.Authorization;
+using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Repositories.CustomExceptions;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -51,9 +53,16 @@ namespace FoodDeliveryWebsite.Controllers
         [AuthorizedAdmin]
         public async Task<IActionResult> AddAsync([FromBody] DiscountDto discountDto)
         {
-            await discountRepository.AddDiscountAsync(discountDto);
+            try
+            {
+                await discountRepository.AddDiscountAsync(discountDto);
 
-            return Ok();
+                return Ok();
+            }
+            catch (BadRequestException bre)
+            {
+                return BadRequest(bre.Message);
+            }
         }
     }
 }

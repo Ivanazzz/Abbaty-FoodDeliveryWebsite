@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 
 using FoodDeliveryWebsite.Models.Entities;
+using FoodDeliveryWebsite.Repositories.CustomExceptions;
 
 namespace FoodDeliveryWebsite.Models.Validations
 {
@@ -10,6 +11,7 @@ namespace FoodDeliveryWebsite.Models.Validations
         private const int DescriptionMaxLength = 500;
         private const decimal PriceMinValue = 0.01m;
         private const int GramsMinValue = 1;
+        private const int GramsMaxValue = 2001;
 
         private const string NameRegex = @"^[А-яA-z\s]+$";
         private const string DescriptionRegex = @"^[\(\)-.,А-яA-z1-9\s]+$";
@@ -17,26 +19,29 @@ namespace FoodDeliveryWebsite.Models.Validations
         public ProductValidator()
         {
             RuleFor(p => p.Name)
-                .NotEmpty().WithMessage("Name is required.")
-                .MaximumLength(NameMaxLength).WithMessage($"Name must not exceed {NameMaxLength} characters.")
-                .Matches(NameRegex).WithMessage("Name must be written in cyrilic.");
+                .NotEmpty().WithState(a => new BadRequestException("Name is required"))
+                .MaximumLength(NameMaxLength).WithState(a => new BadRequestException($"Name must not exceed {NameMaxLength} characters"))
+                .Matches(NameRegex).WithState(a => new BadRequestException("Name must be written in cyrilic"));
 
             RuleFor(p => p.Description)
-                .NotEmpty().WithMessage("Description is required.")
-                .MaximumLength(DescriptionMaxLength).WithMessage($"Description must not exceed ${DescriptionMaxLength} characters.")
-                .Matches(DescriptionRegex).WithMessage("Description must be written in cyrilic.");
+                .NotEmpty().WithState(a => new BadRequestException("Description is required"))
+                .MaximumLength(DescriptionMaxLength).WithState(a => new BadRequestException($"Description must not exceed ${DescriptionMaxLength} characters"))
+                .Matches(DescriptionRegex).WithState(a => new BadRequestException("Description must be written in cyrilic"));
 
             RuleFor(p => p.Price)
-                .GreaterThanOrEqualTo(PriceMinValue).WithMessage($"Price must be greater than or equal to {PriceMinValue}.");
+                .GreaterThanOrEqualTo(PriceMinValue).WithState(a => new BadRequestException($"Price must be greater than or equal to {PriceMinValue}"));
 
             RuleFor(p => p.Grams)
-                .GreaterThan(GramsMinValue).WithMessage($"Grams must be greater than or equal to {GramsMinValue}.");
+                .GreaterThan(GramsMinValue).WithState(a => new BadRequestException($"Grams must be greater than or equal to {GramsMinValue}"));
+
+            RuleFor(p => p.Grams)
+                .LessThan(GramsMinValue).WithState(a => new BadRequestException($"Grams must not exceed {GramsMaxValue}"));
 
             RuleFor(p => p.Type)
-                .IsInEnum().WithMessage("Invalid product type.");
+                .IsInEnum().WithState(a => new BadRequestException("Invalid product type"));
 
             RuleFor(u => u.Status)
-                .IsInEnum().WithMessage("Invalid status.");
+                .IsInEnum().WithState(a => new BadRequestException("Invalid status"));
 
             // Image Validator?????
             //RuleFor(u => u.Image)

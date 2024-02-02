@@ -9,6 +9,9 @@ using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Enums;
 using FoodDeliveryWebsite.Models.Validations;
 using AutoMapper;
+using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
+using FoodDeliveryWebsite.Repositories.CustomExceptions;
 
 namespace FoodDeliveryWebsite.Repositories
 {
@@ -44,11 +47,12 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<ProductGetDto> GetSelectedProductAsync(int id)
         {
-            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            var product = await context.Products
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (product == null)
             {
-                throw new Exception("Product unavailable.");
+                throw new NotFoundException(ExceptionMessages.InvalidProduct);
             }
 
             ProductGetDto productDto = mapper.Map<ProductGetDto>(product);
@@ -96,7 +100,15 @@ namespace FoodDeliveryWebsite.Repositories
             };
 
             ProductValidator validator = new ProductValidator();
-            validator.ValidateAndThrow(product);
+            var result = validator.Validate(product);
+
+            foreach (var failure in result.Errors)
+            {
+                if (failure.CustomState is BadRequestException bre)
+                {
+                    throw bre;
+                }
+            }
 
             context.Products.Add(product);
             await context.SaveChangesAsync();
@@ -104,37 +116,51 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task UpdateProductAsync(ProductGetDto productDto)
         {
-            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == productDto.Id);
+            var product = await context.Products
+                .FirstOrDefaultAsync(p => p.Id == productDto.Id);
 
-            if (product != null)
+            if (product == null)
             {
-                product.Name = productDto.Name;
-                product.Description = productDto.Description;
-                product.Price = productDto.Price;
-                product.Grams = productDto.Grams;
-                product.Type = productDto.Type;
-                product.Status = productDto.Status;
-
-                ProductValidator validator = new ProductValidator();
-                validator.ValidateAndThrow(product);
-
-                context.Products.Update(product);
-                await context.SaveChangesAsync();
+                throw new NotFoundException(ExceptionMessages.InvalidProduct);
             }
+
+            product.Name = productDto.Name;
+            product.Description = productDto.Description;
+            product.Price = productDto.Price;
+            product.Grams = productDto.Grams;
+            product.Type = productDto.Type;
+            product.Status = productDto.Status;
+
+            ProductValidator validator = new ProductValidator();
+            var result = validator.Validate(product);
+
+            foreach (var failure in result.Errors)
+            {
+                if (failure.CustomState is BadRequestException bre)
+                {
+                    throw bre;
+                }
+            }
+
+            context.Products.Update(product);
+            await context.SaveChangesAsync();
         }
 
         public async Task DeleteProductAsync(int id)
         {
-            var product = await context.Products.FirstOrDefaultAsync(p => p.Id == id && p.IsDeleted == false);
+            var product = await context.Products
+                .FirstOrDefaultAsync(p => p.Id == id && p.IsDeleted == false);
 
-            if (product != null)
+            if (product == null)
             {
-                product.Status = ProductStatus.Unavailable;
-                product.IsDeleted = true;
-
-                context.Products.Update(product);
-                await context.SaveChangesAsync();
+                throw new NotFoundException(ExceptionMessages.InvalidProduct);
             }
+
+            product.Status = ProductStatus.Unavailable;
+            product.IsDeleted = true;
+
+            context.Products.Update(product);
+            await context.SaveChangesAsync();
         }
 
         private async Task<byte[]> ConvertIFormFileToByteArray(IFormFile formFile)

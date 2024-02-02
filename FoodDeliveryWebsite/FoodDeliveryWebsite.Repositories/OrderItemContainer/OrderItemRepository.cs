@@ -4,6 +4,9 @@ using FoodDeliveryWebsite.Models;
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 using AutoMapper;
+using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
+using FoodDeliveryWebsite.Repositories.CustomExceptions;
 
 namespace FoodDeliveryWebsite.Repositories
 {
@@ -27,7 +30,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (user == null)
             {
-                throw new Exception("Invalid user");
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
             var orderItemDtos = new List<OrderItemDto>();
@@ -66,7 +69,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (user == null)
             {
-                throw new Exception("Invalid user");
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
             var product = await context.Products
@@ -74,12 +77,12 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (product == null)
             {
-                throw new Exception("Invalid product");
+                throw new NotFoundException(ExceptionMessages.InvalidProduct);
             }
 
             if (quantity < 1)
             {
-                throw new Exception("Product quantity must be greater than 0");
+                throw new BadRequestException(ExceptionMessages.ProductQuantityLessThan1);
             }
 
             var orderItemExisting = user.OrderItems
@@ -117,7 +120,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (user == null)
             {
-                throw new Exception("Invalid user");
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
             var orderItem = await context.OrderItems
@@ -126,7 +129,12 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (orderItem == null)
             {
-                throw new Exception("Invalid order item");
+                throw new NotFoundException(ExceptionMessages.InvalidOrderItem);
+            }
+
+            if (user.Id != orderItem.UserId)
+            {
+                throw new NotFoundException(ExceptionMessages.InvalidOrderItemForUser);
             }
 
             orderItem.ProductQuantity = quantity;
@@ -161,7 +169,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (orderItem == null)
             {
-                throw new Exception("Invalid order item");
+                throw new NotFoundException(ExceptionMessages.InvalidOrderItem);
             }
 
             var user = await context.Users
@@ -169,12 +177,12 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (user == null)
             {
-                throw new Exception("Invalid user");
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
             if (user.Id != orderItem.UserId)
             {
-                throw new Exception("Invalid order item for user");
+                throw new NotFoundException(ExceptionMessages.InvalidOrderItemForUser);
             }
 
             context.OrderItems.Remove(orderItem);

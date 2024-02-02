@@ -7,6 +7,9 @@ using FoodDeliveryWebsite.Models;
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Validations;
+using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
+using FoodDeliveryWebsite.Repositories.CustomExceptions;
 
 namespace FoodDeliveryWebsite.Repositories
 {
@@ -29,7 +32,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (user == null)
             {
-                return null;
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
             var userAddresses = user.Addresses
@@ -48,7 +51,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (user == null)
             {
-                throw new Exception("Invalid user");
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
             var address = user.Addresses
@@ -56,7 +59,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (address == null)
             {
-                throw new Exception("Invalid address");
+                throw new NotFoundException(ExceptionMessages.InvalidAddress);
             }
 
             return mapper.Map<AddressDto>(address);
@@ -69,14 +72,22 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (user == null)
             {
-                throw new Exception("Invalid user");
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
             var address = mapper.Map<Address>(addressDto);
             address.UserId = user.Id;
 
             AddressValidator validator = new AddressValidator();
-            validator.ValidateAndThrow(address);
+            var result = validator.Validate(address);
+
+            foreach (var failure in result.Errors)
+            {
+                if (failure.CustomState is BadRequestException bre)
+                {
+                    throw bre;
+                }
+            }
 
             context.Addresses.Add(address);
             await context.SaveChangesAsync();
@@ -91,7 +102,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (user == null)
             {
-                throw new Exception("Invalid user");
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
             var address = await context.Addresses
@@ -99,7 +110,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (address == null)
             {
-                throw new Exception("Invalid address");
+                throw new NotFoundException(ExceptionMessages.InvalidAddress);
             }
 
             address.City = addressDto.City;
@@ -109,7 +120,15 @@ namespace FoodDeliveryWebsite.Repositories
             address.ApartmentNo = addressDto.ApartmentNo;
 
             AddressValidator validator = new AddressValidator();
-            validator.ValidateAndThrow(address);
+            var result = validator.Validate(address);
+
+            foreach (var failure in result.Errors)
+            {
+                if (failure.CustomState is BadRequestException bre)
+                {
+                    throw bre;
+                }
+            }
 
             context.Addresses.Update(address);
             await context.SaveChangesAsync();
@@ -122,7 +141,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (user == null)
             {
-                throw new Exception("Invalid user");
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
             var address = await context.Addresses
@@ -130,7 +149,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (address == null)
             {
-                throw new Exception("Invalid address");
+                throw new NotFoundException(ExceptionMessages.InvalidAddress);
             }
 
             context.Addresses.Update(address);

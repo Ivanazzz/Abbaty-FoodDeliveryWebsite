@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using FoodDeliveryWebsite.Repositories;
 using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
+using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Repositories.CustomExceptions;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -26,9 +28,16 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            var orderItems = await orderItemRepository.GetOrderItemsAsync(userEmail);
+            try
+            {
+                var orderItems = await orderItemRepository.GetOrderItemsAsync(userEmail);
 
-            return Ok(orderItems);
+                return Ok(orderItems);
+            }
+            catch (NotFoundException nfe)
+            {
+                return NotFound(nfe.Message);
+            }
         }
 
         [HttpPost("Add")]
@@ -36,9 +45,20 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            await orderItemRepository.AddOrderItemAsync(userEmail, productId, quantity);
+            try
+            {
+                await orderItemRepository.AddOrderItemAsync(userEmail, productId, quantity);
 
-            return Ok();
+                return Ok();
+            }
+            catch (NotFoundException nfe)
+            {
+                return NotFound(nfe.Message);
+            }
+            catch (BadRequestException bre)
+            {
+                return BadRequest(bre.Message);
+            }
         }
 
 
@@ -47,9 +67,16 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            var orderItemDto = await orderItemRepository.UpdateOrderItemAsync(userEmail, orderItemId, quantity);
+            try
+            {
+                var orderItemDto = await orderItemRepository.UpdateOrderItemAsync(userEmail, orderItemId, quantity);
 
-            return Ok(orderItemDto);
+                return Ok(orderItemDto);
+            }
+            catch (NotFoundException nfe)
+            {
+                return NotFound(nfe.Message);
+            }
         }
 
         [HttpDelete("Delete/{orderItemId:int}")]
@@ -57,9 +84,16 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            await orderItemRepository.DeleteOrderItemAsync(userEmail, orderItemId);
+            try
+            {
+                await orderItemRepository.DeleteOrderItemAsync(userEmail, orderItemId);
 
-            return Ok();
+                return Ok();
+            }
+            catch (NotFoundException nfe)
+            {
+                return NotFound(nfe.Message);
+            }
         }
     }
 }

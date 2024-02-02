@@ -6,6 +6,8 @@ using AutoMapper;
 using FoodDeliveryWebsite.Models;
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
+using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
 
 namespace FoodDeliveryWebsite.Repositories
 {
@@ -28,7 +30,7 @@ namespace FoodDeliveryWebsite.Repositories
                 {
                     if (orderDto == null)
                     {
-                        throw new Exception("Invalid order.");
+                        throw new NotFoundException(ExceptionMessages.InvalidOrder);
                     }
 
                     var user = await context.Users
@@ -36,7 +38,7 @@ namespace FoodDeliveryWebsite.Repositories
 
                     if (user == null)
                     {
-                        throw new Exception("Invalid user.");
+                        throw new NotFoundException(ExceptionMessages.InvalidUser);
                     }
 
                     var order = mapper.Map<Order>(orderDto);

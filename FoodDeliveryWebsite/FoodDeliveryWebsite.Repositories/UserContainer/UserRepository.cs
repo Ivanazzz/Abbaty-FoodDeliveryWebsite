@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
+using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,9 @@ using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Enums;
 using FoodDeliveryWebsite.Models.Validations;
-using AutoMapper;
+using FoodDeliveryWebsite.Repositories.CustomExceptions;
+using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
+using FoodDeliveryWebsite.CustomExceptions;
 
 namespace FoodDeliveryWebsite.Repositories
 {
@@ -35,7 +38,15 @@ namespace FoodDeliveryWebsite.Repositories
             user.Role = UserRole.Client;
 
             UserValidator validator = new UserValidator();
-            validator.ValidateAndThrow(user);
+            var result = validator.Validate(user);
+
+            foreach (var failure in result.Errors)
+            {
+                if (failure.CustomState is BadRequestException bre)
+                {
+                    throw bre;
+                }
+            }
 
             bool userExists = await context.Users
                 .FirstOrDefaultAsync(u => u.Email == user.Email && u.IsDeleted == false) != null
@@ -44,7 +55,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (userExists)
             {
-                throw new Exception("User with the given email already exists");
+                throw new BadRequestException(ExceptionMessages.AlreadyExistingUser);
             }
 
             user.PhoneNumber = FormatPhoneNumber(user.PhoneNumber);
@@ -65,14 +76,14 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (user == null)
             {
-                throw new Exception("There isn't user with the given email");
+                throw new NotFoundException(ExceptionMessages.NonExistentUser);
             }
 
             bool isPasswordValid = VerifyPassword(userLoginDto.Password, user.Password, Convert.FromHexString(user.Salt));
 
             if (!isPasswordValid)
             {
-                throw new Exception("Invalid password");
+                throw new BadRequestException(ExceptionMessages.InvalidUserPassword);
             }
 
             return user;
@@ -100,7 +111,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (user == null)
             {
-                throw new Exception("Invalid user");
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
             user.FirstName = userDto.FirstName;
@@ -109,7 +120,15 @@ namespace FoodDeliveryWebsite.Repositories
             user.PhoneNumber = string.Concat(userDto.PhoneNumber.Where(c => !char.IsWhiteSpace(c)));
 
             UserUpdateValidator validator = new UserUpdateValidator();
-            validator.ValidateAndThrow(user);
+            var result = validator.Validate(user);
+
+            foreach (var failure in result.Errors)
+            {
+                if (failure.CustomState is BadRequestException bre)
+                {
+                    throw bre;
+                }
+            }
 
             user.PhoneNumber = FormatPhoneNumber(user.PhoneNumber);
 
@@ -124,7 +143,7 @@ namespace FoodDeliveryWebsite.Repositories
 
             if (user == null)
             {
-                throw new Exception("Invalid user");
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
             user.IsDeleted = true;
