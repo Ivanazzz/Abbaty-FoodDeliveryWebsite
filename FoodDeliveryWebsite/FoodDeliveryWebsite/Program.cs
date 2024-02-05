@@ -50,6 +50,7 @@ namespace FoodDeliveryWebsite
             builder.Services.AddAuthorization();
 
             builder.Services.AddAutoMapper(typeof(MappingProfile));
+            builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
 

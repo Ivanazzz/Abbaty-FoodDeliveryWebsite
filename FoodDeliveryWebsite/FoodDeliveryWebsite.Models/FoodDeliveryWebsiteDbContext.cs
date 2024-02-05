@@ -1,16 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Security.Claims;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
 using FoodDeliveryWebsite.Models.Common;
 using FoodDeliveryWebsite.Models.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace FoodDeliveryWebsite.Models
 {
     public class FoodDeliveryWebsiteDbContext : DbContext
     {
-        public FoodDeliveryWebsiteDbContext(DbContextOptions<FoodDeliveryWebsiteDbContext> options)
+        private readonly IHttpContextAccessor httpContextAccessor;
+
+        public FoodDeliveryWebsiteDbContext(DbContextOptions<FoodDeliveryWebsiteDbContext> options, IHttpContextAccessor httpContextAccessor)
             : base(options)
-        { }
+        {
+            this.httpContextAccessor = httpContextAccessor;
+        }
 
         public DbSet<Address> Addresses { get; set; }
 
@@ -52,9 +59,10 @@ namespace FoodDeliveryWebsite.Models
             return Database.BeginTransactionAsync(cancellationToken);
         }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
-            //var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+            var email = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+            var user = await this.Users.FirstOrDefaultAsync(u => u.Email == email && u.IsDeleted == false);
 
             foreach (var entry in ChangeTracker.Entries())
             {
@@ -62,10 +70,12 @@ namespace FoodDeliveryWebsite.Models
                 {
                     var entity = entry.Entity as IAuditable;
                     entity.CreateDate = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
-                    //entity.CreatorUserId = ;
+                    entity.CreatorUserId = user == null 
+                        ? 0 
+                        : user.Id;
                 }
             }
-            return base.SaveChangesAsync(cancellationToken);
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }
