@@ -3,27 +3,27 @@
     public static class ExceptionMessages
     {
         // Address
-        public const string InvalidAddress = "Invalid address";
+        public const string InvalidAddress = "Невалиден адрес";
 
         // Discount
-        public const string StartExpirationDateRequired = "Start date and Expiration date are required";
-        public const string StartDateGreaterThanExpirationDate = "Start date should not be greater than Expiration date";
+        public const string StartExpirationDateRequired = "Датата на стартиране и датата на изтичане са задължителни";
+        public const string StartDateGreaterThanExpirationDate = "Датата на стартиране не трябва да бъде след датата на приключване";
 
         // Order
-        public const string InvalidOrder = "Invalid order";
+        public const string InvalidOrder = "Невалидна поръчка";
 
         // OrderItem
-        public const string InvalidOrderItem = "Invalid order item";
-        public const string InvalidOrderItemForUser = "Invalid order item for user";
+        public const string InvalidOrderItem = "Невалиден продукт към поръчката";
+        public const string InvalidOrderItemForUser = "Невалиден продукт към поръчката за текущия потребител";
 
         // Product
-        public const string InvalidProduct = "Invalid product";
-        public const string ProductQuantityLessThan1 = "Product quantity must be grater than 0";
+        public const string InvalidProduct = "Невалиден продукт";
+        public const string ProductQuantityLessThan1 = "Количеството на продукта трябва да бъде по-голямо от 0";
 
         // User
-        public const string InvalidUser = "Invalid user";
-        public const string AlreadyExistingUser = "User with the given email already exists";
-        public const string NonExistentUser = "There isn't user with the given email";
-        public const string InvalidUserPassword = "Invalid password";
+        public const string InvalidUser = "Невалиден потребител";
+        public const string AlreadyExistingUser = "Потребител с този имейл вече същестува";
+        public const string NonExistentUser = "Няма потребител с този имейл";
+        public const string InvalidUserPassword = "Невалидна парола";
     }
 }

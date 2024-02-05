@@ -7,7 +7,7 @@ import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { NavComponent } from "./root/nav/nav.component";
 import { LoginComponent } from "../user-module/login/login.component";
-import { AuthInterceptor } from "./interceptors/authInterceptor";
+import { AuthInterceptor } from "./interceptors/auth.interceptor";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { UserService } from "../user-module/services/user.service";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -34,6 +34,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { GetAddressesModalContent } from "../address-module/modals/get-addresses-modal/get-addresses-modal.component";
 import { OrderInfoModalContent } from "../order-module/modals/order-info-modal/order-info-modal.component";
 import { OrderService } from "../order-module/services/order-service";
+import { ErrorInterceptor } from "./interceptors/error.interceptor";
 
 export function appInitializer(userService: UserService) {
   return () => userService.initializeUser();
@@ -84,6 +85,11 @@ export function appInitializer(userService: UserService) {
       useFactory: appInitializer,
       multi: true,
       deps: [UserService],
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true,
     },
   ],
   bootstrap: [AppComponent],

@@ -19,29 +19,29 @@ namespace FoodDeliveryWebsite.Models.Validations
         public ProductValidator()
         {
             RuleFor(p => p.Name)
-                .NotEmpty().WithState(a => new BadRequestException("Name is required"))
-                .MaximumLength(NameMaxLength).WithState(a => new BadRequestException($"Name must not exceed {NameMaxLength} characters"))
-                .Matches(NameRegex).WithState(a => new BadRequestException("Name must be written in cyrilic"));
+                .NotEmpty().WithState(a => new BadRequestException("Името е задължително"))
+                .MaximumLength(NameMaxLength).WithState(a => new BadRequestException($"Името не трябва да надвишава {NameMaxLength} символа"))
+                .Matches(NameRegex).WithState(a => new BadRequestException("Името трябва да бъде написано на кирилица"));
 
             RuleFor(p => p.Description)
-                .NotEmpty().WithState(a => new BadRequestException("Description is required"))
-                .MaximumLength(DescriptionMaxLength).WithState(a => new BadRequestException($"Description must not exceed ${DescriptionMaxLength} characters"))
-                .Matches(DescriptionRegex).WithState(a => new BadRequestException("Description must be written in cyrilic"));
+                .NotEmpty().WithState(a => new BadRequestException("Описанието е задължително"))
+                .MaximumLength(DescriptionMaxLength).WithState(a => new BadRequestException($"Описанието не трябва да надвишава ${DescriptionMaxLength} символа"))
+                .Matches(DescriptionRegex).WithState(a => new BadRequestException("Описанието трябва да бъде написано на кирилица"));
 
             RuleFor(p => p.Price)
-                .GreaterThanOrEqualTo(PriceMinValue).WithState(a => new BadRequestException($"Price must be greater than or equal to {PriceMinValue}"));
+                .GreaterThanOrEqualTo(PriceMinValue).WithState(a => new BadRequestException($"Цената трябва да бъде по-голяма или равна на {PriceMinValue}"));
 
             RuleFor(p => p.Grams)
-                .GreaterThan(GramsMinValue).WithState(a => new BadRequestException($"Grams must be greater than or equal to {GramsMinValue}"));
+                .GreaterThan(GramsMinValue).WithState(a => new BadRequestException($"Грамажът трябва да бъде по-голям или равен на {GramsMinValue}"));
 
             RuleFor(p => p.Grams)
-                .LessThan(GramsMinValue).WithState(a => new BadRequestException($"Grams must not exceed {GramsMaxValue}"));
+                .LessThan(GramsMaxValue).WithState(a => new BadRequestException($"Грамажът не тряба да надвишава {GramsMaxValue}"));
 
             RuleFor(p => p.Type)
-                .IsInEnum().WithState(a => new BadRequestException("Invalid product type"));
+                .IsInEnum().WithState(a => new BadRequestException("Невалиден тип на продукта"));
 
             RuleFor(u => u.Status)
-                .IsInEnum().WithState(a => new BadRequestException("Invalid status"));
+                .IsInEnum().WithState(a => new BadRequestException("Невалиден статус на продукта"));
 
             // Image Validator?????
             //RuleFor(u => u.Image)

@@ -9,28 +9,28 @@ namespace FoodDeliveryWebsite.Models.Validations
         private const int FirstNameMaxLength = 20;
         private const int LastNameMaxLength = 20;
 
-        private const string NameRegex = @"^[А-я\s]+$";
+        private const string NameRegex = @"^[А-я\-]+$";
         private const string PhoneNumberRegex = @"^\+359\d{9}$";
 
         public UserUpdateValidator()
         {
             RuleFor(u => u.FirstName)
-                .NotEmpty().WithState(a => new BadRequestException("First name is required"))
-                .MaximumLength(FirstNameMaxLength).WithState(a => new BadRequestException($"First name must not exceed {FirstNameMaxLength} characters"))
-                .Matches(NameRegex).WithState(a => new BadRequestException("First name must be written in cyrilic"));
+                .NotEmpty().WithState(a => new BadRequestException("Името е задължително"))
+                .MaximumLength(FirstNameMaxLength).WithState(a => new BadRequestException($"Името не трябва да надвишава {FirstNameMaxLength} символа"))
+                .Matches(NameRegex).WithState(a => new BadRequestException("Името трябва да бъде написано на кирирлица"));
 
             RuleFor(u => u.LastName)
-                .NotEmpty().WithState(a => new BadRequestException("Last name is required"))
-                .MaximumLength(LastNameMaxLength).WithState(a => new BadRequestException($"Last name must not exceed {LastNameMaxLength} characters"))
-                .Matches(NameRegex).WithState(a => new BadRequestException("Last name must be written in cyrilic"));
+                .NotEmpty().WithState(a => new BadRequestException("Фамилията е задължителна"))
+                .MaximumLength(LastNameMaxLength).WithState(a => new BadRequestException($"Фамилията не трябва да надвишава {LastNameMaxLength} символа"))
+                .Matches(NameRegex).WithState(a => new BadRequestException("Фамилията трябва да бъде написана на кирилица"));
 
 
             RuleFor(u => u.PhoneNumber)
-                .NotEmpty().WithState(a => new BadRequestException("Phone number is required"))
-                .Matches(PhoneNumberRegex).WithState(a => new BadRequestException("Phone number must be in format: +359 XX XXXX XXX"));
+                .NotEmpty().WithState(a => new BadRequestException("Телефонният номер е задължителен"))
+                .Matches(PhoneNumberRegex).WithState(a => new BadRequestException("Телефонният номер трябва да бъде във формат: +359XXXXXXXXX"));
 
             RuleFor(u => u.Gender)
-                .IsInEnum().WithState(a => new BadRequestException("Invalid gender"));
+                .IsInEnum().WithState(a => new BadRequestException("Невалиден пол"));
         }
     }
 }

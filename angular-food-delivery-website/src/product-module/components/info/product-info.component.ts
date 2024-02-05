@@ -19,6 +19,8 @@ export class ProductInfoComponent implements OnInit {
   productQuantity: number = 1;
   productTotalPrice: number = this.productDto.price;
 
+  errorMessage: string;
+
   private routeSub: Subscription;
 
   constructor(
@@ -39,6 +41,7 @@ export class ProductInfoComponent implements OnInit {
       .getSelectedProduct(this.id)
       .pipe(
         catchError((err) => {
+          this.router.navigate(["/menu"]);
           return throwError(() => err);
         })
       )

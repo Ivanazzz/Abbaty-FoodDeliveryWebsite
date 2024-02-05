@@ -15,20 +15,20 @@ namespace FoodDeliveryWebsite.Models.Validations
         public DiscountValidator()
         {
             RuleFor(d => d.Code)
-                .NotEmpty().WithState(a => new BadRequestException("Code is required"))
-                .Matches(CodeRegex).WithState(a => new BadRequestException("Invalid code format"));
+                .NotEmpty().WithState(a => new BadRequestException("Кодът е задължителен"))
+                .Matches(CodeRegex).WithState(a => new BadRequestException("Невалиден формат на кода"));
 
             RuleFor(d => d.Percentage)
-                .GreaterThanOrEqualTo(PercentageMinValue).WithState(a => new BadRequestException($"Discount percentage must be greater than {PercentageMinValue}"));
+                .GreaterThanOrEqualTo(PercentageMinValue).WithState(a => new BadRequestException($"Процентът отстъпка трябва да бъде по-голям или равен на {PercentageMinValue}"));
 
             RuleFor(d => d.Percentage)
-                .LessThanOrEqualTo(PercentageMaxValue).WithState(a => new BadRequestException($"Discount percentage must not exceed {PercentageMaxValue}"));
+                .LessThanOrEqualTo(PercentageMaxValue).WithState(a => new BadRequestException($"Процентът отстъпка не трябва да надвишава {PercentageMaxValue}"));
 
             RuleFor(d => d.StartDate)
-                .GreaterThan(DateTime.UtcNow).WithState(a => new BadRequestException("Discount start date must be greater than today"));
+                .GreaterThan(DateTime.UtcNow).WithState(a => new BadRequestException("Началната дата на отсъпката не може да бъде минала или днешна дата"));
 
             RuleFor(d => d.ExpirationDate)
-                .GreaterThan(DateTime.UtcNow).WithState(a => new BadRequestException("Discount expiration date must be greater than today"));
+                .GreaterThan(DateTime.UtcNow).WithState(a => new BadRequestException("Датата на изтичане на отсъпката не може да бъде минала или днешна дата"));
         }
     }
 }

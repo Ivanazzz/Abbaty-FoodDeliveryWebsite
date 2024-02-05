@@ -50,9 +50,6 @@
       required
       [maxlength]="streetMaxLength"
       [pattern]="streetRegex"
-      [ngClass]="{
-        'is-invalid': streetInput.touched && streetInput.invalid
-      }"
     />
     <div
       class="invalid-feedback"

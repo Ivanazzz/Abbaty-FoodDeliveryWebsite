@@ -67,6 +67,9 @@ export class ProductComponent {
     } else {
       // Handle the case where no file is selected
       console.warn("No file selected");
+      this.toastr.error("Не е избрана снимка на продукта", null, {
+        timeOut: 5000,
+      });
     }
   }
 
