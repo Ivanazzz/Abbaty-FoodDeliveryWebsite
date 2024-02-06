@@ -14,26 +14,23 @@ export class DiscountService {
 
   getAvailable(): Observable<DiscountDto[]> {
     return this.http.get<DiscountDto[]>(
-      `${this.baseUrl}/api/Discounts/GetAvailable`
+      `${this.baseUrl}/api/Discounts/Available`
     );
   }
 
   getUpcoming(): Observable<DiscountDto[]> {
     return this.http.get<DiscountDto[]>(
-      `${this.baseUrl}/api/Discounts/GetUpcoming`
+      `${this.baseUrl}/api/Discounts/Upcoming`
     );
   }
 
   getDiscount(code: string): Observable<DiscountOrderDto> {
     return this.http.get<DiscountOrderDto>(
-      `${this.baseUrl}/api/Discounts/GetDiscount?code=${code}`
+      `${this.baseUrl}/api/Discounts/?code=${code}`
     );
   }
 
   add(discountDto: DiscountDto): Observable<void> {
-    return this.http.post<void>(
-      `${this.baseUrl}/api/Discounts/Add`,
-      discountDto
-    );
+    return this.http.post<void>(`${this.baseUrl}/api/Discounts`, discountDto);
   }
 }

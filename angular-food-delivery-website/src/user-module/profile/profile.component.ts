@@ -17,8 +17,8 @@ import {
 
 @Component({
   selector: "app-profile",
-  templateUrl: `./profile.component.html`,
-  styleUrl: `./profile.component.css`,
+  templateUrl: "./profile.component.html",
+  styleUrl: "./profile.component.css",
 })
 export class ProfileComponent implements OnInit {
   userDto: UserDto = new UserDto();
@@ -66,6 +66,8 @@ export class ProfileComponent implements OnInit {
       )
       .subscribe(() => {
         this.userService.logout();
+        this.toastr.success("Профилът е изтрит");
+        this.router.navigate(["/menu"]);
       });
   }
 
@@ -74,8 +76,6 @@ export class ProfileComponent implements OnInit {
     return modalRef.result.then((ok: boolean) => {
       if (ok) {
         this.deleteUser();
-        this.toastr.success("Профилът е изтрит");
-        this.router.navigate(["/menu"]);
       }
     });
   }

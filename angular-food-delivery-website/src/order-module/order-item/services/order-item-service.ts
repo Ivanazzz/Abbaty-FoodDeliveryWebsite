@@ -12,11 +12,11 @@ export class OrderItemService {
   constructor(private http: HttpClient) {}
 
   get(): Observable<OrderItemDto[]> {
-    return this.http.get<OrderItemDto[]>(`${this.baseUrl}/api/OrderItems/Get`);
+    return this.http.get<OrderItemDto[]>(`${this.baseUrl}/api/OrderItems`);
   }
 
   add(productId: number, quantity: number): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/api/OrderItems/Add`, null, {
+    return this.http.post<void>(`${this.baseUrl}/api/OrderItems`, null, {
       headers: null,
       params: { productId, quantity },
     });
@@ -35,7 +35,7 @@ export class OrderItemService {
 
   delete(orderItemId: number): Observable<OrderItemDto[]> {
     return this.http.delete<OrderItemDto[]>(
-      `${this.baseUrl}/api/OrderItems/Delete/${orderItemId}`
+      `${this.baseUrl}/api/OrderItems/${orderItemId}`
     );
   }
 }

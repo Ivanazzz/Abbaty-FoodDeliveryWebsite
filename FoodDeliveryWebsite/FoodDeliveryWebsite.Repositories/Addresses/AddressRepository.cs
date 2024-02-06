@@ -152,6 +152,8 @@ namespace FoodDeliveryWebsite.Repositories
                 throw new NotFoundException(ExceptionMessages.InvalidAddress);
             }
 
+            address.IsDeleted = true;
+
             context.Addresses.Update(address);
             context.SaveChanges();
         }

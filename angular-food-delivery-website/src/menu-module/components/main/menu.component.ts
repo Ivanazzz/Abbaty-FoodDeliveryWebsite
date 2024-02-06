@@ -82,6 +82,7 @@ export class MenuComponent implements OnInit {
   }
 
   deleteProduct(productId: number) {
+    debugger;
     this.productService
       .deleteProduct(productId)
       .pipe(
@@ -89,7 +90,9 @@ export class MenuComponent implements OnInit {
           return throwError(() => err);
         })
       )
-      .subscribe(() => {});
+      .subscribe(() => {
+        this.toastr.success("Премахнато!", null, { timeOut: 1000 });
+      });
   }
 
   openUpdateProductModal(productDto: ProductDto) {

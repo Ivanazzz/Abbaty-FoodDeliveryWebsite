@@ -12,6 +12,6 @@ export class OrderService {
   constructor(private http: HttpClient) {}
 
   add(orderDto: OrderDto): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/api/Orders/Add`, orderDto);
+    return this.http.post<void>(`${this.baseUrl}/api/Orders`, orderDto);
   }
 }

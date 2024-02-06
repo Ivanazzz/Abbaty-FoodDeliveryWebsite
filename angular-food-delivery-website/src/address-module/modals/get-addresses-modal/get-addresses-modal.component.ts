@@ -33,6 +33,7 @@ export class GetAddressesModalContent {
   }
 
   chooseAddress(id) {
+    debugger;
     this.addressService
       .getSelected(id)
       .pipe(

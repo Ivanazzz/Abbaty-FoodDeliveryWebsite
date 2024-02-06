@@ -14,15 +14,13 @@ namespace FoodDeliveryWebsite.Controllers
     public class ProductController : ControllerBase
     {
         private IProductRepository productRepository { get; set; }
-        private IConfiguration _config;
 
-        public ProductController(IProductRepository productRepository, IConfiguration config)
+        public ProductController(IProductRepository productRepository)
         {
             this.productRepository = productRepository;
-            _config = config;
         }
 
-        [HttpGet("Get")]
+        [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
             var products = await productRepository.GetAvailableProductsAsync();
@@ -30,7 +28,7 @@ namespace FoodDeliveryWebsite.Controllers
             return Ok(products);
         }
 
-        [HttpGet("GetSelected/{id:int}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetSelectedAsync([FromRoute] int id)
         {
             try
@@ -45,7 +43,7 @@ namespace FoodDeliveryWebsite.Controllers
             }
         }
 
-        [HttpGet("GetFiltered")]
+        [HttpGet("Filtered")]
         public async Task<IActionResult> GetFilteredAsync([FromQuery] ProductType productType)
         {
             var products = await productRepository.GetFilteredProductAsync(productType);
@@ -53,7 +51,7 @@ namespace FoodDeliveryWebsite.Controllers
             return Ok(products);
         }
 
-        [HttpGet("GetProductsWithStatus")]
+        [HttpGet("ProductsWithStatus")]
         [AuthorizedAdmin]
         public async Task<IActionResult> GetProductsWithStatusAsync([FromQuery] ProductStatus productStatus)
         {
@@ -62,7 +60,7 @@ namespace FoodDeliveryWebsite.Controllers
             return Ok(products);
         }
 
-        [HttpPost("Add")]
+        [HttpPost]
         [AuthorizedAdmin]
         public async Task<IActionResult> AddAsync([FromForm] ProductAddDto productDto)
         {
@@ -98,7 +96,7 @@ namespace FoodDeliveryWebsite.Controllers
             }
         }
 
-        [HttpDelete("Delete/{id:int}")]
+        [HttpDelete("{id:int}")]
         [AuthorizedAdmin]
         public async Task<IActionResult> DeleteAsync([FromRoute] int id)
         {

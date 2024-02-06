@@ -12,18 +12,16 @@ export class AddressService {
   constructor(private http: HttpClient) {}
 
   get(): Observable<AddressDto[]> {
-    return this.http.get<AddressDto[]>(`${this.baseUrl}/api/Addresses/Get`);
+    return this.http.get<AddressDto[]>(`${this.baseUrl}/api/Addresses`);
   }
 
   getSelected(id: number): Observable<AddressDto> {
-    return this.http.get<AddressDto>(
-      `${this.baseUrl}/api/Addresses/GetSelected/${id}`
-    );
+    return this.http.get<AddressDto>(`${this.baseUrl}/api/Addresses/${id}`);
   }
 
   add(addressDto: AddressDto): Observable<AddressDto[]> {
     return this.http.post<AddressDto[]>(
-      `${this.baseUrl}/api/Addresses/Add`,
+      `${this.baseUrl}/api/Addresses`,
       addressDto
     );
   }
@@ -37,7 +35,7 @@ export class AddressService {
 
   delete(addressId: number): Observable<number> {
     return this.http.delete<number>(
-      `${this.baseUrl}/api/Addresses/Delete` + "?id=" + addressId
+      `${this.baseUrl}/api/Addresses?id=${addressId}`
     );
   }
 }

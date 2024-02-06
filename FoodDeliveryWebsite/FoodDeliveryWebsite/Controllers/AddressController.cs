@@ -16,15 +16,13 @@ namespace FoodDeliveryWebsite.Controllers
     public class AddressController : ControllerBase
     {
         private IAddressRepository addressRepository { get; set; }
-        private IConfiguration _config;
 
-        public AddressController(IAddressRepository addressRepository, IConfiguration config)
+        public AddressController(IAddressRepository addressRepository)
         {
             this.addressRepository = addressRepository;
-            _config = config;
         }
 
-        [HttpGet("Get")]
+        [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
@@ -41,7 +39,7 @@ namespace FoodDeliveryWebsite.Controllers
             }
         }
 
-        [HttpGet("GetSelected/{id:int}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetSelectedAsync([FromRoute] int id)
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
@@ -58,7 +56,7 @@ namespace FoodDeliveryWebsite.Controllers
             }
         }
 
-        [HttpPost("Add")]
+        [HttpPost]
         public async Task<IActionResult> AddAsync([FromBody] AddressDto addressDto)
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
@@ -101,7 +99,7 @@ namespace FoodDeliveryWebsite.Controllers
             }
         }
 
-        [HttpDelete("Delete")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteAsync([FromQuery] int id)
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;

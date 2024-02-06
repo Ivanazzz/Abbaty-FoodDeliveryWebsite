@@ -11,6 +11,7 @@ import {
   PriceMinValue,
   ProductNameRegex,
 } from "../../../app/common/validation-consts";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "update-product-modal-content",
@@ -31,7 +32,8 @@ export class UpdateProductModalContent {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private productService: ProductService
+    private productService: ProductService,
+    private toastr: ToastrService
   ) {}
 
   closeModal(ok: boolean) {
@@ -48,6 +50,7 @@ export class UpdateProductModalContent {
       )
       .subscribe(() => {
         this.closeModal(true);
+        this.toastr.success("Редактирано!", null, { timeOut: 1000 });
       });
   }
 

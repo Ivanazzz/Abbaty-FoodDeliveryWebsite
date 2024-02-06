@@ -12,22 +12,20 @@ export class ProductService {
   constructor(private http: HttpClient) {}
 
   addProductWithImage(formData: FormData): Observable<any> {
-    return this.http.post(`${this.baseUrl}/api/Products/Add`, formData);
+    return this.http.post(`${this.baseUrl}/api/Products`, formData);
   }
 
   get(): Observable<ProductDto[]> {
-    return this.http.get<ProductDto[]>(`${this.baseUrl}/api/Products/Get`);
+    return this.http.get<ProductDto[]>(`${this.baseUrl}/api/Products`);
   }
 
   getSelectedProduct(id: number): Observable<ProductDto> {
-    return this.http.get<ProductDto>(
-      `${this.baseUrl}/api/Products/GetSelected/${id}`
-    );
+    return this.http.get<ProductDto>(`${this.baseUrl}/api/Products/${id}`);
   }
 
   getFilteredProducts(productType: ProductType): Observable<ProductDto[]> {
     return this.http.get<ProductDto[]>(
-      `${this.baseUrl}/api/Products/GetFiltered?productType=${productType}`
+      `${this.baseUrl}/api/Products/Filtered?productType=${productType}`
     );
   }
 
@@ -35,7 +33,7 @@ export class ProductService {
     productStatus: ProductStatus
   ): Observable<ProductDto[]> {
     return this.http.get<ProductDto[]>(
-      `${this.baseUrl}/api/Products/GetProductsWithStatus?productStatus=${productStatus}`
+      `${this.baseUrl}/api/Products/ProductsWithStatus?productStatus=${productStatus}`
     );
   }
 
@@ -47,6 +45,6 @@ export class ProductService {
   }
 
   deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/api/Products/Delete/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/api/Products/${id}`);
   }
 }

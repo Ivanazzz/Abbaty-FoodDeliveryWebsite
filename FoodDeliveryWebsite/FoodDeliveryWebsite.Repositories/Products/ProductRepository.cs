@@ -50,7 +50,7 @@ namespace FoodDeliveryWebsite.Repositories
             var product = await context.Products
                 .FirstOrDefaultAsync(p => p.Id == id);
 
-            if (product == null)
+            if (product == null || product.IsDeleted == true)
             {
                 throw new NotFoundException(ExceptionMessages.InvalidProduct);
             }
@@ -74,7 +74,7 @@ namespace FoodDeliveryWebsite.Repositories
         public async Task<List<ProductGetDto>> GetProductsWithStatusAsync(ProductStatus productStatus)
         {
             var products = await context.Products
-                .Where(p => p.Status == productStatus)
+                .Where(p => p.Status == productStatus && p.IsDeleted == false)
                 .Select(p => mapper.Map<ProductGetDto>(p))
                 .ToListAsync();
 

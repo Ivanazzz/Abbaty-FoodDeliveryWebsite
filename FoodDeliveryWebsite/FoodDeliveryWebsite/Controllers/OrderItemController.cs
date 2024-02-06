@@ -15,15 +15,13 @@ namespace FoodDeliveryWebsite.Controllers
     public class OrderItemController : ControllerBase
     {
         private IOrderItemRepository orderItemRepository { get; set; }
-        private IConfiguration _config;
 
-        public OrderItemController(IOrderItemRepository orderItemRepository, IConfiguration config)
+        public OrderItemController(IOrderItemRepository orderItemRepository)
         {
             this.orderItemRepository = orderItemRepository;
-            _config = config;
         }
 
-        [HttpGet("Get")]
+        [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
@@ -40,7 +38,7 @@ namespace FoodDeliveryWebsite.Controllers
             }
         }
 
-        [HttpPost("Add")]
+        [HttpPost]
         public async Task<IActionResult> AddAsync([FromQuery] int productId, [FromQuery] int quantity)
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
@@ -79,7 +77,7 @@ namespace FoodDeliveryWebsite.Controllers
             }
         }
 
-        [HttpDelete("Delete/{orderItemId:int}")]
+        [HttpDelete("{orderItemId:int}")]
         public async Task<IActionResult> DeleteAsync([FromRoute] int orderItemId)
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;

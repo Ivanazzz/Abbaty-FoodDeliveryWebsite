@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import { AddressDto } from "../dtos/address-dto";
 import { AddressService } from "../services/address-service";
 import { catchError, throwError } from "rxjs";
-import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AddAddressModalContent } from "../modals/add-address-modal/add-address-modal.component";
 import { UpdateAddressModalContent } from "../modals/update-address-modal/update-address-modal.component";
 import { ToastrService } from "ngx-toastr";
@@ -59,7 +59,6 @@ export class AddressComponent implements OnInit {
     var modalRef = this.modalService.open(AddAddressModalContent);
     return modalRef.result.then((result: AddressDto[]) => {
       if (result) {
-        //this.userAddresses[this.userAddresses.length] = result;
         this.userAddresses = result;
       }
     });

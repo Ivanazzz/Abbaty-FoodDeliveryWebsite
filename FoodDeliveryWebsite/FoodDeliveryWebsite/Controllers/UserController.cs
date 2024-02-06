@@ -104,7 +104,7 @@ namespace FoodDeliveryWebsite.Controllers
             }
         }
 
-        [HttpDelete("Delete")]
+        [HttpDelete]
         [AuthorizedClient]
         public async Task<IActionResult> DeleteAsync()
         {

@@ -3,8 +3,6 @@
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Repositories;
 using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
-using Microsoft.AspNetCore.Authorization;
-using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Repositories.CustomExceptions;
 
 namespace FoodDeliveryWebsite.Controllers
@@ -14,15 +12,13 @@ namespace FoodDeliveryWebsite.Controllers
     public class DiscountController : ControllerBase
     {
         private IDiscountRepository discountRepository { get; set; }
-        private IConfiguration _config;
 
-        public DiscountController(IDiscountRepository discountRepository, IConfiguration config)
+        public DiscountController(IDiscountRepository discountRepository)
         {
             this.discountRepository = discountRepository;
-            _config = config;
         }
 
-        [HttpGet("GetAvailable")]
+        [HttpGet("Available")]
         [AuthorizedAdmin]
         public async Task<IActionResult> GetAvailableAsync()
         {
@@ -31,7 +27,7 @@ namespace FoodDeliveryWebsite.Controllers
             return Ok(discounts);
         }
 
-        [HttpGet("GetUpcoming")]
+        [HttpGet("Upcoming")]
         [AuthorizedAdmin]
         public async Task<IActionResult> GetUpcomingAsync()
         {
@@ -40,7 +36,7 @@ namespace FoodDeliveryWebsite.Controllers
             return Ok(discounts);
         }
 
-        [HttpGet("GetDiscount")]
+        [HttpGet]
         [AuthorizedClient]
         public async Task<IActionResult> GetDiscountAsync([FromQuery] string code)
         {
@@ -49,7 +45,7 @@ namespace FoodDeliveryWebsite.Controllers
             return Ok(discount);
         }
 
-        [HttpPost("Add")]
+        [HttpPost]
         [AuthorizedAdmin]
         public async Task<IActionResult> AddAsync([FromBody] DiscountDto discountDto)
         {

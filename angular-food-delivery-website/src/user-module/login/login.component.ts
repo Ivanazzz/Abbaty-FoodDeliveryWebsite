@@ -6,8 +6,8 @@ import { EmailRegex, PasswordRegex } from "../../app/common/validation-consts";
 
 @Component({
   selector: "app-login",
-  templateUrl: `./login.component.html`,
-  styleUrl: `./login.component.css`,
+  templateUrl: "./login.component.html",
+  styleUrl: "./login.component.css",
 })
 export class LoginComponent {
   userDto: UserLoginDto = new UserLoginDto();

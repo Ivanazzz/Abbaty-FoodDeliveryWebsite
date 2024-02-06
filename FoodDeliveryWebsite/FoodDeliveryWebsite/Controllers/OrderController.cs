@@ -15,15 +15,13 @@ namespace FoodDeliveryWebsite.Controllers
     public class OrderController : ControllerBase
     {
         private IOrderRepository orderRepository { get; set; }
-        private IConfiguration _config;
 
-        public OrderController(IOrderRepository orderRepository, IConfiguration config)
+        public OrderController(IOrderRepository orderRepository)
         {
             this.orderRepository = orderRepository;
-            _config = config;
         }
 
-        [HttpPost("Add")]
+        [HttpPost]
         public async Task<IActionResult> AddAsync([FromBody] OrderDto orderDto)
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
