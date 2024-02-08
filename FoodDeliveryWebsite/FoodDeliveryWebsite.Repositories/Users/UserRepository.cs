@@ -6,6 +6,7 @@ using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
+using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models;
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
@@ -13,7 +14,6 @@ using FoodDeliveryWebsite.Models.Enums;
 using FoodDeliveryWebsite.Models.Validations;
 using FoodDeliveryWebsite.Repositories.CustomExceptions;
 using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
-using FoodDeliveryWebsite.CustomExceptions;
 
 namespace FoodDeliveryWebsite.Repositories
 {
@@ -72,7 +72,8 @@ namespace FoodDeliveryWebsite.Repositories
         public async Task<User> LoginAsync(UserLoginDto userLoginDto)
         {
             var user = await context.Users
-                .FirstOrDefaultAsync(u => u.Email == userLoginDto.Email && u.IsDeleted == false);
+                .FirstOrDefaultAsync(u => u.Email == userLoginDto.Email 
+                    && u.IsDeleted == false);
 
             if (user == null)
             {
@@ -92,7 +93,8 @@ namespace FoodDeliveryWebsite.Repositories
         public async Task<UserDto> GetUserAsync(string email)
         {
             var user = await context.Users
-                .FirstOrDefaultAsync(u => u.Email == email && u.IsDeleted == false);
+                .FirstOrDefaultAsync(u => u.Email == email 
+                    && u.IsDeleted == false);
 
             if (user == null)
             {
@@ -107,7 +109,8 @@ namespace FoodDeliveryWebsite.Repositories
         public async Task UpdateUserAsync(string email, UserDto userDto)
         {
             var user = await context.Users
-                .FirstOrDefaultAsync(u => u.Email == email && u.IsDeleted == false);
+                .FirstOrDefaultAsync(u => u.Email == email 
+                    && u.IsDeleted == false);
 
             if (user == null)
             {
@@ -139,7 +142,8 @@ namespace FoodDeliveryWebsite.Repositories
         public async Task DeleteUserAsync(string email)
         {
             var user = await context.Users
-                .FirstOrDefaultAsync(u => u.Email == email && u.IsDeleted == false);
+                .FirstOrDefaultAsync(u => u.Email == email 
+                    && u.IsDeleted == false);
 
             if (user == null)
             {

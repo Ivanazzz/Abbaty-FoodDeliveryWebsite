@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { catchError, throwError } from "rxjs";
-import { AddressDto } from "../../dtos/address-dto";
 import { AddressService } from "../../services/address-service";
 import { AddAddressModalContent } from "../add-address-modal/add-address-modal.component";
+import { AddressDto } from "../../dtos/address-dto";
 
 @Component({
   selector: "add-address-modal-content",

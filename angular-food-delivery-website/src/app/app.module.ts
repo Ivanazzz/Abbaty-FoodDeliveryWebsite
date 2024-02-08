@@ -12,7 +12,6 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { UserService } from "../user-module/services/user.service";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { ProfileComponent } from "../user-module/profile/profile.component";
-import { AddressComponent } from "../address-module/address/address.component";
 import { AddressService } from "../address-module/services/address-service";
 import { CommonModule } from "@angular/common";
 import { AddAddressModalContent } from "../address-module/modals/add-address-modal/add-address-modal.component";
@@ -35,6 +34,7 @@ import { GetAddressesModalContent } from "../address-module/modals/get-addresses
 import { OrderInfoModalContent } from "../order-module/modals/order-info-modal/order-info-modal.component";
 import { OrderService } from "../order-module/services/order-service";
 import { ErrorInterceptor } from "./interceptors/error.interceptor";
+import { AddressComponent } from "../address-module/address/address.component";
 
 export function appInitializer(userService: UserService) {
   return () => userService.initializeUser();

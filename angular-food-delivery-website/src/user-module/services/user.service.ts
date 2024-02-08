@@ -17,6 +17,7 @@ export class UserService {
 
   initializeUser(): Promise<{}> {
     return new Promise((resolve) => {
+      debugger;
       return this.http
         .get<UserDto>("http://localhost:10001/api/Users/CurrentUser")
         .subscribe((userData) => {

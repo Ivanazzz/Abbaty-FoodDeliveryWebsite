@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 
+using AutoMapper;
 using FluentValidation;
 
+using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models;
 using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Enums;
 using FoodDeliveryWebsite.Models.Validations;
-using AutoMapper;
-using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
 using FoodDeliveryWebsite.Repositories.CustomExceptions;
 
@@ -74,7 +74,8 @@ namespace FoodDeliveryWebsite.Repositories
         public async Task<List<ProductGetDto>> GetProductsWithStatusAsync(ProductStatus productStatus)
         {
             var products = await context.Products
-                .Where(p => p.Status == productStatus && p.IsDeleted == false)
+                .Where(p => p.Status == productStatus 
+                    && p.IsDeleted == false)
                 .Select(p => mapper.Map<ProductGetDto>(p))
                 .ToListAsync();
 
@@ -149,7 +150,8 @@ namespace FoodDeliveryWebsite.Repositories
         public async Task DeleteProductAsync(int id)
         {
             var product = await context.Products
-                .FirstOrDefaultAsync(p => p.Id == id && p.IsDeleted == false);
+                .FirstOrDefaultAsync(p => p.Id == id 
+                    && p.IsDeleted == false);
 
             if (product == null)
             {

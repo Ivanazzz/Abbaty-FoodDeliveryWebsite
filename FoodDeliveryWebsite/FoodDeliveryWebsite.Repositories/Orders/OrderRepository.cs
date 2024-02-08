@@ -34,7 +34,8 @@ namespace FoodDeliveryWebsite.Repositories
                     }
 
                     var user = await context.Users
-                        .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
+                        .FirstOrDefaultAsync(u => u.Email == userEmail
+                            && u.IsDeleted == false);
 
                     if (user == null)
                     {
@@ -46,11 +47,17 @@ namespace FoodDeliveryWebsite.Repositories
                     order.UserId = user.Id;
                     order.OrderItems = null;
 
+                    if (order.AddressId == 0 || order.UserId == 0 || order.TotalPrice <= 0)
+                    {
+                        throw new NotFoundException(ExceptionMessages.InvalidOrder);
+                    }
+
                     context.Orders.Add(order);
                     await context.SaveChangesAsync();
 
                     var orderItemsFromDatabase = await context.OrderItems
-                        .Where(oi => oi.UserId == user.Id && oi.OrderId == null)
+                        .Where(oi => oi.UserId == user.Id 
+                            && oi.OrderId == null)
                         .ToListAsync();
 
                     foreach (var orderItem in orderItemsFromDatabase)

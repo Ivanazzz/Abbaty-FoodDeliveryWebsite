@@ -16,12 +16,10 @@ namespace FoodDeliveryWebsite.Repositories
 {
     public class DiscountRepository : IDiscountRepository
     {
-        private readonly IMapper mapper;
         private readonly FoodDeliveryWebsiteDbContext context;
 
-        public DiscountRepository(FoodDeliveryWebsiteDbContext context, IMapper mapper)
+        public DiscountRepository(FoodDeliveryWebsiteDbContext context)
         {
-            this.mapper = mapper;
             this.context = context;
         }
 

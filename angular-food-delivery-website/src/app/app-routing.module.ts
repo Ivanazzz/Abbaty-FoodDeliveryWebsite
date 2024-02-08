@@ -3,7 +3,6 @@ import { RouterModule, Routes } from "@angular/router";
 import { RegistrationComponent } from "../user-module/registration/registration.component";
 import { LoginComponent } from "../user-module/login/login.component";
 import { ProfileComponent } from "../user-module/profile/profile.component";
-import { AddressComponent } from "../address-module/address/address.component";
 import { DiscountComponent } from "../discount-module/discount/discount.component";
 import { ProductComponent } from "../product-module/components/main/product.component";
 import { MenuComponent } from "../menu-module/components/main/menu.component";
@@ -13,6 +12,7 @@ import { AdminMenuComponent } from "../menu-module/components/admin/admin-menu.c
 import { ShoppingCartComponent } from "../order-module/components/shopping-cart/shopping-cart.component";
 import { AdminAuthGuard } from "./auth-guards/admin-auth.guard";
 import { ClientAuthGuard } from "./auth-guards/client-auth.guard";
+import { AddressComponent } from "../address-module/address/address.component";
 
 const routes: Routes = [
   {

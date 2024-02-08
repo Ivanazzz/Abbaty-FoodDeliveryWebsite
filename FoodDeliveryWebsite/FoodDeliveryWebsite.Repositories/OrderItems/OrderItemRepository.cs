@@ -12,12 +12,10 @@ namespace FoodDeliveryWebsite.Repositories
 {
     public class OrderItemRepository : IOrderItemRepository
     {
-        private readonly IMapper mapper;
         private readonly FoodDeliveryWebsiteDbContext context;
 
-        public OrderItemRepository(FoodDeliveryWebsiteDbContext context, IMapper mapper)
+        public OrderItemRepository(FoodDeliveryWebsiteDbContext context)
         {
-            this.mapper = mapper;
             this.context = context;
         }
 
@@ -26,7 +24,8 @@ namespace FoodDeliveryWebsite.Repositories
             var user = await context.Users
                 .Include(u => u.OrderItems)
                 .ThenInclude(oi => oi.Product)
-                .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
+                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                    && u.IsDeleted == false);
 
             if (user == null)
             {
@@ -65,7 +64,8 @@ namespace FoodDeliveryWebsite.Repositories
         {
             var user = await context.Users
                 .Include(u => u.OrderItems)
-                .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
+                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                    && u.IsDeleted == false);
 
             if (user == null)
             {
@@ -86,7 +86,8 @@ namespace FoodDeliveryWebsite.Repositories
             }
 
             var orderItemExisting = user.OrderItems
-                .FirstOrDefault(oi => oi.ProductId == productId && oi.OrderId == null);
+                .FirstOrDefault(oi => oi.ProductId == productId 
+                    && oi.OrderId == null);
 
             if (orderItemExisting != null)
             {
@@ -116,7 +117,8 @@ namespace FoodDeliveryWebsite.Repositories
         {
             var user = await context.Users
                 .Include(u => u.OrderItems)
-                .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
+                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                    && u.IsDeleted == false);
 
             if (user == null)
             {

@@ -1,11 +1,11 @@
 import { Component, Input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
-import { AddressDto } from "../../../address-module/dtos/address-dto";
 import { OrderDto } from "../../dtos/order-dto";
 import { Router } from "@angular/router";
 import { UserDto } from "../../../user-module/dtos/user-dto";
 import { OrderItemDto } from "../../order-item/dtos/order-item-dto";
 import { DiscountOrderDto } from "../../../discount-module/dtos/discount-order-dto";
+import { AddressDto } from "../../../address-module/dtos/address-dto";
 
 @Component({
   selector: "add-address-modal-content",
