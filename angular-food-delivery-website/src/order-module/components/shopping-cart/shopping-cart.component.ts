@@ -5,7 +5,6 @@ import { OrderItemDto } from "../../order-item/dtos/order-item-dto";
 import { UserService } from "../../../user-module/services/user.service";
 import { DiscountOrderDto } from "../../../discount-module/dtos/discount-order-dto";
 import { DiscountService } from "../../../discount-module/services/discount-service";
-import { AddressDto } from "../../../address-module/dtos/address-dto";
 import { GetAddressesModalContent } from "../../../address-module/modals/get-addresses-modal/get-addresses-modal.component";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { OrderDto } from "../../dtos/order-dto";
@@ -13,6 +12,7 @@ import { UserDto } from "../../../user-module/dtos/user-dto";
 import { OrderInfoModalContent } from "../../modals/order-info-modal/order-info-modal.component";
 import { ToastrService } from "ngx-toastr";
 import { OrderService } from "../../services/order-service";
+import { AddressDto } from "../../../address-module/dtos/address-dto";
 
 @Component({
   selector: "app-shopping-cart",

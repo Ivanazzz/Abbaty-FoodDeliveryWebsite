@@ -1,10 +1,10 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { AddressDto } from "../dtos/address-dto";
-import { AddressService } from "../services/address-service";
+import { Component, OnInit } from "@angular/core";
+import { AddressDto } from "../../dtos/address-dto";
+import { AddressService } from "../../services/address-service";
 import { catchError, throwError } from "rxjs";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { AddAddressModalContent } from "../modals/add-address-modal/add-address-modal.component";
-import { UpdateAddressModalContent } from "../modals/update-address-modal/update-address-modal.component";
+import { AddAddressModalContent } from "../../modals/add-address-modal/add-address-modal.component";
+import { UpdateAddressModalContent } from "../../modals/update-address-modal/update-address-modal.component";
 import { ToastrService } from "ngx-toastr";
 
 @Component({

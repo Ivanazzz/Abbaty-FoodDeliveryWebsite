@@ -1,8 +1,11 @@
 import { Component } from "@angular/core";
-import { UserLoginDto } from "../dtos/user-login-dto";
-import { UserService } from "../services/user.service";
+import { UserLoginDto } from "../../dtos/user-login-dto";
+import { UserService } from "../../services/user.service";
 import { Router } from "@angular/router";
-import { EmailRegex, PasswordRegex } from "../../app/common/validation-consts";
+import {
+  EmailRegex,
+  PasswordRegex,
+} from "../../../app/common/validation-consts";
 
 @Component({
   selector: "app-login",

@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { UserDto, Gender } from "../dtos/user-dto";
-import { UserService } from "../services/user.service";
+import { UserDto, Gender } from "../../dtos/user-dto";
+import { UserService } from "../../services/user.service";
 import { catchError, throwError } from "rxjs";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { NgbdModalContent } from "../modals/confirmation-modal/confirmation-modal.component";
+import { NgbdModalContent } from "../../modals/confirmation-modal/confirmation-modal.component";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import {
@@ -13,7 +13,7 @@ import {
   NameRegex,
   PasswordRegex,
   PhoneNumberRegex,
-} from "../../app/common/validation-consts";
+} from "../../../app/common/validation-consts";
 
 @Component({
   selector: "app-profile",

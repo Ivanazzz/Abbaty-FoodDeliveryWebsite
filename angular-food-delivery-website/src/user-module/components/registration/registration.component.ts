@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
-import { Gender, UserRegistrationDto } from "../dtos/user-registration-dto";
-import { UserService } from "../services/user.service";
+import { Gender, UserRegistrationDto } from "../../dtos/user-registration-dto";
+import { UserService } from "../../services/user.service";
 import { catchError, throwError } from "rxjs";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
@@ -11,7 +11,7 @@ import {
   NameRegex,
   PasswordRegex,
   PhoneNumberRegex,
-} from "../../app/common/validation-consts";
+} from "../../../app/common/validation-consts";
 
 @Component({
   selector: "app-registration",

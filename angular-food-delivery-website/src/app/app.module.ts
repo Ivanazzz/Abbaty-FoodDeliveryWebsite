@@ -2,21 +2,21 @@ import { NgModule, APP_INITIALIZER } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
-import { RegistrationComponent } from "../user-module/registration/registration.component";
+import { RegistrationComponent } from "../user-module/components/registration/registration.component";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { NavComponent } from "./root/nav/nav.component";
-import { LoginComponent } from "../user-module/login/login.component";
+import { LoginComponent } from "../user-module/components/login/login.component";
 import { AuthInterceptor } from "./interceptors/auth.interceptor";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { UserService } from "../user-module/services/user.service";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { ProfileComponent } from "../user-module/profile/profile.component";
+import { ProfileComponent } from "../user-module/components/profile/profile.component";
 import { AddressService } from "../address-module/services/address-service";
 import { CommonModule } from "@angular/common";
 import { AddAddressModalContent } from "../address-module/modals/add-address-modal/add-address-modal.component";
 import { UpdateAddressModalContent } from "../address-module/modals/update-address-modal/update-address-modal.component";
-import { DiscountComponent } from "../discount-module/discount/discount.component";
+import { DiscountComponent } from "../discount-module/components/discount/discount.component";
 import { AddDiscountModalContent } from "../discount-module/modals/add-discount-modal/add-discount-modal.component";
 import { DiscountService } from "../discount-module/services/discount-service";
 import { ProductComponent } from "../product-module/components/main/product.component";
@@ -34,7 +34,7 @@ import { GetAddressesModalContent } from "../address-module/modals/get-addresses
 import { OrderInfoModalContent } from "../order-module/modals/order-info-modal/order-info-modal.component";
 import { OrderService } from "../order-module/services/order-service";
 import { ErrorInterceptor } from "./interceptors/error.interceptor";
-import { AddressComponent } from "../address-module/address/address.component";
+import { AddressComponent } from "../address-module/components/address/address.component";
 
 export function appInitializer(userService: UserService) {
   return () => userService.initializeUser();

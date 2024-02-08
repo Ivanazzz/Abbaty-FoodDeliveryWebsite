@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { DiscountDto } from "../dtos/discount-dto";
-import { DiscountService } from "../services/discount-service";
+import { DiscountDto } from "../../dtos/discount-dto";
+import { DiscountService } from "../../services/discount-service";
 import { catchError, throwError } from "rxjs";
-import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { AddDiscountModalContent } from "../modals/add-discount-modal/add-discount-modal.component";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { AddDiscountModalContent } from "../../modals/add-discount-modal/add-discount-modal.component";
 import { ToastrService } from "ngx-toastr";
 
 @Component({
