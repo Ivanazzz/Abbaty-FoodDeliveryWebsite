@@ -41,7 +41,7 @@ export class ProductInfoComponent implements OnInit {
       .getSelectedProduct(this.id)
       .pipe(
         catchError((err) => {
-          this.router.navigate(["/menu"]);
+          this.router.navigate(["/"]);
           return throwError(() => err);
         })
       )

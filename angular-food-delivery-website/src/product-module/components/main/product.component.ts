@@ -62,7 +62,7 @@ export class ProductComponent {
         )
         .subscribe(() => {
           this.toastr.success("Добавено!", null, { timeOut: 1000 });
-          this.router.navigate(["/menu"]);
+          this.router.navigate(["/"]);
         });
     } else {
       // Handle the case where no file is selected

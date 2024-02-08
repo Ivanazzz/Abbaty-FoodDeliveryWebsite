@@ -22,7 +22,7 @@ export class LoginComponent {
       if (response?.token) {
         localStorage.setItem("token", response.token);
         this.userService.initializeUser();
-        this.router.navigate(["/menu"]);
+        this.router.navigate(["/"]);
       }
     });
   }

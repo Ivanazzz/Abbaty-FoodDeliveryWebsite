@@ -16,6 +16,10 @@ import { ClientAuthGuard } from "./auth-guards/client-auth.guard";
 
 const routes: Routes = [
   {
+    path: "",
+    component: MenuComponent,
+  },
+  {
     path: "registration",
     component: RegistrationComponent,
   },
@@ -42,10 +46,6 @@ const routes: Routes = [
     path: "product",
     component: ProductComponent,
     canActivate: [AdminAuthGuard],
-  },
-  {
-    path: "menu",
-    component: MenuComponent,
   },
   {
     path: "product-info/:id",

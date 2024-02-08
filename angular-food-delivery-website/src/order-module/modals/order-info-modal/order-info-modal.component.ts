@@ -1,13 +1,9 @@
 import { Component, Input } from "@angular/core";
-import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { catchError, throwError } from "rxjs";
+import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { AddressDto } from "../../../address-module/dtos/address-dto";
-import { AddressService } from "../../../address-module/services/address-service";
-import { AddAddressModalContent } from "../../../address-module/modals/add-address-modal/add-address-modal.component";
 import { OrderDto } from "../../dtos/order-dto";
 import { Router } from "@angular/router";
 import { UserDto } from "../../../user-module/dtos/user-dto";
-import { DiscountDto } from "../../../discount-module/dtos/discount-dto";
 import { OrderItemDto } from "../../order-item/dtos/order-item-dto";
 import { DiscountOrderDto } from "../../../discount-module/dtos/discount-order-dto";
 
@@ -27,6 +23,6 @@ export class OrderInfoModalContent {
 
   closeModal() {
     this.activeModal.close();
-    this.router.navigate(["/menu"]);
+    this.router.navigate(["/"]);
   }
 }

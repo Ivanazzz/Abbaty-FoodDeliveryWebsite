@@ -37,7 +37,7 @@ export class UserService {
   logout(): Observable<void> {
     this.currentUser = null;
     localStorage.clear();
-    this.router.navigate(["/menu"]);
+    this.router.navigate(["/"]);
     return;
   }
 

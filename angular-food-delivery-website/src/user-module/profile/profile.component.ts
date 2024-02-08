@@ -67,7 +67,7 @@ export class ProfileComponent implements OnInit {
       .subscribe(() => {
         this.userService.logout();
         this.toastr.success("Профилът е изтрит");
-        this.router.navigate(["/menu"]);
+        this.router.navigate(["/"]);
       });
   }
 
