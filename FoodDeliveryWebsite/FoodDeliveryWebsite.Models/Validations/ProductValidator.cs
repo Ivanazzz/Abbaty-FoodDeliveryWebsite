@@ -14,7 +14,7 @@ namespace FoodDeliveryWebsite.Models.Validations
         private const int GramsMaxValue = 2001;
 
         private const string NameRegex = @"^[А-яA-z\s]+$";
-        private const string DescriptionRegex = @"^[\(\)-.,А-яA-z1-9\s]+$";
+        private const string DescriptionRegex = @"^[\(\)-.',А-яA-z1-9\s]+$";
 
         public ProductValidator()
         {

@@ -28,4 +28,4 @@ export const DescriptionMaxLength = 500;
 export const PriceMinValue = 0.01;
 export const GramsMinValue = 1;
 export const ProductNameRegex = /^[А-яA-z\s]+$/;
-export const DescriptionRegex = /^[\(\)-\.,А-яA-z1-9\s]+$/;
+export const DescriptionRegex = /^[\(\)-\.',А-яA-z1-9\s]+$/;

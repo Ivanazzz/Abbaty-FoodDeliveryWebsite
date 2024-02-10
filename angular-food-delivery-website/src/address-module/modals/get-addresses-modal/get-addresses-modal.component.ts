@@ -33,7 +33,6 @@ export class GetAddressesModalContent {
   }
 
   chooseAddress(id) {
-    debugger;
     this.addressService
       .getSelected(id)
       .pipe(
@@ -53,7 +52,6 @@ export class GetAddressesModalContent {
 
     modalRef.result.then((result: AddressDto[]) => {
       this.userAddresses = result;
-      debugger;
       this.chooseAddress(result[0].id);
     });
   }
