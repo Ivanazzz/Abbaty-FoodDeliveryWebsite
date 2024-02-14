@@ -13,6 +13,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { OrderItemService } from "../../../order-module/order-item/services/order-item-service";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
+import { ProductFilterDto } from "../../../product-module/dtos/product-filter-dto";
 
 @Component({
   selector: "app-menu",
@@ -41,6 +42,19 @@ export class MenuComponent implements OnInit {
   getFiltered(selectedProductType: ProductType) {
     this.productService
       .getFilteredProducts(selectedProductType)
+      .pipe(
+        catchError((err) => {
+          return throwError(() => err);
+        })
+      )
+      .subscribe((res) => {
+        this.products = res;
+      });
+  }
+
+  getCustomFiltered(productFilterDto: ProductFilterDto) {
+    this.productService
+      .getCustomFilteredProducts(productFilterDto)
       .pipe(
         catchError((err) => {
           return throwError(() => err);

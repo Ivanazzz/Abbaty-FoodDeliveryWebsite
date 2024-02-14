@@ -71,6 +71,16 @@ namespace FoodDeliveryWebsite.Repositories
             return products;
         }
 
+        public async Task<List<ProductGetDto>> GetCustomFilteredProductAsync(ProductFilterDto filter)
+        {
+            var products = await filter
+                .WhereBuilder(context.Products.AsQueryable())
+                .Select(p => mapper.Map<ProductGetDto>(p))
+                .ToListAsync();
+
+            return products;
+        }
+
         public async Task<List<ProductGetDto>> GetProductsWithStatusAsync(ProductStatus productStatus)
         {
             var products = await context.Products

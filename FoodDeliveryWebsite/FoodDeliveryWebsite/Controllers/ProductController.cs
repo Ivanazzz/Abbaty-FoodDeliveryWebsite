@@ -51,6 +51,14 @@ namespace FoodDeliveryWebsite.Controllers
             return Ok(products);
         }
 
+        [HttpGet("CustomFilter")]
+        public async Task<IActionResult> GetCustomFilteredAsync([FromQuery] ProductFilterDto productDto)
+        {
+            List<ProductGetDto> products = await productRepository.GetCustomFilteredProductAsync(productDto);
+
+            return Ok(products);
+        }
+
         [HttpGet("ProductsWithStatus")]
         [AuthorizedAdmin]
         public async Task<IActionResult> GetProductsWithStatusAsync([FromQuery] ProductStatus productStatus)

@@ -1,6 +1,8 @@
 <app-horizontal-menu
   (selectProductTypeEvent)="$event ? getFiltered($event) : get()"
+  (productFilterDto)="$event ? getCustomFiltered($event) : get()"
 ></app-horizontal-menu>
+
 <app-admin-menu
   *ngIf="
     userService.currentUser != null &&

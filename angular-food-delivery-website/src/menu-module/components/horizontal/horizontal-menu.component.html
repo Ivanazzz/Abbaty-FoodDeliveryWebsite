@@ -51,4 +51,72 @@
   >
     Детско меню
   </button>
+
+  <div ngbDropdown class="d-inline-block">
+    <button
+      type="button"
+      class="btn btn-hover"
+      id="dropdownForm1"
+      ngbDropdownToggle
+    >
+      Филтър
+    </button>
+    <div ngbDropdownMenu aria-labelledby="dropdownForm1" [style.width.px]="200">
+      <form class="px-4 py-3">
+        <div class="mb-3">
+          <label for="priceMin">Минимална цена</label>
+          <input
+            #priceMinInput="ngModel"
+            name="priceMin"
+            [(ngModel)]="productDto.priceMin"
+            type="number"
+            id="priceMin"
+            class="form-control"
+            min="0"
+            placeholder="0"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="priceMax">Максимална цена</label>
+          <input
+            #priceMaxInput="ngModel"
+            name="priceMax"
+            [(ngModel)]="productDto.priceMax"
+            type="number"
+            id="priceMax"
+            class="form-control"
+            min="0"
+            placeholder="0"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="type">Тип</label>
+          <select
+            #productTypeInput="ngModel"
+            name="type"
+            [(ngModel)]="productDto.type"
+            id="type"
+            class="form-control"
+          >
+            <option [ngValue]=""></option>
+            <option [ngValue]="type.Salad">Салата</option>
+            <option [ngValue]="type.Starter">Предястие</option>
+            <option [ngValue]="type.Main">Основно</option>
+            <option [ngValue]="type.Seafood">Морска храна</option>
+            <option [ngValue]="type.Bread">Хляб</option>
+            <option [ngValue]="type.Dessert">Десерт</option>
+            <option [ngValue]="type.Children">Детско</option>
+          </select>
+        </div>
+      </form>
+      <button
+        class="btn btn-filter btn-center-text"
+        type="button"
+        ngbDropdownItem
+        (click)="getCustomFilteredProducts(productDto)"
+      >
+        Филтрирай
+      </button>
+    </div>
+  </div>
 </div>

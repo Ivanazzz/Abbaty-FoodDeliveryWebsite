@@ -22,6 +22,14 @@
   color: white;
 }
 
+.btn-filter {
+  background-color: #ed1c24;
+  color: white;
+  border-radius: 8px;
+  width: 150px;
+  margin: auto;
+}
+
 .btn-center-text {
   text-align: center;
 }

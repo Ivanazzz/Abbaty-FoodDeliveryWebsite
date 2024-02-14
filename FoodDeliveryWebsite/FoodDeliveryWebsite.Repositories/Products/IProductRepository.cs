@@ -13,6 +13,8 @@ namespace FoodDeliveryWebsite.Repositories
 
         Task<List<ProductGetDto>> GetFilteredProductAsync(ProductType productType);
 
+        Task<List<ProductGetDto>> GetCustomFilteredProductAsync(ProductFilterDto filter);
+
         Task<List<ProductGetDto>> GetProductsWithStatusAsync(ProductStatus productStatus);
 
         Task AddProductAsync(ProductAddDto productDto);

@@ -4,12 +4,12 @@ using AutoMapper;
 using FluentValidation;
 
 using FoodDeliveryWebsite.Models;
-using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Validations;
 using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
 using FoodDeliveryWebsite.Repositories.CustomExceptions;
+using FoodDeliveryWebsite.Models.Dtos;
 
 namespace FoodDeliveryWebsite.Repositories
 {
