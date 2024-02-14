@@ -94,8 +94,6 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task AddProductAsync(ProductAddDto productDto)
         {
-            byte[] imageBytes = await ConvertIFormFileToByteArray(productDto.Image);
-
             Product product = new Product
             {
                 Name = productDto.Name,
@@ -105,9 +103,6 @@ namespace FoodDeliveryWebsite.Repositories
                 Status = productDto.Status,
                 Grams = productDto.Grams,
                 IsDeleted = false,
-                Image = imageBytes,
-                ImageName = productDto.Image.FileName,
-                ImageMimeType = productDto.Image.ContentType,
             };
 
             ProductValidator validator = new ProductValidator();
@@ -120,6 +115,16 @@ namespace FoodDeliveryWebsite.Repositories
                     throw bre;
                 }
             }
+
+            if (productDto.Image == null)
+            {
+                throw new Exception("No selected image");
+            }
+
+            byte[] imageBytes = await ConvertIFormFileToByteArray(productDto.Image);
+            product.Image = imageBytes;
+            product.ImageName = productDto.Image.FileName;
+            product.ImageMimeType = productDto.Image.ContentType;
 
             context.Products.Add(product);
             await context.SaveChangesAsync();
