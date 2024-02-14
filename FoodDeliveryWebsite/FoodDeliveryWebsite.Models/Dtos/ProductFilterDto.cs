@@ -1,7 +1,6 @@
 ﻿using FoodDeliveryWebsite.Models.Common;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Enums;
-using System.Xml.Linq;
 
 namespace FoodDeliveryWebsite.Models.Dtos
 {
