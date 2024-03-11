@@ -1,8 +1,9 @@
 ﻿using FoodDeliveryWebsite.Models.Enums;
+using Microsoft.AspNetCore.Http;
 
-namespace FoodDeliveryWebsite.Models.Dtos
+namespace FoodDeliveryWebsite.Models.Dtos.ProductDtos
 {
-    public class ProductGetDto
+    public class ProductAddDto
     {
         public int Id { get; set; }
 
@@ -18,10 +19,6 @@ namespace FoodDeliveryWebsite.Models.Dtos
 
         public int Grams { get; set; }
 
-        public byte[] Image { get; set; }
-
-        public string ImageName { get; set; }
-
-        public string ImageMimeType { get; set; }
+        public IFormFile Image { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using FoodDeliveryWebsite.Models.Dtos;
+﻿using FoodDeliveryWebsite.Models.Dtos.OrderItemDtos;
 
 namespace FoodDeliveryWebsite.Repositories
 {

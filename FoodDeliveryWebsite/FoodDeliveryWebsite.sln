@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDeliveryWebsite.Models"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDeliveryWebsite.Repositories", "FoodDeliveryWebsite.Repositories\FoodDeliveryWebsite.Repositories.csproj", "{8B300EEE-D939-4CDD-A932-1E9E9223B89E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FoodDeliveryWebsite.UnitTests", "FoodDeliveryWebsiteUnitTests\FoodDeliveryWebsite.UnitTests.csproj", "{3F1575DD-58E5-4313-88D0-8F7E36B49609}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDeliveryWebsite.UnitTests", "FoodDeliveryWebsiteUnitTests\FoodDeliveryWebsite.UnitTests.csproj", "{3F1575DD-58E5-4313-88D0-8F7E36B49609}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

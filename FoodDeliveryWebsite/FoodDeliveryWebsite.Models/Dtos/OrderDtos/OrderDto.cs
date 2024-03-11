@@ -1,6 +1,6 @@
 ﻿using FoodDeliveryWebsite.Models.Entities;
 
-namespace FoodDeliveryWebsite.Models.Dtos
+namespace FoodDeliveryWebsite.Models.Dtos.OrderDtos
 {
     public class OrderDto
     {

@@ -2,7 +2,7 @@
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Enums;
 
-namespace FoodDeliveryWebsite.Models.Dtos
+namespace FoodDeliveryWebsite.Models.Dtos.ProductDtos
 {
     public class ProductFilterDto : IFilter<Product>
     {

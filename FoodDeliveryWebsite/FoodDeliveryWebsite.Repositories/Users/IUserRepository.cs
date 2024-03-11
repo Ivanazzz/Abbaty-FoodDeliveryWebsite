@@ -1,4 +1,4 @@
-﻿using FoodDeliveryWebsite.Models.Dtos;
+﻿using FoodDeliveryWebsite.Models.Dtos.UserDtos;
 using FoodDeliveryWebsite.Models.Entities;
 
 namespace FoodDeliveryWebsite.Repositories

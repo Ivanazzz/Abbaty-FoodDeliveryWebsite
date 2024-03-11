@@ -1,4 +1,6 @@
-﻿namespace FoodDeliveryWebsite.Models.Dtos
+﻿using FoodDeliveryWebsite.Models.Dtos.ProductDtos;
+
+namespace FoodDeliveryWebsite.Models.Dtos.OrderItemDtos
 {
     public class OrderItemDto
     {

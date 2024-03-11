@@ -1,4 +1,4 @@
-﻿namespace FoodDeliveryWebsite.Models.Dtos
+﻿namespace FoodDeliveryWebsite.Models.Dtos.TokenDtos
 {
     public class ResponseTokenDto
     {

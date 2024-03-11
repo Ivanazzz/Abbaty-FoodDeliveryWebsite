@@ -1,4 +1,4 @@
-﻿using FoodDeliveryWebsite.Models.Dtos;
+﻿using FoodDeliveryWebsite.Models.Dtos.ProductDtos;
 using FoodDeliveryWebsite.Models.Enums;
 
 namespace FoodDeliveryWebsite.Repositories

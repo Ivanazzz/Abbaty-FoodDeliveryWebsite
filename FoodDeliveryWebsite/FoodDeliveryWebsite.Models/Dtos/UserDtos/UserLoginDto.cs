@@ -1,4 +1,4 @@
-﻿namespace FoodDeliveryWebsite.Models.Dtos
+﻿namespace FoodDeliveryWebsite.Models.Dtos.UserDtos
 {
     public class UserLoginDto
     {

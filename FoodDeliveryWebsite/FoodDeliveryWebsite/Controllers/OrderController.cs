@@ -1,11 +1,10 @@
 ﻿using System.Security.Claims;
 
 using Microsoft.AspNetCore.Mvc;
-
-using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Repositories;
-using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
 using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Attributes;
+using FoodDeliveryWebsite.Models.Dtos.OrderDtos;
 
 namespace FoodDeliveryWebsite.Controllers
 {

@@ -1,16 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
 using FluentValidation;
-using AutoMapper;
 
 using FoodDeliveryWebsite.Models;
-using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Validations;
 using FoodDeliveryWebsite.Models.Enums;
-using Microsoft.AspNetCore.Http.HttpResults;
 using FoodDeliveryWebsite.Repositories.CustomExceptions;
 using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
+using FoodDeliveryWebsite.Models.Dtos.DiscountDtos;
 
 namespace FoodDeliveryWebsite.Repositories
 {

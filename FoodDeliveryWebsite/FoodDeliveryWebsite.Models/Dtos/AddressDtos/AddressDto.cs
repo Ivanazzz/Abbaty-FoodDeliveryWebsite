@@ -1,4 +1,4 @@
-﻿namespace FoodDeliveryWebsite.Models.Dtos
+﻿namespace FoodDeliveryWebsite.Models.Dtos.AddressDtos
 {
     public class AddressDto
     {

@@ -8,12 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models;
-using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Enums;
 using FoodDeliveryWebsite.Models.Validations;
 using FoodDeliveryWebsite.Repositories.CustomExceptions;
 using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
+using FoodDeliveryWebsite.Models.Dtos.UserDtos;
 
 namespace FoodDeliveryWebsite.Repositories
 {

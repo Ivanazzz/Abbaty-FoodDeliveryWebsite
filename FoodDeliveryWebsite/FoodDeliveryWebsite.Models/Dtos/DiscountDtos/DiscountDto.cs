@@ -1,6 +1,6 @@
 ﻿using FoodDeliveryWebsite.Models.Enums;
 
-namespace FoodDeliveryWebsite.Models.Dtos
+namespace FoodDeliveryWebsite.Models.Dtos.DiscountDtos
 {
     public class DiscountDto
     {
@@ -16,8 +16,8 @@ namespace FoodDeliveryWebsite.Models.Dtos
 
         private DiscountStatus GetStatus()
         {
-            DateTime startDate =  DateTime.Parse(StartDate);
-            DateTime expirationDate =  DateTime.Parse(ExpirationDate);
+            DateTime startDate = DateTime.Parse(StartDate);
+            DateTime expirationDate = DateTime.Parse(ExpirationDate);
 
             DateTime startDateUtc = DateTime.SpecifyKind(startDate, DateTimeKind.Utc);
             DateTime expirationDateUtc = DateTime.SpecifyKind(expirationDate, DateTimeKind.Utc);
@@ -25,8 +25,8 @@ namespace FoodDeliveryWebsite.Models.Dtos
             DateTime currentDate = DateTime.UtcNow;
 
             return currentDate >= startDateUtc
-                && currentDate <= expirationDateUtc 
-                    ? DiscountStatus.Available 
+                && currentDate <= expirationDateUtc
+                    ? DiscountStatus.Available
                     : DiscountStatus.Unavailable;
         }
     }

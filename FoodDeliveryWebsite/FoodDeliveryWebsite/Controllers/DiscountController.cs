@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Repositories;
-using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
 using FoodDeliveryWebsite.Repositories.CustomExceptions;
+using FoodDeliveryWebsite.Attributes;
+using FoodDeliveryWebsite.Models.Dtos.DiscountDtos;
 
 namespace FoodDeliveryWebsite.Controllers
 {

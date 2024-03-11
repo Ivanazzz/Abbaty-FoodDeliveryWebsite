@@ -1,4 +1,4 @@
-﻿namespace FoodDeliveryWebsite.Models.Dtos
+﻿namespace FoodDeliveryWebsite.Models.Dtos.DiscountDtos
 {
     public class DiscountOrderDto
     {

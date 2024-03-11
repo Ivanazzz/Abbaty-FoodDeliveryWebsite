@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 
 using FoodDeliveryWebsite.Models;
-using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
+using FoodDeliveryWebsite.Models.Dtos.OrderDtos;
 
 namespace FoodDeliveryWebsite.Repositories
 {

@@ -1,5 +1,10 @@
 ﻿using AutoMapper;
-using FoodDeliveryWebsite.Models.Dtos;
+using FoodDeliveryWebsite.Models.Dtos.AddressDtos;
+using FoodDeliveryWebsite.Models.Dtos.DiscountDtos;
+using FoodDeliveryWebsite.Models.Dtos.OrderDtos;
+using FoodDeliveryWebsite.Models.Dtos.OrderItemDtos;
+using FoodDeliveryWebsite.Models.Dtos.ProductDtos;
+using FoodDeliveryWebsite.Models.Dtos.UserDtos;
 using FoodDeliveryWebsite.Models.Entities;
 
 namespace FoodDeliveryWebsite

@@ -5,11 +5,12 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
-using FoodDeliveryWebsite.Models.Dtos;
 using FoodDeliveryWebsite.Repositories;
-using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
 using FoodDeliveryWebsite.Repositories.CustomExceptions;
 using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Attributes;
+using FoodDeliveryWebsite.Models.Dtos.TokenDtos;
+using FoodDeliveryWebsite.Models.Dtos.UserDtos;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -58,8 +59,8 @@ namespace FoodDeliveryWebsite.Controllers
                     Audience = "http://localhost:10001",
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.Role.ToString())
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.Role, user.Role.ToString())
                     }),
                     Expires = DateTime.Now.AddMinutes(120),
                     SigningCredentials = credentials
