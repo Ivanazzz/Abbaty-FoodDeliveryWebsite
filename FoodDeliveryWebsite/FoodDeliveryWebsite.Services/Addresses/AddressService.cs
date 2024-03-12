@@ -13,13 +13,13 @@ namespace FoodDeliveryWebsite.Services
 {
     public class AddressService : IAddressService
     {
-        private readonly IMapper mapper;
         private readonly IRepository repository;
+        private readonly IMapper mapper;
 
         public AddressService(IRepository repository, IMapper mapper)
         {
-            this.mapper = mapper;
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         public async Task<List<AddressDto>> GetAddressesAsync(string userEmail)

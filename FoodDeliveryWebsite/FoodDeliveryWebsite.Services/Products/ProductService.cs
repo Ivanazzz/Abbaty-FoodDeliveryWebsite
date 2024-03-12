@@ -15,13 +15,13 @@ namespace FoodDeliveryWebsite.Services
 {
     public class ProductService : IProductService
     {
-        private readonly IMapper mapper;
         private readonly IRepository repository;
+        private readonly IMapper mapper;
 
         public ProductService(IRepository repository, IMapper mapper)
         {
-            this.mapper = mapper;
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         public async Task<List<ProductGetDto>> GetAvailableProductsAsync()

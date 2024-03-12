@@ -19,6 +19,7 @@ namespace FoodDeliveryWebsite.Services
     {
         private readonly IRepository repository;
         private readonly IMapper mapper;
+
         const int keySize = 64;
         const int iterations = 350000;
         HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;

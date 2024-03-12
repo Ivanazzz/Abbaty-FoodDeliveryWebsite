@@ -12,13 +12,13 @@ namespace FoodDeliveryWebsite.Services
 {
     public class OrderService : IOrderService
     {
-        private readonly IMapper mapper;
         private readonly IRepository repository;
+        private readonly IMapper mapper;
 
         public OrderService(IRepository repository, IMapper mapper)
         {
-            this.mapper = mapper;
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         public async Task AddOrderAsync(string userEmail, OrderDto orderDto)
