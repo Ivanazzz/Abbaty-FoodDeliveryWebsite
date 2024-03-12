@@ -1,11 +1,9 @@
-﻿using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
-using Microsoft.AspNetCore.Mvc;
-
-using FoodDeliveryWebsite.Repositories;
-using FoodDeliveryWebsite.CustomExceptions;
-using FoodDeliveryWebsite.Repositories.CustomExceptions;
 using FoodDeliveryWebsite.Attributes;
+using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Services;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -14,11 +12,11 @@ namespace FoodDeliveryWebsite.Controllers
     [AuthorizedClient]
     public class OrderItemController : ControllerBase
     {
-        private IOrderItemRepository orderItemRepository { get; set; }
+        private IOrderItemService orderItemService { get; set; }
 
-        public OrderItemController(IOrderItemRepository orderItemRepository)
+        public OrderItemController(IOrderItemService orderItemService)
         {
-            this.orderItemRepository = orderItemRepository;
+            this.orderItemService = orderItemService;
         }
 
         [HttpGet]
@@ -28,7 +26,7 @@ namespace FoodDeliveryWebsite.Controllers
 
             try
             {
-                var orderItems = await orderItemRepository.GetOrderItemsAsync(userEmail);
+                var orderItems = await orderItemService.GetOrderItemsAsync(userEmail);
 
                 return Ok(orderItems);
             }
@@ -45,7 +43,7 @@ namespace FoodDeliveryWebsite.Controllers
 
             try
             {
-                await orderItemRepository.AddOrderItemAsync(userEmail, productId, quantity);
+                await orderItemService.AddOrderItemAsync(userEmail, productId, quantity);
 
                 return Ok();
             }
@@ -67,7 +65,7 @@ namespace FoodDeliveryWebsite.Controllers
 
             try
             {
-                var orderItemDto = await orderItemRepository.UpdateOrderItemAsync(userEmail, orderItemId, quantity);
+                var orderItemDto = await orderItemService.UpdateOrderItemAsync(userEmail, orderItemId, quantity);
 
                 return Ok(orderItemDto);
             }
@@ -84,7 +82,7 @@ namespace FoodDeliveryWebsite.Controllers
 
             try
             {
-                await orderItemRepository.DeleteOrderItemAsync(userEmail, orderItemId);
+                await orderItemService.DeleteOrderItemAsync(userEmail, orderItemId);
 
                 return Ok();
             }

@@ -1,32 +1,30 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
-using FoodDeliveryWebsite.Models;
+using FoodDeliveryWebsite.CustomExceptionMessages;
+using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Models.Common;
+using FoodDeliveryWebsite.Models.Dtos.AddressDtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Validations;
-using FoodDeliveryWebsite.CustomExceptions;
-using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
-using FoodDeliveryWebsite.Repositories.CustomExceptions;
-using FoodDeliveryWebsite.Models.Dtos.AddressDtos;
 
-namespace FoodDeliveryWebsite.Repositories
+namespace FoodDeliveryWebsite.Services
 {
-    public class AddressRepository : IAddressRepository
+    public class AddressService : IAddressService
     {
         private readonly IMapper mapper;
-        private readonly FoodDeliveryWebsiteDbContext context;
+        private readonly IRepository repository;
 
-        public AddressRepository(FoodDeliveryWebsiteDbContext context, IMapper mapper)
+        public AddressService(IRepository repository, IMapper mapper)
         {
             this.mapper = mapper;
-            this.context = context;
+            this.repository = repository;
         }
 
         public async Task<List<AddressDto>> GetAddressesAsync(string userEmail)
         {
-            var user = await context.Users
+            var user = await repository.All<User>()
                 .Include(u => u.Addresses)
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
                     && u.IsDeleted == false);
@@ -46,7 +44,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<AddressDto> GetSelectedAddressAsync(string userEmail, int id)
         {
-            var user = await context.Users
+            var user = await repository.All<User>()
                 .Include(u => u.Addresses)
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
                     && u.IsDeleted == false);
@@ -70,7 +68,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<List<AddressDto>> AddAddressAsync(string userEmail, AddressDto addressDto)
         {
-            var user = await context.Users
+            var user = await repository.All<User>()
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
                     && u.IsDeleted == false);
 
@@ -93,15 +91,15 @@ namespace FoodDeliveryWebsite.Repositories
                 }
             }
 
-            context.Addresses.Add(address);
-            await context.SaveChangesAsync();
+            await repository.AddAsync(address);
+            await repository.SaveChangesAsync();
 
             return await GetAddressesAsync(userEmail);
         }
 
         public async Task UpdateAddressAsync(string userEmail, AddressDto addressDto)
         {
-            var user = await context.Users
+            var user = await repository.All<User>()
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
                     && u.IsDeleted == false);
 
@@ -110,7 +108,7 @@ namespace FoodDeliveryWebsite.Repositories
                 throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
-            var address = await context.Addresses
+            var address = await repository.All<Address>()
                 .FirstOrDefaultAsync(a => a.Id == addressDto.Id 
                     && a.IsDeleted == false);
 
@@ -136,13 +134,13 @@ namespace FoodDeliveryWebsite.Repositories
                 }
             }
 
-            context.Addresses.Update(address);
-            await context.SaveChangesAsync();
+            repository.Update(address);
+            await repository.SaveChangesAsync();
         }
 
         public async Task DeleteAddressAsync(string userEmail, int id)
         {
-            var user = await context.Users
+            var user = await repository.All<User>()
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
                     && u.IsDeleted == false);
 
@@ -151,7 +149,7 @@ namespace FoodDeliveryWebsite.Repositories
                 throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
-            var address = await context.Addresses
+            var address = await repository.All<Address>()
                 .FirstOrDefaultAsync(a => a.Id == id 
                     && a.IsDeleted == false);
 
@@ -162,8 +160,8 @@ namespace FoodDeliveryWebsite.Repositories
 
             address.IsDeleted = true;
 
-            context.Addresses.Update(address);
-            context.SaveChanges();
+            repository.Update(address);
+            await repository.SaveChangesAsync();
         }
     }
 }

@@ -1,34 +1,33 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
-
-using AutoMapper;
+﻿using AutoMapper;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
+using FoodDeliveryWebsite.CustomExceptionMessages;
 using FoodDeliveryWebsite.CustomExceptions;
-using FoodDeliveryWebsite.Models;
+using FoodDeliveryWebsite.Models.Common;
+using FoodDeliveryWebsite.Models.Dtos.ProductDtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Enums;
 using FoodDeliveryWebsite.Models.Validations;
-using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
-using FoodDeliveryWebsite.Repositories.CustomExceptions;
-using FoodDeliveryWebsite.Models.Dtos.ProductDtos;
 
-namespace FoodDeliveryWebsite.Repositories
+namespace FoodDeliveryWebsite.Services
 {
-    public class ProductRepository : IProductRepository
+    public class ProductService : IProductService
     {
         private readonly IMapper mapper;
-        private readonly FoodDeliveryWebsiteDbContext context;
+        private readonly IRepository repository;
 
-        public ProductRepository(FoodDeliveryWebsiteDbContext context, IMapper mapper)
+        public ProductService(IRepository repository, IMapper mapper)
         {
             this.mapper = mapper;
-            this.context = context;
+            this.repository = repository;
         }
 
         public async Task<List<ProductGetDto>> GetAvailableProductsAsync()
         {
-            var products = await context.Products
+            var products = await repository
+                .All<Product>()
                 .Where(p => p.Status == ProductStatus.Available)
                 .Select(p => mapper.Map<ProductGetDto>(p))
                 .ToListAsync();
@@ -38,7 +37,8 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<List<ProductGetDto>> GetAllProductsAsync()
         {
-            var products = await context.Products
+            var products = await repository
+                .All<Product>()
                 .Select(p => mapper.Map<ProductGetDto>(p))
                 .ToListAsync();
 
@@ -47,8 +47,8 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<ProductGetDto> GetSelectedProductAsync(int id)
         {
-            var product = await context.Products
-                .FirstOrDefaultAsync(p => p.Id == id);
+            var product = await repository
+                .GetByIdAsync<Product>(id);
 
             if (product == null || product.IsDeleted == true)
             {
@@ -62,7 +62,8 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<List<ProductGetDto>> GetFilteredProductAsync(ProductType productType)
         {
-            var products = await context.Products
+            var products = await repository
+                .All<Product>()
                 .Where(p => p.Type == productType
                     && p.Status == ProductStatus.Available)
                 .Select(p => mapper.Map<ProductGetDto>(p))
@@ -74,7 +75,9 @@ namespace FoodDeliveryWebsite.Repositories
         public async Task<List<ProductGetDto>> GetCustomFilteredProductAsync(ProductFilterDto filter)
         {
             var products = await filter
-                .WhereBuilder(context.Products.AsQueryable())
+                .WhereBuilder(repository
+                    .All<Product>()
+                    .AsQueryable())
                 .Select(p => mapper.Map<ProductGetDto>(p))
                 .ToListAsync();
 
@@ -83,7 +86,8 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<List<ProductGetDto>> GetProductsWithStatusAsync(ProductStatus productStatus)
         {
-            var products = await context.Products
+            var products = await repository
+                .All<Product>()
                 .Where(p => p.Status == productStatus 
                     && p.IsDeleted == false)
                 .Select(p => mapper.Map<ProductGetDto>(p))
@@ -126,14 +130,13 @@ namespace FoodDeliveryWebsite.Repositories
             product.ImageName = productDto.Image.FileName;
             product.ImageMimeType = productDto.Image.ContentType;
 
-            context.Products.Add(product);
-            await context.SaveChangesAsync();
+            await repository.AddAsync(product);
+            await repository.SaveChangesAsync();
         }
 
         public async Task UpdateProductAsync(ProductGetDto productDto)
         {
-            var product = await context.Products
-                .FirstOrDefaultAsync(p => p.Id == productDto.Id);
+            var product = await repository.GetByIdAsync<Product>(productDto.Id);
 
             if (product == null)
             {
@@ -158,13 +161,14 @@ namespace FoodDeliveryWebsite.Repositories
                 }
             }
 
-            context.Products.Update(product);
-            await context.SaveChangesAsync();
+            repository.Update(product);
+            await repository.SaveChangesAsync();
         }
 
         public async Task DeleteProductAsync(int id)
         {
-            var product = await context.Products
+            var product = await repository
+                .All<Product>()
                 .FirstOrDefaultAsync(p => p.Id == id 
                     && p.IsDeleted == false);
 
@@ -176,8 +180,8 @@ namespace FoodDeliveryWebsite.Repositories
             product.Status = ProductStatus.Unavailable;
             product.IsDeleted = true;
 
-            context.Products.Update(product);
-            await context.SaveChangesAsync();
+            repository.Update(product);
+            await repository.SaveChangesAsync();
         }
 
         private async Task<byte[]> ConvertIFormFileToByteArray(IFormFile formFile)

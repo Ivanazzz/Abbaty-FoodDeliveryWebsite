@@ -1,29 +1,30 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 
-using FluentValidation;
-
-using FoodDeliveryWebsite.Models;
-using FoodDeliveryWebsite.Models.Entities;
-using FoodDeliveryWebsite.Models.Validations;
-using FoodDeliveryWebsite.Models.Enums;
-using FoodDeliveryWebsite.Repositories.CustomExceptions;
-using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
+using FoodDeliveryWebsite.CustomExceptionMessages;
+using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Models.Common;
 using FoodDeliveryWebsite.Models.Dtos.DiscountDtos;
+using FoodDeliveryWebsite.Models.Entities;
+using FoodDeliveryWebsite.Models.Enums;
+using FoodDeliveryWebsite.Models.Validations;
 
-namespace FoodDeliveryWebsite.Repositories
+namespace FoodDeliveryWebsite.Services
 {
-    public class DiscountRepository : IDiscountRepository
+    public class DiscountService : IDiscountService
     {
-        private readonly FoodDeliveryWebsiteDbContext context;
+        private readonly IRepository repository;
 
-        public DiscountRepository(FoodDeliveryWebsiteDbContext context)
+        public DiscountService(IRepository repository)
         {
-            this.context = context;
+            this.repository = repository;
         }
 
         public async Task<List<DiscountDto>> GetAvailableDiscountsAsync()
         {
-            var currentDiscounts = await context.Discounts.ToListAsync();
+            var currentDiscounts = await repository
+                .All<Discount>()
+                .ToListAsync();
 
             List<DiscountDto> discounts = new List<DiscountDto>();
             foreach (var discount in currentDiscounts)
@@ -46,7 +47,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<List<DiscountDto>> GetUpcomingDiscountsAsync()
         {
-            var upcomingDiscounts = await context.Discounts
+            var upcomingDiscounts = await repository.All<Discount>()
                 .Where(d => d.StartDate > DateTime.UtcNow)
                 .ToListAsync();
 
@@ -67,7 +68,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<DiscountOrderDto> GetDiscountAsync(string code)
         {
-            var discount = await context.Discounts
+            var discount = await repository.All<Discount>()
                 .FirstOrDefaultAsync(d => d.Code == code);
 
             var discountOrderDto = new DiscountOrderDto();
@@ -118,8 +119,8 @@ namespace FoodDeliveryWebsite.Repositories
                 }
             }
 
-            context.Discounts.Add(discount);
-            await context.SaveChangesAsync();
+            await repository.AddAsync(discount);
+            await repository.SaveChangesAsync();
         }
     }
 }

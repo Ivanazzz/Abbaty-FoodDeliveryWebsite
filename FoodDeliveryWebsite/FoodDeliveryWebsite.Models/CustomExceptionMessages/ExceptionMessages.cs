@@ -1,4 +1,4 @@
-﻿namespace FoodDeliveryWebsite.Repositories.CustomExceptionMessages
+﻿namespace FoodDeliveryWebsite.CustomExceptionMessages
 {
     public static class ExceptionMessages
     {

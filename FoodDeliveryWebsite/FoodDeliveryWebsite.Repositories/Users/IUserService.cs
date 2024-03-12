@@ -1,9 +1,9 @@
 ﻿using FoodDeliveryWebsite.Models.Dtos.UserDtos;
 using FoodDeliveryWebsite.Models.Entities;
 
-namespace FoodDeliveryWebsite.Repositories
+namespace FoodDeliveryWebsite.Services
 {
-    public interface IUserRepository
+    public interface IUserService
     {
         Task RegisterAsync(UserRegistrationDto userRegistrationDto);
 

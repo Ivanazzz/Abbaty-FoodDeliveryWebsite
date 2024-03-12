@@ -1,34 +1,32 @@
-﻿using System.Security.Cryptography;
+﻿using AutoMapper;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 
-using AutoMapper;
-using FluentValidation;
-using Microsoft.EntityFrameworkCore;
-
+using FoodDeliveryWebsite.CustomExceptionMessages;
 using FoodDeliveryWebsite.CustomExceptions;
-using FoodDeliveryWebsite.Models;
+using FoodDeliveryWebsite.Models.Common;
+using FoodDeliveryWebsite.Models.Dtos.UserDtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Enums;
 using FoodDeliveryWebsite.Models.Validations;
-using FoodDeliveryWebsite.Repositories.CustomExceptions;
-using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
-using FoodDeliveryWebsite.Models.Dtos.UserDtos;
 
-namespace FoodDeliveryWebsite.Repositories
+namespace FoodDeliveryWebsite.Services
 {
-    public class UserRepository : IUserRepository
+    public class UserService : IUserService
     {
+        private readonly IRepository repository;
         private readonly IMapper mapper;
-        private readonly FoodDeliveryWebsiteDbContext context;
         const int keySize = 64;
         const int iterations = 350000;
         HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
 
-        public UserRepository(FoodDeliveryWebsiteDbContext context, IMapper mapper)
+        public UserService(IRepository repository, IMapper mapper)
         {
+            this.repository = repository;
             this.mapper = mapper;
-            this.context = context;
         }
 
         public async Task RegisterAsync(UserRegistrationDto userRegistrationDto)
@@ -48,7 +46,8 @@ namespace FoodDeliveryWebsite.Repositories
                 }
             }
 
-            bool userExists = await context.Users
+            bool userExists = await repository
+                .All<User>()
                 .FirstOrDefaultAsync(u => u.Email == user.Email && u.IsDeleted == false) != null
                     ? true
                     : false;
@@ -65,13 +64,14 @@ namespace FoodDeliveryWebsite.Repositories
             user.PasswordConfirmation = hashedPassword;
             user.Salt = Convert.ToHexString(salt);
 
-            context.Users.Add(user);
-            await context.SaveChangesAsync();
+            await repository.AddAsync(user);
+            await repository.SaveChangesAsync();
         }
 
         public async Task<User> LoginAsync(UserLoginDto userLoginDto)
         {
-            var user = await context.Users
+            var user = await repository
+                .All<User>()
                 .FirstOrDefaultAsync(u => u.Email == userLoginDto.Email 
                     && u.IsDeleted == false);
 
@@ -92,7 +92,8 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task<UserDto> GetUserAsync(string email)
         {
-            var user = await context.Users
+            var user = await repository
+                .All<User>()
                 .FirstOrDefaultAsync(u => u.Email == email 
                     && u.IsDeleted == false);
 
@@ -108,7 +109,8 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task UpdateUserAsync(string email, UserDto userDto)
         {
-            var user = await context.Users
+            var user = await repository
+                .All<User>()
                 .FirstOrDefaultAsync(u => u.Email == email 
                     && u.IsDeleted == false);
 
@@ -135,13 +137,14 @@ namespace FoodDeliveryWebsite.Repositories
 
             user.PhoneNumber = FormatPhoneNumber(user.PhoneNumber);
 
-            context.Users.Update(user);
-            await context.SaveChangesAsync();
+            repository.Update(user);
+            await repository.SaveChangesAsync();
         }
 
         public async Task DeleteUserAsync(string email)
         {
-            var user = await context.Users
+            var user = await repository
+                .All<User>()
                 .FirstOrDefaultAsync(u => u.Email == email 
                     && u.IsDeleted == false);
 
@@ -151,7 +154,7 @@ namespace FoodDeliveryWebsite.Repositories
             }
 
             user.IsDeleted = true;
-            await context.SaveChangesAsync();
+            await repository.SaveChangesAsync();
         }
 
         private static string FormatPhoneNumber(string phoneNumber)

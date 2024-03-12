@@ -1,9 +1,9 @@
 ﻿using FoodDeliveryWebsite.Models.Dtos.ProductDtos;
 using FoodDeliveryWebsite.Models.Enums;
 
-namespace FoodDeliveryWebsite.Repositories
+namespace FoodDeliveryWebsite.Services
 {
-    public interface IProductRepository
+    public interface IProductService
     {
         Task<List<ProductGetDto>> GetAvailableProductsAsync();
 

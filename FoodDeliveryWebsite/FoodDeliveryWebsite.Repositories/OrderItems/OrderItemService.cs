@@ -1,27 +1,26 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using FoodDeliveryWebsite.Models;
-using FoodDeliveryWebsite.Models.Entities;
+using FoodDeliveryWebsite.CustomExceptionMessages;
 using FoodDeliveryWebsite.CustomExceptions;
-using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
-using FoodDeliveryWebsite.Repositories.CustomExceptions;
+using FoodDeliveryWebsite.Models.Common;
 using FoodDeliveryWebsite.Models.Dtos.OrderItemDtos;
 using FoodDeliveryWebsite.Models.Dtos.ProductDtos;
+using FoodDeliveryWebsite.Models.Entities;
 
-namespace FoodDeliveryWebsite.Repositories
+namespace FoodDeliveryWebsite.Services
 {
-    public class OrderItemRepository : IOrderItemRepository
+    public class OrderItemService : IOrderItemService
     {
-        private readonly FoodDeliveryWebsiteDbContext context;
+        private readonly IRepository repository;
 
-        public OrderItemRepository(FoodDeliveryWebsiteDbContext context)
+        public OrderItemService(IRepository repository)
         {
-            this.context = context;
+            this.repository = repository;
         }
 
         public async Task<List<OrderItemDto>> GetOrderItemsAsync(string userEmail)
         {
-            var user = await context.Users
+            var user = await repository.All<User>()
                 .Include(u => u.OrderItems)
                 .ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
@@ -62,7 +61,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task AddOrderItemAsync(string userEmail, int productId, int quantity)
         {
-            var user = await context.Users
+            var user = await repository.All<User>()
                 .Include(u => u.OrderItems)
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
                     && u.IsDeleted == false);
@@ -72,7 +71,7 @@ namespace FoodDeliveryWebsite.Repositories
                 throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
-            var product = await context.Products
+            var product = await repository.All<Product>()
                 .FirstOrDefaultAsync(p => p.Id == productId);
 
             if (product == null)
@@ -93,8 +92,8 @@ namespace FoodDeliveryWebsite.Repositories
             {
                 orderItemExisting.ProductQuantity += quantity;
 
-                context.OrderItems.Update(orderItemExisting);
-                await context.SaveChangesAsync();
+                repository.Update(orderItemExisting);
+                await repository.SaveChangesAsync();
 
                 return;
             }
@@ -109,13 +108,13 @@ namespace FoodDeliveryWebsite.Repositories
                 Price = product.Price * quantity
             };
 
-            context.OrderItems.Add(orderItem);
-            await context.SaveChangesAsync();
+            await repository.AddAsync(orderItem);
+            await repository.SaveChangesAsync();
         }
 
         public async Task<OrderItemDto> UpdateOrderItemAsync(string userEmail, int orderItemId, int quantity)
         {
-            var user = await context.Users
+            var user = await repository.All<User>()
                 .Include(u => u.OrderItems)
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
                     && u.IsDeleted == false);
@@ -125,7 +124,7 @@ namespace FoodDeliveryWebsite.Repositories
                 throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
-            var orderItem = await context.OrderItems
+            var orderItem = await repository.All<OrderItem>()
                 .Include(oi => oi.Product)
                 .FirstOrDefaultAsync(oi => oi.Id == orderItemId);
 
@@ -142,8 +141,8 @@ namespace FoodDeliveryWebsite.Repositories
             orderItem.ProductQuantity = quantity;
             orderItem.Price = orderItem.Product.Price * orderItem.ProductQuantity;
 
-            context.OrderItems.Update(orderItem);
-            await context.SaveChangesAsync();
+            repository.Update(orderItem);
+            await repository.SaveChangesAsync();
 
             var orderItemDto = new OrderItemDto
             {
@@ -166,7 +165,7 @@ namespace FoodDeliveryWebsite.Repositories
 
         public async Task DeleteOrderItemAsync(string userEmail, int orderItemId)
         {
-            var orderItem = await context.OrderItems
+            var orderItem = await repository.All<OrderItem>()
                 .FirstOrDefaultAsync(oi => oi.Id == orderItemId);
 
             if (orderItem == null)
@@ -174,7 +173,7 @@ namespace FoodDeliveryWebsite.Repositories
                 throw new NotFoundException(ExceptionMessages.InvalidOrderItem);
             }
 
-            var user = await context.Users
+            var user = await repository.All<User>()
                 .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
 
             if (user == null)
@@ -187,8 +186,8 @@ namespace FoodDeliveryWebsite.Repositories
                 throw new NotFoundException(ExceptionMessages.InvalidOrderItemForUser);
             }
 
-            context.OrderItems.Remove(orderItem);
-            await context.SaveChangesAsync();
+            repository.Delete(orderItem);
+            await repository.SaveChangesAsync();
         }
     }
 }

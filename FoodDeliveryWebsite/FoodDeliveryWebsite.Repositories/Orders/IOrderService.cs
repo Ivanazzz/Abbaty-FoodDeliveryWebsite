@@ -1,8 +1,8 @@
 ﻿using FoodDeliveryWebsite.Models.Dtos.OrderDtos;
 
-namespace FoodDeliveryWebsite.Repositories
+namespace FoodDeliveryWebsite.Services
 {
-    public interface IOrderRepository
+    public interface IOrderService
     {
         Task AddOrderAsync(string userEmail, OrderDto orderDto);
     }

@@ -1,25 +1,24 @@
-﻿using System.Transactions;
-
+﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
+using System.Transactions;
 
-using FoodDeliveryWebsite.Models;
-using FoodDeliveryWebsite.Models.Entities;
+using FoodDeliveryWebsite.CustomExceptionMessages;
 using FoodDeliveryWebsite.CustomExceptions;
-using FoodDeliveryWebsite.Repositories.CustomExceptionMessages;
+using FoodDeliveryWebsite.Models.Common;
 using FoodDeliveryWebsite.Models.Dtos.OrderDtos;
+using FoodDeliveryWebsite.Models.Entities;
 
-namespace FoodDeliveryWebsite.Repositories
+namespace FoodDeliveryWebsite.Services
 {
-    public class OrderRepository : IOrderRepository
+    public class OrderService : IOrderService
     {
         private readonly IMapper mapper;
-        private readonly FoodDeliveryWebsiteDbContext context;
+        private readonly IRepository repository;
 
-        public OrderRepository(FoodDeliveryWebsiteDbContext context, IMapper mapper)
+        public OrderService(IRepository repository, IMapper mapper)
         {
             this.mapper = mapper;
-            this.context = context;
+            this.repository = repository;
         }
 
         public async Task AddOrderAsync(string userEmail, OrderDto orderDto)
@@ -33,7 +32,7 @@ namespace FoodDeliveryWebsite.Repositories
                         throw new NotFoundException(ExceptionMessages.InvalidOrder);
                     }
 
-                    var user = await context.Users
+                    var user = await repository.All<User>()
                         .FirstOrDefaultAsync(u => u.Email == userEmail
                             && u.IsDeleted == false);
 
@@ -52,10 +51,10 @@ namespace FoodDeliveryWebsite.Repositories
                         throw new NotFoundException(ExceptionMessages.InvalidOrder);
                     }
 
-                    context.Orders.Add(order);
-                    await context.SaveChangesAsync();
+                    await repository.AddAsync(order);
+                    await repository.SaveChangesAsync();
 
-                    var orderItemsFromDatabase = await context.OrderItems
+                    var orderItemsFromDatabase = await repository.All<OrderItem>()
                         .Where(oi => oi.UserId == user.Id 
                             && oi.OrderId == null)
                         .ToListAsync();
@@ -65,7 +64,7 @@ namespace FoodDeliveryWebsite.Repositories
                         orderItem.OrderId = order.Id;
                     }
 
-                    await context.SaveChangesAsync();
+                    await repository.SaveChangesAsync();
 
                     transactionScope.Complete();
                 }

@@ -1,8 +1,8 @@
 ﻿using FoodDeliveryWebsite.Models.Dtos.AddressDtos;
 
-namespace FoodDeliveryWebsite.Repositories
+namespace FoodDeliveryWebsite.Services
 {
-    public interface IAddressRepository
+    public interface IAddressService
     {
         Task<List<AddressDto>> GetAddressesAsync(string userEmail);
 

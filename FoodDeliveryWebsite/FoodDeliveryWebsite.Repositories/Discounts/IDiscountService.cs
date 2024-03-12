@@ -1,8 +1,8 @@
 ﻿using FoodDeliveryWebsite.Models.Dtos.DiscountDtos;
 
-namespace FoodDeliveryWebsite.Repositories
+namespace FoodDeliveryWebsite.Services
 {
-    public interface IDiscountRepository
+    public interface IDiscountService
     {
         Task<List<DiscountDto>> GetAvailableDiscountsAsync();
 

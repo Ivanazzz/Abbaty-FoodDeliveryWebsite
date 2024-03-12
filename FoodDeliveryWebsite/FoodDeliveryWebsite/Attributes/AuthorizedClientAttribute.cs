@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc;
-
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System.Security.Claims;
 
 using FoodDeliveryWebsite.Models.Enums;

@@ -1,12 +1,12 @@
-﻿using System.Text;
-
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using FluentValidation;
+using System.Text;
 
+using FoodDeliveryWebsite.Models.Common;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Validations;
-using FoodDeliveryWebsite.Repositories;
+using FoodDeliveryWebsite.Services;
 
 namespace FoodDeliveryWebsite
 {
@@ -15,12 +15,13 @@ namespace FoodDeliveryWebsite
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services
-                .AddScoped<IUserRepository, UserRepository>()
-                .AddScoped<IAddressRepository, AddressRepository>()
-                .AddScoped<IDiscountRepository, DiscountRepository>()
-                .AddScoped<IProductRepository, ProductRepository>()
-                .AddScoped<IOrderItemRepository, OrderItemRepository>()
-                .AddScoped<IOrderRepository, OrderRepository>()
+                .AddScoped<IRepository, Repository>()
+                .AddScoped<IUserService, UserService>()
+                .AddScoped<IAddressService, AddressService>()
+                .AddScoped<IDiscountService, DiscountService>()
+                .AddScoped<IProductService, ProductService>()
+                .AddScoped<IOrderItemService, OrderItemService>()
+                .AddScoped<IOrderService, OrderService>()
                 .AddScoped<IValidator<User>, UserValidator>()
                 .AddScoped<IValidator<Address>, AddressValidator>()
                 .AddScoped<IValidator<Discount>, DiscountValidator>();

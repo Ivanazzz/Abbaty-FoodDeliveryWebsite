@@ -1,5 +1,6 @@
-﻿using FoodDeliveryWebsite.Models.Enums;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+
+using FoodDeliveryWebsite.Models.Enums;
 
 namespace FoodDeliveryWebsite.Models.Dtos.ProductDtos
 {

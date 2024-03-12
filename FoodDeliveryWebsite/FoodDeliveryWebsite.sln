@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDeliveryWebsite", "Food
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDeliveryWebsite.Models", "FoodDeliveryWebsite.Models\FoodDeliveryWebsite.Models.csproj", "{BB50786E-738F-48EB-8014-B814AC56FE49}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDeliveryWebsite.Repositories", "FoodDeliveryWebsite.Repositories\FoodDeliveryWebsite.Repositories.csproj", "{8B300EEE-D939-4CDD-A932-1E9E9223B89E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDeliveryWebsite.Services", "FoodDeliveryWebsite.Repositories\FoodDeliveryWebsite.Services.csproj", "{8B300EEE-D939-4CDD-A932-1E9E9223B89E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDeliveryWebsite.UnitTests", "FoodDeliveryWebsiteUnitTests\FoodDeliveryWebsite.UnitTests.csproj", "{3F1575DD-58E5-4313-88D0-8F7E36B49609}"
 EndProject

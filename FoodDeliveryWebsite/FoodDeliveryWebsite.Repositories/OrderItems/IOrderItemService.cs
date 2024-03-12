@@ -1,8 +1,8 @@
 ﻿using FoodDeliveryWebsite.Models.Dtos.OrderItemDtos;
 
-namespace FoodDeliveryWebsite.Repositories
+namespace FoodDeliveryWebsite.Services
 {
-    public interface IOrderItemRepository
+    public interface IOrderItemService
     {
         Task<List<OrderItemDto>> GetOrderItemsAsync(string userEmail);
 

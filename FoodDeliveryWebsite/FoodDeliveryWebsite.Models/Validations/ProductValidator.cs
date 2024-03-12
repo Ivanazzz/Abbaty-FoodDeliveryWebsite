@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 
+using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Entities;
-using FoodDeliveryWebsite.Repositories.CustomExceptions;
 
 namespace FoodDeliveryWebsite.Models.Validations
 {
