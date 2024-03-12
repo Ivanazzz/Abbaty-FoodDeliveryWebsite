@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using FoodDeliveryWebsite.Models.Dtos;
-using FoodDeliveryWebsite.Repositories;
-using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
-using FoodDeliveryWebsite.Repositories.CustomExceptions;
+using FoodDeliveryWebsite.Attributes;
+using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Models.Dtos.DiscountDtos;
+using FoodDeliveryWebsite.Services;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -11,18 +11,18 @@ namespace FoodDeliveryWebsite.Controllers
     [Route("api/[controller]s")]
     public class DiscountController : ControllerBase
     {
-        private IDiscountRepository discountRepository { get; set; }
+        private IDiscountService discountService { get; set; }
 
-        public DiscountController(IDiscountRepository discountRepository)
+        public DiscountController(IDiscountService discountService)
         {
-            this.discountRepository = discountRepository;
+            this.discountService = discountService;
         }
 
         [HttpGet("Available")]
         [AuthorizedAdmin]
         public async Task<IActionResult> GetAvailableAsync()
         {
-            var discounts = await discountRepository.GetAvailableDiscountsAsync();
+            var discounts = await discountService.GetAvailableDiscountsAsync();
 
             return Ok(discounts);
         }
@@ -31,7 +31,7 @@ namespace FoodDeliveryWebsite.Controllers
         [AuthorizedAdmin]
         public async Task<IActionResult> GetUpcomingAsync()
         {
-            var discounts = await discountRepository.GetUpcomingDiscountsAsync();
+            var discounts = await discountService.GetUpcomingDiscountsAsync();
 
             return Ok(discounts);
         }
@@ -40,7 +40,7 @@ namespace FoodDeliveryWebsite.Controllers
         [AuthorizedClient]
         public async Task<IActionResult> GetDiscountAsync([FromQuery] string code)
         {
-            var discount = await discountRepository.GetDiscountAsync(code);
+            var discount = await discountService.GetDiscountAsync(code);
 
             return Ok(discount);
         }
@@ -51,7 +51,7 @@ namespace FoodDeliveryWebsite.Controllers
         {
             try
             {
-                await discountRepository.AddDiscountAsync(discountDto);
+                await discountService.AddDiscountAsync(discountDto);
 
                 return Ok();
             }

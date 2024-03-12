@@ -1,8 +1,4 @@
-using System.Text;
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 using FoodDeliveryWebsite.Models;
 using FoodDeliveryWebsite.Middlewares;
@@ -15,38 +11,18 @@ namespace FoodDeliveryWebsite
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            //Jwt configuration starts here
-            builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(o =>
-            {
-                o.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true
-                };
-            });
-            //Jwt configuration ends here
-
             // Add services to the container.
-            //builder.Services.AddApplication();
             builder.Services.AddDbContext<FoodDeliveryWebsiteDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DBConnection")));
+
+            builder.Services.ConfigureJwtAuthenticationServices(builder.Configuration);
+            builder.Services.AddApplicationServices();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddApplication();
             builder.Services.AddAuthorization();
 
             builder.Services.AddAutoMapper(typeof(MappingProfile));

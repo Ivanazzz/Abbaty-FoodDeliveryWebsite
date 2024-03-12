@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FoodDeliveryWebsite.Models\FoodDeliveryWebsite.Models.csproj" />
-    <ProjectReference Include="..\FoodDeliveryWebsite.Repositories\FoodDeliveryWebsite.Repositories.csproj" />
+    <ProjectReference Include="..\FoodDeliveryWebsite.Repositories\FoodDeliveryWebsite.Services.csproj" />
   </ItemGroup>
 
 </Project>

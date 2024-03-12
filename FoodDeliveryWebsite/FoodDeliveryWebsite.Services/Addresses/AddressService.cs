@@ -1,0 +1,167 @@
+﻿using AutoMapper;
+using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+
+using FoodDeliveryWebsite.CustomExceptionMessages;
+using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Models.Common;
+using FoodDeliveryWebsite.Models.Dtos.AddressDtos;
+using FoodDeliveryWebsite.Models.Entities;
+using FoodDeliveryWebsite.Models.Validations;
+
+namespace FoodDeliveryWebsite.Services
+{
+    public class AddressService : IAddressService
+    {
+        private readonly IMapper mapper;
+        private readonly IRepository repository;
+
+        public AddressService(IRepository repository, IMapper mapper)
+        {
+            this.mapper = mapper;
+            this.repository = repository;
+        }
+
+        public async Task<List<AddressDto>> GetAddressesAsync(string userEmail)
+        {
+            var user = await repository.All<User>()
+                .Include(u => u.Addresses)
+                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                    && u.IsDeleted == false);
+
+            if (user == null)
+            {
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
+            }
+
+            var userAddresses = user.Addresses
+                .Where(a => a.IsDeleted == false)
+                .Select(a => mapper.Map<AddressDto>(a))
+                .ToList();
+
+            return userAddresses;
+        }
+
+        public async Task<AddressDto> GetSelectedAddressAsync(string userEmail, int id)
+        {
+            var user = await repository.All<User>()
+                .Include(u => u.Addresses)
+                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                    && u.IsDeleted == false);
+
+            if (user == null)
+            {
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
+            }
+
+            var address = user.Addresses
+                .FirstOrDefault(a => a.Id == id 
+                    && a.IsDeleted == false);
+
+            if (address == null)
+            {
+                throw new NotFoundException(ExceptionMessages.InvalidAddress);
+            }
+
+            return mapper.Map<AddressDto>(address);
+        }
+
+        public async Task<List<AddressDto>> AddAddressAsync(string userEmail, AddressDto addressDto)
+        {
+            var user = await repository.All<User>()
+                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                    && u.IsDeleted == false);
+
+            if (user == null)
+            {
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
+            }
+
+            var address = mapper.Map<Address>(addressDto);
+            address.UserId = user.Id;
+
+            AddressValidator validator = new AddressValidator();
+            var result = validator.Validate(address);
+
+            foreach (var failure in result.Errors)
+            {
+                if (failure.CustomState is BadRequestException bre)
+                {
+                    throw bre;
+                }
+            }
+
+            await repository.AddAsync(address);
+            await repository.SaveChangesAsync();
+
+            return await GetAddressesAsync(userEmail);
+        }
+
+        public async Task UpdateAddressAsync(string userEmail, AddressDto addressDto)
+        {
+            var user = await repository.All<User>()
+                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                    && u.IsDeleted == false);
+
+            if (user == null)
+            {
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
+            }
+
+            var address = await repository.All<Address>()
+                .FirstOrDefaultAsync(a => a.Id == addressDto.Id 
+                    && a.IsDeleted == false);
+
+            if (address == null)
+            {
+                throw new NotFoundException(ExceptionMessages.InvalidAddress);
+            }
+
+            address.City = addressDto.City;
+            address.Street = addressDto.Street;
+            address.StreetNo = addressDto.StreetNo;
+            address.Floor = address.Floor;
+            address.ApartmentNo = addressDto.ApartmentNo;
+
+            AddressValidator validator = new AddressValidator();
+            var result = validator.Validate(address);
+
+            foreach (var failure in result.Errors)
+            {
+                if (failure.CustomState is BadRequestException bre)
+                {
+                    throw bre;
+                }
+            }
+
+            repository.Update(address);
+            await repository.SaveChangesAsync();
+        }
+
+        public async Task DeleteAddressAsync(string userEmail, int id)
+        {
+            var user = await repository.All<User>()
+                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                    && u.IsDeleted == false);
+
+            if (user == null)
+            {
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
+            }
+
+            var address = await repository.All<Address>()
+                .FirstOrDefaultAsync(a => a.Id == id 
+                    && a.IsDeleted == false);
+
+            if (address == null)
+            {
+                throw new NotFoundException(ExceptionMessages.InvalidAddress);
+            }
+
+            address.IsDeleted = true;
+
+            repository.Update(address);
+            await repository.SaveChangesAsync();
+        }
+    }
+}

@@ -1,11 +1,10 @@
-﻿using System.Security.Claims;
-
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Security.Claims;
 
 using FoodDeliveryWebsite.Models.Common;
 using FoodDeliveryWebsite.Models.Entities;
-using Microsoft.AspNetCore.Http;
 
 namespace FoodDeliveryWebsite.Models
 {

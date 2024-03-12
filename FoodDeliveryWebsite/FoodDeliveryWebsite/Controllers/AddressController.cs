@@ -1,11 +1,10 @@
-﻿using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
-using Microsoft.AspNetCore.Mvc;
-using FoodDeliveryWebsite.Repositories;
-using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
+using FoodDeliveryWebsite.Attributes;
 using FoodDeliveryWebsite.CustomExceptions;
-using FoodDeliveryWebsite.Repositories.CustomExceptions;
-using FoodDeliveryWebsite.Models.Dtos;
+using FoodDeliveryWebsite.Models.Dtos.AddressDtos;
+using FoodDeliveryWebsite.Services;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -14,11 +13,11 @@ namespace FoodDeliveryWebsite.Controllers
     [AuthorizedClient]
     public class AddressController : ControllerBase
     {
-        private IAddressRepository addressRepository { get; set; }
+        private IAddressService addressService { get; set; }
 
-        public AddressController(IAddressRepository addressRepository)
+        public AddressController(IAddressService addressService)
         {
-            this.addressRepository = addressRepository;
+            this.addressService = addressService;
         }
 
         [HttpGet]
@@ -28,7 +27,7 @@ namespace FoodDeliveryWebsite.Controllers
 
             try
             {
-                var addresses = await addressRepository.GetAddressesAsync(userEmail);
+                var addresses = await addressService.GetAddressesAsync(userEmail);
 
                 return Ok(addresses);
             }
@@ -45,7 +44,7 @@ namespace FoodDeliveryWebsite.Controllers
 
             try
             {
-                var address = await addressRepository.GetSelectedAddressAsync(userEmail, id);
+                var address = await addressService.GetSelectedAddressAsync(userEmail, id);
 
                 return Ok(address);
             }
@@ -62,7 +61,7 @@ namespace FoodDeliveryWebsite.Controllers
 
             try
             {
-                var addresses = await addressRepository.AddAddressAsync(userEmail, addressDto);
+                var addresses = await addressService.AddAddressAsync(userEmail, addressDto);
 
                 return Ok(addresses);
             }
@@ -84,7 +83,7 @@ namespace FoodDeliveryWebsite.Controllers
 
             try
             {
-                await addressRepository.UpdateAddressAsync(userEmail, addressDto);
+                await addressService.UpdateAddressAsync(userEmail, addressDto);
 
                 return Ok();
             }
@@ -105,7 +104,7 @@ namespace FoodDeliveryWebsite.Controllers
 
             try
             {
-                await addressRepository.DeleteAddressAsync(userEmail, id);
+                await addressService.DeleteAddressAsync(userEmail, id);
 
                 return Ok();
             }

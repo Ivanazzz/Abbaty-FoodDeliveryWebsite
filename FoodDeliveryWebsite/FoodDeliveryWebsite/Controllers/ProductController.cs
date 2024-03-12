@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using FoodDeliveryWebsite.Models.Dtos;
-using FoodDeliveryWebsite.Models.Enums;
-using FoodDeliveryWebsite.Repositories;
-using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
+using FoodDeliveryWebsite.Attributes;
 using FoodDeliveryWebsite.CustomExceptions;
-using FoodDeliveryWebsite.Repositories.CustomExceptions;
+using FoodDeliveryWebsite.Models.Dtos.ProductDtos;
+using FoodDeliveryWebsite.Models.Enums;
+using FoodDeliveryWebsite.Services;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -13,17 +12,17 @@ namespace FoodDeliveryWebsite.Controllers
     [Route("api/[controller]s")]
     public class ProductController : ControllerBase
     {
-        private IProductRepository productRepository { get; set; }
+        private IProductService productService { get; set; }
 
-        public ProductController(IProductRepository productRepository)
+        public ProductController(IProductService productService)
         {
-            this.productRepository = productRepository;
+            this.productService = productService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            var products = await productRepository.GetAvailableProductsAsync();
+            var products = await productService.GetAvailableProductsAsync();
 
             return Ok(products);
         }
@@ -33,7 +32,7 @@ namespace FoodDeliveryWebsite.Controllers
         {
             try
             {
-                var product = await productRepository.GetSelectedProductAsync(id);
+                var product = await productService.GetSelectedProductAsync(id);
 
                 return Ok(product);
             }
@@ -46,7 +45,7 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpGet("Filtered")]
         public async Task<IActionResult> GetFilteredAsync([FromQuery] ProductType productType)
         {
-            var products = await productRepository.GetFilteredProductAsync(productType);
+            var products = await productService.GetFilteredProductAsync(productType);
 
             return Ok(products);
         }
@@ -54,7 +53,7 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpGet("CustomFilter")]
         public async Task<IActionResult> GetCustomFilteredAsync([FromQuery] ProductFilterDto productDto)
         {
-            List<ProductGetDto> products = await productRepository.GetCustomFilteredProductAsync(productDto);
+            List<ProductGetDto> products = await productService.GetCustomFilteredProductAsync(productDto);
 
             return Ok(products);
         }
@@ -63,7 +62,7 @@ namespace FoodDeliveryWebsite.Controllers
         [AuthorizedAdmin]
         public async Task<IActionResult> GetProductsWithStatusAsync([FromQuery] ProductStatus productStatus)
         {
-            var products = await productRepository.GetProductsWithStatusAsync(productStatus);
+            var products = await productService.GetProductsWithStatusAsync(productStatus);
 
             return Ok(products);
         }
@@ -74,7 +73,7 @@ namespace FoodDeliveryWebsite.Controllers
         {
             try
             {
-                await productRepository.AddProductAsync(productDto);
+                await productService.AddProductAsync(productDto);
 
                 return Ok();
             }
@@ -90,7 +89,7 @@ namespace FoodDeliveryWebsite.Controllers
         {
             try
             {
-                await productRepository.UpdateProductAsync(productDto);
+                await productService.UpdateProductAsync(productDto);
 
                 return Ok();
             }
@@ -110,7 +109,7 @@ namespace FoodDeliveryWebsite.Controllers
         {
             try
             {
-                await productRepository.DeleteProductAsync(id);
+                await productService.DeleteProductAsync(id);
 
                 return Ok();
             }
@@ -123,7 +122,7 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpGet("{id:int}/File")]
         public async Task<IActionResult> GetAsync([FromRoute] int id)
         {
-            var products = await productRepository.GetAllProductsAsync();
+            var products = await productService.GetAllProductsAsync();
 
             var image = products.Single(e => e.Id == id).Image;
             var mimeType = products.Single(e => e.Id == id).ImageMimeType;

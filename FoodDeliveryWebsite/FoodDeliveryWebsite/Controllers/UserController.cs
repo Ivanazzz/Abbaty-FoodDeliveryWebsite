@@ -1,15 +1,14 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-
-using FoodDeliveryWebsite.Models.Dtos;
-using FoodDeliveryWebsite.Repositories;
-using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
-using FoodDeliveryWebsite.Repositories.CustomExceptions;
+using FoodDeliveryWebsite.Attributes;
 using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Models.Dtos.TokenDtos;
+using FoodDeliveryWebsite.Models.Dtos.UserDtos;
+using FoodDeliveryWebsite.Services;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -17,12 +16,12 @@ namespace FoodDeliveryWebsite.Controllers
     [Route("api/[controller]s")]
     public class UserController : ControllerBase
     {
-        private IUserRepository userRepository { get; set; }
+        private IUserService userService { get; set; }
         private IConfiguration _config;
 
-        public UserController(IUserRepository userRepository, IConfiguration config)
+        public UserController(IUserService userService, IConfiguration config)
         {
-            this.userRepository = userRepository;
+            this.userService = userService;
             _config = config;
         }
 
@@ -31,7 +30,7 @@ namespace FoodDeliveryWebsite.Controllers
         {
             try
             {
-                await userRepository.RegisterAsync(userRegistrationDto);
+                await userService.RegisterAsync(userRegistrationDto);
 
                 return Ok();
             }
@@ -46,7 +45,7 @@ namespace FoodDeliveryWebsite.Controllers
         {
             try
             {
-                var user = await userRepository.LoginAsync(userLoginDto);
+                var user = await userService.LoginAsync(userLoginDto);
 
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -58,8 +57,8 @@ namespace FoodDeliveryWebsite.Controllers
                     Audience = "http://localhost:10001",
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Role, user.Role.ToString())
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.Role, user.Role.ToString())
                     }),
                     Expires = DateTime.Now.AddMinutes(120),
                     SigningCredentials = credentials
@@ -90,7 +89,7 @@ namespace FoodDeliveryWebsite.Controllers
 
             try
             {
-                await userRepository.UpdateUserAsync(userEmail, userDto);
+                await userService.UpdateUserAsync(userEmail, userDto);
 
                 return Ok();
             }
@@ -112,7 +111,7 @@ namespace FoodDeliveryWebsite.Controllers
 
             try
             {
-                await userRepository.DeleteUserAsync(userEmail);
+                await userService.DeleteUserAsync(userEmail);
 
                 return Ok();
             }
@@ -127,7 +126,7 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            var user = await userRepository.GetUserAsync(email);
+            var user = await userService.GetUserAsync(email);
 
             return Ok(user);
         }

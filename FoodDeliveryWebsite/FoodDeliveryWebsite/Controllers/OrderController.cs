@@ -1,11 +1,10 @@
-﻿using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
-using Microsoft.AspNetCore.Mvc;
-
-using FoodDeliveryWebsite.Models.Dtos;
-using FoodDeliveryWebsite.Repositories;
-using static FoodDeliveryWebsite.Repositories.ValidatorContainer.ValidatorRepository;
+using FoodDeliveryWebsite.Attributes;
 using FoodDeliveryWebsite.CustomExceptions;
+using FoodDeliveryWebsite.Models.Dtos.OrderDtos;
+using FoodDeliveryWebsite.Services;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -14,11 +13,11 @@ namespace FoodDeliveryWebsite.Controllers
     [AuthorizedClient]
     public class OrderController : ControllerBase
     {
-        private IOrderRepository orderRepository { get; set; }
+        private IOrderService orderService { get; set; }
 
-        public OrderController(IOrderRepository orderRepository)
+        public OrderController(IOrderService orderService)
         {
-            this.orderRepository = orderRepository;
+            this.orderService = orderService;
         }
 
         [HttpPost]
@@ -28,7 +27,7 @@ namespace FoodDeliveryWebsite.Controllers
 
             try
             {
-                await orderRepository.AddOrderAsync(userEmail, orderDto);
+                await orderService.AddOrderAsync(userEmail, orderDto);
 
                 return Ok();
             }

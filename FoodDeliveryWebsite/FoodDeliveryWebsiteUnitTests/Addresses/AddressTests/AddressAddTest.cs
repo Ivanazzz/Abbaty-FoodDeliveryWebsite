@@ -10,13 +10,13 @@ namespace FoodDeliveryWebsite.UnitTests.Addresses.AddressTests
 {
     public class AddressAddTest
     {
-        private readonly Mock<IAddressRepository> mockRepo;
+        private readonly Mock<IAddressService> mockRepo;
         private readonly Mock<FoodDeliveryWebsiteDbContext> mockContext;
         private readonly Mock<IMapper> mockMapper;
 
         public AddressAddTest()
         {
-            mockRepo = new Mock<IAddressRepository>();
+            mockRepo = new Mock<IAddressService>();
             mockContext = new Mock<FoodDeliveryWebsiteDbContext>();
             mockMapper = new Mock<IMapper>();
         }
