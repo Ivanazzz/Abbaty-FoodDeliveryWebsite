@@ -83,7 +83,7 @@ namespace FoodDeliveryWebsite.Controllers
             }
         }
 
-        [HttpPost("Update")]
+        [HttpPut]
         [AuthorizedAdmin]
         public async Task<IActionResult> UpdateAsync([FromBody] ProductGetDto productDto)
         {

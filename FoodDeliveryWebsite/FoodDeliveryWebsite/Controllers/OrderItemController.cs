@@ -58,7 +58,7 @@ namespace FoodDeliveryWebsite.Controllers
         }
 
 
-        [HttpPost("Update")]
+        [HttpPut]
         public async Task<IActionResult> UpdateAsync([FromQuery] int orderItemId, [FromQuery] int quantity)
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;

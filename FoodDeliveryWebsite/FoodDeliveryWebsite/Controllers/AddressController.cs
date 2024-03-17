@@ -76,7 +76,7 @@ namespace FoodDeliveryWebsite.Controllers
         }
 
 
-        [HttpPost("Update")]
+        [HttpPut]
         public async Task<IActionResult> UpdateAsync([FromBody] AddressDto addressDto)
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
