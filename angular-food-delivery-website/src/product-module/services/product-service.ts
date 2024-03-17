@@ -1,62 +1,51 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
 import { ProductDto, ProductStatus, ProductType } from "../dtos/product-dto";
 import { ProductFilterDto } from "../dtos/product-filter-dto";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class ProductService {
-  private baseUrl = "http://localhost:10001";
+  private baseUrl = "http://localhost:10001/api/Products";
 
   constructor(private http: HttpClient) {}
 
   addProductWithImage(formData: FormData): Observable<any> {
-    return this.http.post(`${this.baseUrl}/api/Products`, formData);
+    return this.http.post(this.baseUrl, formData);
   }
 
   get(): Observable<ProductDto[]> {
-    return this.http.get<ProductDto[]>(`${this.baseUrl}/api/Products`);
+    return this.http.get<ProductDto[]>(this.baseUrl);
   }
 
   getSelectedProduct(id: number): Observable<ProductDto> {
-    return this.http.get<ProductDto>(`${this.baseUrl}/api/Products/${id}`);
+    return this.http.get<ProductDto>(`${this.baseUrl}/${id}`);
   }
 
   getFilteredProducts(productType: ProductType): Observable<ProductDto[]> {
-    return this.http.get<ProductDto[]>(
-      `${this.baseUrl}/api/Products/Filtered?productType=${productType}`
-    );
+    return this.http.get<ProductDto[]>(`${this.baseUrl}/Filtered?productType=${productType}`);
   }
 
-  getCustomFilteredProducts(
-    product: ProductFilterDto
-  ): Observable<ProductDto[]> {
+  getCustomFilteredProducts(product: ProductFilterDto): Observable<ProductDto[]> {
     return this.http.get<ProductDto[]>(
-      `${this.baseUrl}/api/Products/CustomFilter?${this.composeQueryString(
+      `${this.baseUrl}/CustomFilter?${this.composeQueryString(
         product
       )}`
     );
   }
 
-  getProductsWithStatus(
-    productStatus: ProductStatus
-  ): Observable<ProductDto[]> {
-    return this.http.get<ProductDto[]>(
-      `${this.baseUrl}/api/Products/ProductsWithStatus?productStatus=${productStatus}`
-    );
+  getProductsWithStatus(productStatus: ProductStatus): Observable<ProductDto[]> {
+    return this.http.get<ProductDto[]>(`${this.baseUrl}/ProductsWithStatus?productStatus=${productStatus}`);
   }
 
   updateProduct(productDto: ProductDto): Observable<void> {
-    return this.http.post<void>(
-      `${this.baseUrl}/api/Products/Update`,
-      productDto
-    );
+    return this.http.put<void>(this.baseUrl, productDto);
   }
 
   deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/api/Products/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
   composeQueryString(product: ProductFilterDto): string {

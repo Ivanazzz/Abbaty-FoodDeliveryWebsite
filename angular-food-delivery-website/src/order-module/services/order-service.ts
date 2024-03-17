@@ -7,11 +7,11 @@ import { OrderDto } from "../dtos/order-dto";
   providedIn: "root",
 })
 export class OrderService {
-  private baseUrl = "http://localhost:10001";
+  private baseUrl = "http://localhost:10001/api/Orders";
 
   constructor(private http: HttpClient) {}
 
   add(orderDto: OrderDto): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/api/Orders`, orderDto);
+    return this.http.post<void>(this.baseUrl, orderDto);
   }
 }

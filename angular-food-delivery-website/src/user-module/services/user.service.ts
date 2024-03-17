@@ -10,7 +10,7 @@ import { Router } from "@angular/router";
   providedIn: "root",
 })
 export class UserService {
-  private baseUrl = "http://localhost:10001";
+  private baseUrl = "http://localhost:10001/api/Users";
   public currentUser: UserDto = new UserDto();
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -18,7 +18,7 @@ export class UserService {
   initializeUser(): Promise<{}> {
     return new Promise((resolve) => {
       return this.http
-        .get<UserDto>("http://localhost:10001/api/Users/CurrentUser")
+        .get<UserDto>(`${this.baseUrl}/CurrentUser`)
         .subscribe((userData) => {
           this.currentUser = userData;
           resolve(true);
@@ -27,11 +27,11 @@ export class UserService {
   }
 
   register(userDto: UserRegistrationDto): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/api/Users/Register`, userDto);
+    return this.http.post<void>(`${this.baseUrl}/Register`, userDto);
   }
 
   login(userDto: UserLoginDto): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/api/Users/Login`, userDto);
+    return this.http.post<void>(`${this.baseUrl}/Login`, userDto);
   }
 
   logout(): Observable<void> {
@@ -42,10 +42,10 @@ export class UserService {
   }
 
   update(userDto: UserDto): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/api/Users/Update`, userDto);
+    return this.http.put<void>(this.baseUrl, userDto);
   }
 
   delete(): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/api/Users`);
+    return this.http.delete<void>(this.baseUrl);
   }
 }
