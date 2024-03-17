@@ -16,10 +16,6 @@ namespace FoodDeliveryWebsite.Models.Dtos.UserDtos
 
         public string PhoneNumber { get; set; }
 
-        //public ICollection<Address> Addresses { get; set; }
-
         public UserRole Role { get; set; }
-
-        //public ICollection<Order> Orders { get; set; }
     }
 }

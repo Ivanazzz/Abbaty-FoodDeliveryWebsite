@@ -34,7 +34,7 @@ namespace FoodDeliveryWebsite.Services
 
                     var user = await repository.All<User>()
                         .FirstOrDefaultAsync(u => u.Email == userEmail
-                            && u.IsDeleted == false);
+                            && !u.IsDeleted);
 
                     if (user == null)
                     {
@@ -42,7 +42,6 @@ namespace FoodDeliveryWebsite.Services
                     }
 
                     var order = mapper.Map<Order>(orderDto);
-                    order.TotalPrice = Math.Round(orderDto.TotalPrice, 2);
                     order.UserId = user.Id;
                     order.OrderItems = null;
 
@@ -54,15 +53,10 @@ namespace FoodDeliveryWebsite.Services
                     await repository.AddAsync(order);
                     await repository.SaveChangesAsync();
 
-                    var orderItemsFromDatabase = await repository.All<OrderItem>()
-                        .Where(oi => oi.UserId == user.Id 
+                    await repository.All<OrderItem>()
+                        .Where(oi => oi.UserId == user.Id
                             && oi.OrderId == null)
-                        .ToListAsync();
-
-                    foreach (var orderItem in orderItemsFromDatabase)
-                    {
-                        orderItem.OrderId = order.Id;
-                    }
+                        .ForEachAsync(oi => oi.OrderId = order.Id);
 
                     await repository.SaveChangesAsync();
 

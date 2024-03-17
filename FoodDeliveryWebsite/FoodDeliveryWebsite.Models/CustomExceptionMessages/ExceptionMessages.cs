@@ -19,11 +19,10 @@
         // Product
         public const string InvalidProduct = "Невалиден продукт";
         public const string ProductQuantityLessThan1 = "Количеството на продукта трябва да бъде по-голямо от 0";
+        public const string NoSelectedImage = "Не е избрана снимка на продукта";
 
         // User
         public const string InvalidUser = "Невалиден потребител";
         public const string AlreadyExistingUser = "Потребител с този имейл вече същестува";
-        public const string NonExistentUser = "Няма потребител с този имейл";
-        public const string InvalidUserPassword = "Невалидна парола";
     }
 }

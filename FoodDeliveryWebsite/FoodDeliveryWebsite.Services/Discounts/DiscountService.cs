@@ -1,4 +1,6 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
 using FoodDeliveryWebsite.CustomExceptionMessages;
@@ -14,73 +16,46 @@ namespace FoodDeliveryWebsite.Services
     public class DiscountService : IDiscountService
     {
         private readonly IRepository repository;
+        private readonly IMapper mapper;
 
-        public DiscountService(IRepository repository)
+        public DiscountService(IRepository repository, IMapper mapper)
         {
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         public async Task<List<DiscountDto>> GetAvailableDiscountsAsync()
         {
-            var currentDiscounts = await repository
-                .All<Discount>()
+            var discounts = await repository.All<Discount>()
+                .ProjectTo<DiscountDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
-            List<DiscountDto> discounts = new List<DiscountDto>();
-            foreach (var discount in currentDiscounts)
-            {
-                discounts.Add(new DiscountDto
-                {
-                    Code = discount.Code,
-                    StartDate = discount.StartDate.ToShortDateString(),
-                    ExpirationDate = discount.ExpirationDate.ToShortDateString(),
-                    Percentage = discount.Percentage
-                });
-            }
-
-            discounts = discounts
+            var availableDiscounts = discounts
                 .Where(d => d.Status == DiscountStatus.Available)
                 .ToList();
 
-            return discounts;
+            return availableDiscounts;
         }
 
         public async Task<List<DiscountDto>> GetUpcomingDiscountsAsync()
         {
             var upcomingDiscounts = await repository.All<Discount>()
                 .Where(d => d.StartDate > DateTime.UtcNow)
+                .ProjectTo<DiscountDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
-            List<DiscountDto> discounts = new List<DiscountDto>();
-            foreach (var discount in upcomingDiscounts)
-            {
-                discounts.Add(new DiscountDto
-                {
-                    Code = discount.Code,
-                    StartDate = discount.StartDate.ToShortDateString(),
-                    ExpirationDate = discount.ExpirationDate.ToShortDateString(),
-                    Percentage = discount.Percentage
-                });
-            }
-
-            return discounts;
+            return upcomingDiscounts;
         }
 
         public async Task<DiscountOrderDto> GetDiscountAsync(string code)
         {
             var discount = await repository.All<Discount>()
+                .ProjectTo<DiscountOrderDto>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(d => d.Code == code);
 
-            var discountOrderDto = new DiscountOrderDto();
-
-            if (discount != null)
-            {
-                discountOrderDto.Id = discount.Id;
-                discountOrderDto.Code = discount.Code;
-                discountOrderDto.Percentage = discount.Percentage;
-            }
-
-            return discountOrderDto;
+            return discount != null 
+                ? discount 
+                : new DiscountOrderDto();
         }
 
         public async Task AddDiscountAsync(DiscountDto discountDto)
@@ -98,15 +73,7 @@ namespace FoodDeliveryWebsite.Services
                 throw new BadRequestException(ExceptionMessages.StartDateGreaterThanExpirationDate);
             }
 
-            //var discounts = await context.Discount.FirstOrDefaultAsync(d => d.Code == discountDto.Code);
-
-            Discount discount = new Discount
-            {
-                Code = discountDto.Code,
-                StartDate = DateTime.SpecifyKind(startDate, DateTimeKind.Utc),
-                ExpirationDate = DateTime.SpecifyKind(expirationDate, DateTimeKind.Utc),
-                Percentage = discountDto.Percentage
-            };
+            var discount = mapper.Map<Discount>(discountDto);
 
             DiscountValidator validator = new DiscountValidator();
             var result = validator.Validate(discount);

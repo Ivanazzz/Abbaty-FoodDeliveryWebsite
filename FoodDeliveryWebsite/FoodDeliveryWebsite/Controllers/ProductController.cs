@@ -122,13 +122,16 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpGet("{id:int}/File")]
         public async Task<IActionResult> GetAsync([FromRoute] int id)
         {
-            var products = await productService.GetAllProductsAsync();
+            try
+            {
+                var product = await productService.GetProductByIdAsync(id);
 
-            var image = products.Single(e => e.Id == id).Image;
-            var mimeType = products.Single(e => e.Id == id).ImageMimeType;
-            var name = products.Single(e => e.Id == id).ImageName;
-
-            return File(image, mimeType, name);
+                return File(product.Image, product.ImageMimeType, product.ImageName);
+            }
+            catch (NotFoundException nfe)
+            {
+                return NotFound(nfe.Message);
+            }
         }
     }
 }

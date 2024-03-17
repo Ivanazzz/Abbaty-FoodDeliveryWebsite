@@ -19,6 +19,6 @@ namespace FoodDeliveryWebsite.Models.Dtos.UserDtos
 
         public string PhoneNumber { get; set; }
 
-        public List<Address> Addresses { get; set; }
+        //public List<Address> Addresses { get; set; }
     }
 }

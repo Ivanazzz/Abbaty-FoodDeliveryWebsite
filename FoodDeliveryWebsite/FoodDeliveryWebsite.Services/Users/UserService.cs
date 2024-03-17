@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
@@ -10,7 +11,6 @@ using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Common;
 using FoodDeliveryWebsite.Models.Dtos.UserDtos;
 using FoodDeliveryWebsite.Models.Entities;
-using FoodDeliveryWebsite.Models.Enums;
 using FoodDeliveryWebsite.Models.Validations;
 
 namespace FoodDeliveryWebsite.Services
@@ -33,8 +33,6 @@ namespace FoodDeliveryWebsite.Services
         public async Task RegisterAsync(UserRegistrationDto userRegistrationDto)
         {
             User user = mapper.Map<User>(userRegistrationDto);
-            user.PhoneNumber = string.Concat(userRegistrationDto.PhoneNumber.Where(c => !char.IsWhiteSpace(c)));
-            user.Role = UserRole.Client;
 
             UserValidator validator = new UserValidator();
             var result = validator.Validate(user);
@@ -47,9 +45,8 @@ namespace FoodDeliveryWebsite.Services
                 }
             }
 
-            bool userExists = await repository
-                .All<User>()
-                .FirstOrDefaultAsync(u => u.Email == user.Email && u.IsDeleted == false) != null
+            bool userExists = await repository.All<User>()
+                .FirstOrDefaultAsync(u => u.Email == user.Email && !u.IsDeleted) != null
                     ? true
                     : false;
 
@@ -71,49 +68,40 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<User> LoginAsync(UserLoginDto userLoginDto)
         {
-            var user = await repository
-                .All<User>()
+            var user = await repository.All<User>()
                 .FirstOrDefaultAsync(u => u.Email == userLoginDto.Email 
-                    && u.IsDeleted == false);
+                    && !u.IsDeleted);
 
             if (user == null)
             {
-                throw new NotFoundException(ExceptionMessages.NonExistentUser);
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
             bool isPasswordValid = VerifyPassword(userLoginDto.Password, user.Password, Convert.FromHexString(user.Salt));
 
             if (!isPasswordValid)
             {
-                throw new BadRequestException(ExceptionMessages.InvalidUserPassword);
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
             return user;
         }
 
-        public async Task<UserDto> GetUserAsync(string email)
+        public async Task<UserDto?> GetUserAsync(string email)
         {
-            var user = await repository
-                .All<User>()
-                .FirstOrDefaultAsync(u => u.Email == email 
-                    && u.IsDeleted == false);
+            var user = await repository.All<User>()
+                .Where(u => u.Email == email && !u.IsDeleted)
+                .ProjectTo<UserDto>(mapper.ConfigurationProvider)
+                .FirstOrDefaultAsync();
 
-            if (user == null)
-            {
-                return null;
-            }
-
-            var userDto = mapper.Map<UserDto>(user);
-
-            return userDto;
+            return user;
         }
 
         public async Task UpdateUserAsync(string email, UserDto userDto)
         {
-            var user = await repository
-                .All<User>()
+            var user = await repository.All<User>()
                 .FirstOrDefaultAsync(u => u.Email == email 
-                    && u.IsDeleted == false);
+                    && !u.IsDeleted);
 
             if (user == null)
             {
@@ -138,16 +126,14 @@ namespace FoodDeliveryWebsite.Services
 
             user.PhoneNumber = FormatPhoneNumber(user.PhoneNumber);
 
-            repository.Update(user);
             await repository.SaveChangesAsync();
         }
 
         public async Task DeleteUserAsync(string email)
         {
-            var user = await repository
-                .All<User>()
+            var user = await repository.All<User>()
                 .FirstOrDefaultAsync(u => u.Email == email 
-                    && u.IsDeleted == false);
+                    && !u.IsDeleted);
 
             if (user == null)
             {
@@ -171,7 +157,7 @@ namespace FoodDeliveryWebsite.Services
 
             var hash = Rfc2898DeriveBytes.Pbkdf2(
                 Encoding.UTF8.GetBytes(password),
-            salt,
+                salt,
                 iterations,
                 hashAlgorithm,
                 keySize);

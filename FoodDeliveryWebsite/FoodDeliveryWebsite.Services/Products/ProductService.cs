@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -26,23 +27,24 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<List<ProductGetDto>> GetAvailableProductsAsync()
         {
-            var products = await repository
-                .All<Product>()
+            var products = await repository.All<Product>()
                 .Where(p => p.Status == ProductStatus.Available)
-                .Select(p => mapper.Map<ProductGetDto>(p))
+                .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
             return products;
         }
 
-        public async Task<List<ProductGetDto>> GetAllProductsAsync()
+        public async Task<ProductGetDto> GetProductByIdAsync(int id)
         {
-            var products = await repository
-                .All<Product>()
-                .Select(p => mapper.Map<ProductGetDto>(p))
-                .ToListAsync();
+            var product = await repository.GetByIdAsync<Product>(id);
 
-            return products;
+            if (product == null || product.IsDeleted)
+            {
+                throw new NotFoundException(ExceptionMessages.InvalidProduct);
+            }
+
+            return mapper.Map<ProductGetDto>(product);
         }
 
         public async Task<ProductGetDto> GetSelectedProductAsync(int id)
@@ -50,23 +52,20 @@ namespace FoodDeliveryWebsite.Services
             var product = await repository
                 .GetByIdAsync<Product>(id);
 
-            if (product == null || product.IsDeleted == true)
+            if (product == null || product.IsDeleted)
             {
                 throw new NotFoundException(ExceptionMessages.InvalidProduct);
             }
 
-            ProductGetDto productDto = mapper.Map<ProductGetDto>(product);
-
-            return productDto;
+            return mapper.Map<ProductGetDto>(product);
         }
 
         public async Task<List<ProductGetDto>> GetFilteredProductAsync(ProductType productType)
         {
-            var products = await repository
-                .All<Product>()
+            var products = await repository.All<Product>()
                 .Where(p => p.Type == productType
                     && p.Status == ProductStatus.Available)
-                .Select(p => mapper.Map<ProductGetDto>(p))
+                .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
             return products;
@@ -75,10 +74,9 @@ namespace FoodDeliveryWebsite.Services
         public async Task<List<ProductGetDto>> GetCustomFilteredProductAsync(ProductFilterDto filter)
         {
             var products = await filter
-                .WhereBuilder(repository
-                    .All<Product>()
+                .WhereBuilder(repository.All<Product>()
                     .AsQueryable())
-                .Select(p => mapper.Map<ProductGetDto>(p))
+                .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
             return products;
@@ -86,11 +84,10 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<List<ProductGetDto>> GetProductsWithStatusAsync(ProductStatus productStatus)
         {
-            var products = await repository
-                .All<Product>()
+            var products = await repository.All<Product>()
                 .Where(p => p.Status == productStatus 
-                    && p.IsDeleted == false)
-                .Select(p => mapper.Map<ProductGetDto>(p))
+                    && !p.IsDeleted)
+                .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
             return products;
@@ -98,16 +95,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task AddProductAsync(ProductAddDto productDto)
         {
-            Product product = new Product
-            {
-                Name = productDto.Name,
-                Description = productDto.Description,
-                Price = productDto.Price,
-                Type = productDto.Type,
-                Status = productDto.Status,
-                Grams = productDto.Grams,
-                IsDeleted = false,
-            };
+            Product product = mapper.Map<Product>(productDto);
 
             ProductValidator validator = new ProductValidator();
             var result = validator.Validate(product);
@@ -122,7 +110,7 @@ namespace FoodDeliveryWebsite.Services
 
             if (productDto.Image == null)
             {
-                throw new Exception("No selected image");
+                throw new BadRequestException(ExceptionMessages.NoSelectedImage);
             }
 
             byte[] imageBytes = await ConvertIFormFileToByteArray(productDto.Image);
@@ -161,16 +149,14 @@ namespace FoodDeliveryWebsite.Services
                 }
             }
 
-            repository.Update(product);
             await repository.SaveChangesAsync();
         }
 
         public async Task DeleteProductAsync(int id)
         {
-            var product = await repository
-                .All<Product>()
+            var product = await repository.All<Product>()
                 .FirstOrDefaultAsync(p => p.Id == id 
-                    && p.IsDeleted == false);
+                    && !p.IsDeleted);
 
             if (product == null)
             {
@@ -180,7 +166,6 @@ namespace FoodDeliveryWebsite.Services
             product.Status = ProductStatus.Unavailable;
             product.IsDeleted = true;
 
-            repository.Update(product);
             await repository.SaveChangesAsync();
         }
 

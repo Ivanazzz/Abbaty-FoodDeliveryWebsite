@@ -75,10 +75,6 @@ namespace FoodDeliveryWebsite.Controllers
             {
                 return BadRequest(nfe.Message);
             }
-            catch (BadRequestException bre)
-            {
-                return BadRequest(bre.Message);
-            }
         }
 
         [HttpPost("Update")]

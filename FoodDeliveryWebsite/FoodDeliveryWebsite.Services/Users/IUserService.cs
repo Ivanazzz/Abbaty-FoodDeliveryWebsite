@@ -9,7 +9,7 @@ namespace FoodDeliveryWebsite.Services
 
         Task<User> LoginAsync(UserLoginDto userLoginDto);
 
-        Task<UserDto> GetUserAsync(string email);
+        Task<UserDto?> GetUserAsync(string email);
 
         Task UpdateUserAsync(string email, UserDto userDto);
 

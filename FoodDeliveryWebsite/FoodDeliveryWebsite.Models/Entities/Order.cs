@@ -4,11 +4,6 @@ namespace FoodDeliveryWebsite.Models.Entities
 {
     public class Order : IEntity, IAuditable
     {
-        public Order()
-        {
-            OrderItems = new List<OrderItem>();
-        }
-
         public int Id { get; set; }
 
         public DateTime CreateDate { get; set; }
@@ -27,10 +22,10 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public Address Address { get; set; }
 
-        public ICollection<OrderItem> OrderItems { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
         public decimal TotalPrice { get; set; }
 
-        public decimal DeliveryPrice { get; set; }
+        public decimal DeliveryPrice { get; set; } 
     }
 }

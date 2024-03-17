@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 
 using FoodDeliveryWebsite.CustomExceptionMessages;
 using FoodDeliveryWebsite.CustomExceptions;
@@ -12,10 +14,12 @@ namespace FoodDeliveryWebsite.Services
     public class OrderItemService : IOrderItemService
     {
         private readonly IRepository repository;
+        private readonly IMapper mapper;
 
-        public OrderItemService(IRepository repository)
+        public OrderItemService(IRepository repository, IMapper mapper)
         {
             this.repository = repository;
+            this.mapper = mapper;
         }
 
         public async Task<List<OrderItemDto>> GetOrderItemsAsync(string userEmail)
@@ -24,39 +28,20 @@ namespace FoodDeliveryWebsite.Services
                 .Include(u => u.OrderItems)
                 .ThenInclude(oi => oi.Product)
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
-                    && u.IsDeleted == false);
+                    && !u.IsDeleted);
 
             if (user == null)
             {
                 throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
-            var orderItemDtos = new List<OrderItemDto>();
-
-            var orderItemsWithoutOrder = user.OrderItems
+            var orderItems = user.OrderItems
+                .AsQueryable()
                 .Where(oi => oi.OrderId == null)
+                .ProjectTo<OrderItemDto>(mapper.ConfigurationProvider)
                 .ToList();
 
-            foreach (var orderItem in orderItemsWithoutOrder)
-            {
-                orderItemDtos.Add(new OrderItemDto
-                {
-                    Id = orderItem.Id,
-                    Product = new ProductOrderDto
-                    {
-                        Id = orderItem.Product.Id,
-                        Name = orderItem.Product.Name,
-                        Price = orderItem.Product.Price,
-                        Image = orderItem.Product.Image,
-                        ImageName = orderItem.Product.ImageName,
-                        ImageMimeType = orderItem.Product.ImageMimeType
-                    },
-                    ProductQuantity = orderItem.ProductQuantity,
-                    Price = orderItem.Product.Price * orderItem.ProductQuantity
-                });
-            }
-
-            return orderItemDtos;
+            return orderItems;
         }
 
         public async Task AddOrderItemAsync(string userEmail, int productId, int quantity)
@@ -64,7 +49,7 @@ namespace FoodDeliveryWebsite.Services
             var user = await repository.All<User>()
                 .Include(u => u.OrderItems)
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
-                    && u.IsDeleted == false);
+                    && !u.IsDeleted);
 
             if (user == null)
             {
@@ -92,7 +77,6 @@ namespace FoodDeliveryWebsite.Services
             {
                 orderItemExisting.ProductQuantity += quantity;
 
-                repository.Update(orderItemExisting);
                 await repository.SaveChangesAsync();
 
                 return;
@@ -117,7 +101,7 @@ namespace FoodDeliveryWebsite.Services
             var user = await repository.All<User>()
                 .Include(u => u.OrderItems)
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
-                    && u.IsDeleted == false);
+                    && !u.IsDeleted);
 
             if (user == null)
             {
@@ -141,24 +125,9 @@ namespace FoodDeliveryWebsite.Services
             orderItem.ProductQuantity = quantity;
             orderItem.Price = orderItem.Product.Price * orderItem.ProductQuantity;
 
-            repository.Update(orderItem);
             await repository.SaveChangesAsync();
 
-            var orderItemDto = new OrderItemDto
-            {
-                Id = orderItem.Id,
-                Product = new ProductOrderDto
-                {
-                    Id = orderItem.Product.Id,
-                    Name = orderItem.Product.Name,
-                    Price = orderItem.Product.Price,
-                    Image = orderItem.Product.Image,
-                    ImageName = orderItem.Product.ImageName,
-                    ImageMimeType = orderItem.Product.ImageMimeType
-                },
-                Price = orderItem.Price,
-                ProductQuantity = orderItem.ProductQuantity
-            };
+            var orderItemDto = mapper.Map<OrderItemDto>(orderItem);
 
             return orderItemDto;
         }
@@ -174,7 +143,8 @@ namespace FoodDeliveryWebsite.Services
             }
 
             var user = await repository.All<User>()
-                .FirstOrDefaultAsync(u => u.Email == userEmail && u.IsDeleted == false);
+                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                    && !u.IsDeleted);
 
             if (user == null)
             {

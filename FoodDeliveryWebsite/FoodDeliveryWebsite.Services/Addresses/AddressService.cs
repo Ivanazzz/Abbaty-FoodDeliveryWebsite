@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +28,7 @@ namespace FoodDeliveryWebsite.Services
             var user = await repository.All<User>()
                 .Include(u => u.Addresses)
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
-                    && u.IsDeleted == false);
+                    && !u.IsDeleted);
 
             if (user == null)
             {
@@ -35,8 +36,9 @@ namespace FoodDeliveryWebsite.Services
             }
 
             var userAddresses = user.Addresses
-                .Where(a => a.IsDeleted == false)
-                .Select(a => mapper.Map<AddressDto>(a))
+                .Where(a => !a.IsDeleted)
+                .AsQueryable()
+                .ProjectTo<AddressDto>(mapper.ConfigurationProvider)
                 .ToList();
 
             return userAddresses;
@@ -47,7 +49,7 @@ namespace FoodDeliveryWebsite.Services
             var user = await repository.All<User>()
                 .Include(u => u.Addresses)
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
-                    && u.IsDeleted == false);
+                    && !u.IsDeleted);
 
             if (user == null)
             {
@@ -56,7 +58,7 @@ namespace FoodDeliveryWebsite.Services
 
             var address = user.Addresses
                 .FirstOrDefault(a => a.Id == id 
-                    && a.IsDeleted == false);
+                    && !a.IsDeleted);
 
             if (address == null)
             {
@@ -70,7 +72,7 @@ namespace FoodDeliveryWebsite.Services
         {
             var user = await repository.All<User>()
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
-                    && u.IsDeleted == false);
+                    && !u.IsDeleted);
 
             if (user == null)
             {
@@ -101,7 +103,7 @@ namespace FoodDeliveryWebsite.Services
         {
             var user = await repository.All<User>()
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
-                    && u.IsDeleted == false);
+                    && !u.IsDeleted);
 
             if (user == null)
             {
@@ -110,7 +112,7 @@ namespace FoodDeliveryWebsite.Services
 
             var address = await repository.All<Address>()
                 .FirstOrDefaultAsync(a => a.Id == addressDto.Id 
-                    && a.IsDeleted == false);
+                    && !a.IsDeleted);
 
             if (address == null)
             {
@@ -134,7 +136,6 @@ namespace FoodDeliveryWebsite.Services
                 }
             }
 
-            repository.Update(address);
             await repository.SaveChangesAsync();
         }
 
@@ -142,7 +143,7 @@ namespace FoodDeliveryWebsite.Services
         {
             var user = await repository.All<User>()
                 .FirstOrDefaultAsync(u => u.Email == userEmail 
-                    && u.IsDeleted == false);
+                    && !u.IsDeleted);
 
             if (user == null)
             {
@@ -151,7 +152,7 @@ namespace FoodDeliveryWebsite.Services
 
             var address = await repository.All<Address>()
                 .FirstOrDefaultAsync(a => a.Id == id 
-                    && a.IsDeleted == false);
+                    && !a.IsDeleted);
 
             if (address == null)
             {
@@ -160,7 +161,6 @@ namespace FoodDeliveryWebsite.Services
 
             address.IsDeleted = true;
 
-            repository.Update(address);
             await repository.SaveChangesAsync();
         }
     }
