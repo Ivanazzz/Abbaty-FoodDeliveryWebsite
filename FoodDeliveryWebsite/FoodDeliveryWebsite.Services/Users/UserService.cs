@@ -46,7 +46,7 @@ namespace FoodDeliveryWebsite.Services
             }
 
             bool userExists = await repository.All<User>()
-                .FirstOrDefaultAsync(u => u.Email == user.Email && !u.IsDeleted) != null
+                .SingleOrDefaultAsync(u => u.Email == user.Email && !u.IsDeleted) != null
                     ? true
                     : false;
 
@@ -69,7 +69,7 @@ namespace FoodDeliveryWebsite.Services
         public async Task<User> LoginAsync(UserLoginDto userLoginDto)
         {
             var user = await repository.All<User>()
-                .FirstOrDefaultAsync(u => u.Email == userLoginDto.Email 
+                .SingleOrDefaultAsync(u => u.Email == userLoginDto.Email 
                     && !u.IsDeleted);
 
             if (user == null)
@@ -92,7 +92,7 @@ namespace FoodDeliveryWebsite.Services
             var user = await repository.All<User>()
                 .Where(u => u.Email == email && !u.IsDeleted)
                 .ProjectTo<UserDto>(mapper.ConfigurationProvider)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
             return user;
         }
@@ -100,7 +100,7 @@ namespace FoodDeliveryWebsite.Services
         public async Task UpdateUserAsync(string email, UserDto userDto)
         {
             var user = await repository.All<User>()
-                .FirstOrDefaultAsync(u => u.Email == email 
+                .SingleOrDefaultAsync(u => u.Email == email 
                     && !u.IsDeleted);
 
             if (user == null)
@@ -132,7 +132,7 @@ namespace FoodDeliveryWebsite.Services
         public async Task DeleteUserAsync(string email)
         {
             var user = await repository.All<User>()
-                .FirstOrDefaultAsync(u => u.Email == email 
+                .SingleOrDefaultAsync(u => u.Email == email 
                     && !u.IsDeleted);
 
             if (user == null)

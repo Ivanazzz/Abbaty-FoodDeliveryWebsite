@@ -35,24 +35,14 @@ namespace FoodDeliveryWebsite.Services
             return products;
         }
 
-        public async Task<ProductGetDto> GetProductByIdAsync(int id)
-        {
-            var product = await repository.GetByIdAsync<Product>(id);
-
-            if (product == null || product.IsDeleted)
-            {
-                throw new NotFoundException(ExceptionMessages.InvalidProduct);
-            }
-
-            return mapper.Map<ProductGetDto>(product);
-        }
-
         public async Task<ProductGetDto> GetSelectedProductAsync(int id)
         {
-            var product = await repository
-                .GetByIdAsync<Product>(id);
+            var product = await repository.All<Product>()
+                .Where(p => p.Id == id
+                    && !p.IsDeleted)
+                .SingleOrDefaultAsync();
 
-            if (product == null || product.IsDeleted)
+            if (product == null)
             {
                 throw new NotFoundException(ExceptionMessages.InvalidProduct);
             }
@@ -124,7 +114,10 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task UpdateProductAsync(ProductGetDto productDto)
         {
-            var product = await repository.GetByIdAsync<Product>(productDto.Id);
+            var product = await repository.All<Product>()
+                .Where(p => p.Id == productDto.Id
+                    && !p.IsDeleted)
+                .SingleOrDefaultAsync();
 
             if (product == null)
             {
@@ -155,7 +148,7 @@ namespace FoodDeliveryWebsite.Services
         public async Task DeleteProductAsync(int id)
         {
             var product = await repository.All<Product>()
-                .FirstOrDefaultAsync(p => p.Id == id 
+                .SingleOrDefaultAsync(p => p.Id == id 
                     && !p.IsDeleted);
 
             if (product == null)

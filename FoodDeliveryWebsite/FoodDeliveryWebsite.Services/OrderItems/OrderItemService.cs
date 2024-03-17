@@ -27,7 +27,7 @@ namespace FoodDeliveryWebsite.Services
             var user = await repository.All<User>()
                 .Include(u => u.OrderItems)
                 .ThenInclude(oi => oi.Product)
-                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);
 
             if (user == null)
@@ -48,7 +48,7 @@ namespace FoodDeliveryWebsite.Services
         {
             var user = await repository.All<User>()
                 .Include(u => u.OrderItems)
-                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);
 
             if (user == null)
@@ -57,7 +57,7 @@ namespace FoodDeliveryWebsite.Services
             }
 
             var product = await repository.All<Product>()
-                .FirstOrDefaultAsync(p => p.Id == productId);
+                .SingleOrDefaultAsync(p => p.Id == productId);
 
             if (product == null)
             {
@@ -70,7 +70,7 @@ namespace FoodDeliveryWebsite.Services
             }
 
             var orderItemExisting = user.OrderItems
-                .FirstOrDefault(oi => oi.ProductId == productId 
+                .SingleOrDefault(oi => oi.ProductId == productId 
                     && oi.OrderId == null);
 
             if (orderItemExisting != null)
@@ -100,7 +100,7 @@ namespace FoodDeliveryWebsite.Services
         {
             var user = await repository.All<User>()
                 .Include(u => u.OrderItems)
-                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);
 
             if (user == null)
@@ -110,7 +110,7 @@ namespace FoodDeliveryWebsite.Services
 
             var orderItem = await repository.All<OrderItem>()
                 .Include(oi => oi.Product)
-                .FirstOrDefaultAsync(oi => oi.Id == orderItemId);
+                .SingleOrDefaultAsync(oi => oi.Id == orderItemId);
 
             if (orderItem == null)
             {
@@ -135,7 +135,7 @@ namespace FoodDeliveryWebsite.Services
         public async Task DeleteOrderItemAsync(string userEmail, int orderItemId)
         {
             var orderItem = await repository.All<OrderItem>()
-                .FirstOrDefaultAsync(oi => oi.Id == orderItemId);
+                .SingleOrDefaultAsync(oi => oi.Id == orderItemId);
 
             if (orderItem == null)
             {
@@ -143,7 +143,7 @@ namespace FoodDeliveryWebsite.Services
             }
 
             var user = await repository.All<User>()
-                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);
 
             if (user == null)

@@ -33,7 +33,7 @@ namespace FoodDeliveryWebsite.Services
                     }
 
                     var user = await repository.All<User>()
-                        .FirstOrDefaultAsync(u => u.Email == userEmail
+                        .SingleOrDefaultAsync(u => u.Email == userEmail
                             && !u.IsDeleted);
 
                     if (user == null)

@@ -7,8 +7,6 @@ namespace FoodDeliveryWebsite.Services
     {
         Task<List<ProductGetDto>> GetAvailableProductsAsync();
 
-        Task<ProductGetDto> GetProductByIdAsync(int id);
-
         Task<ProductGetDto> GetSelectedProductAsync(int id);
 
         Task<List<ProductGetDto>> GetFilteredProductAsync(ProductType productType);

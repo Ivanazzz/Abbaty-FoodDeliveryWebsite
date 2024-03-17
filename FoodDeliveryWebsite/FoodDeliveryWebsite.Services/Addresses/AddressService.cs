@@ -27,7 +27,7 @@ namespace FoodDeliveryWebsite.Services
         {
             var user = await repository.All<User>()
                 .Include(u => u.Addresses)
-                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);
 
             if (user == null)
@@ -48,7 +48,7 @@ namespace FoodDeliveryWebsite.Services
         {
             var user = await repository.All<User>()
                 .Include(u => u.Addresses)
-                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);
 
             if (user == null)
@@ -57,7 +57,7 @@ namespace FoodDeliveryWebsite.Services
             }
 
             var address = user.Addresses
-                .FirstOrDefault(a => a.Id == id 
+                .SingleOrDefault(a => a.Id == id 
                     && !a.IsDeleted);
 
             if (address == null)
@@ -71,7 +71,7 @@ namespace FoodDeliveryWebsite.Services
         public async Task<List<AddressDto>> AddAddressAsync(string userEmail, AddressDto addressDto)
         {
             var user = await repository.All<User>()
-                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);
 
             if (user == null)
@@ -102,7 +102,7 @@ namespace FoodDeliveryWebsite.Services
         public async Task UpdateAddressAsync(string userEmail, AddressDto addressDto)
         {
             var user = await repository.All<User>()
-                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);
 
             if (user == null)
@@ -111,7 +111,7 @@ namespace FoodDeliveryWebsite.Services
             }
 
             var address = await repository.All<Address>()
-                .FirstOrDefaultAsync(a => a.Id == addressDto.Id 
+                .SingleOrDefaultAsync(a => a.Id == addressDto.Id 
                     && !a.IsDeleted);
 
             if (address == null)
@@ -142,7 +142,7 @@ namespace FoodDeliveryWebsite.Services
         public async Task DeleteAddressAsync(string userEmail, int id)
         {
             var user = await repository.All<User>()
-                .FirstOrDefaultAsync(u => u.Email == userEmail 
+                .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);
 
             if (user == null)
@@ -151,7 +151,7 @@ namespace FoodDeliveryWebsite.Services
             }
 
             var address = await repository.All<Address>()
-                .FirstOrDefaultAsync(a => a.Id == id 
+                .SingleOrDefaultAsync(a => a.Id == id 
                     && !a.IsDeleted);
 
             if (address == null)

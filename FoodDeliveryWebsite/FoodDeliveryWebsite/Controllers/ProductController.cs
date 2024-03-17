@@ -124,7 +124,7 @@ namespace FoodDeliveryWebsite.Controllers
         {
             try
             {
-                var product = await productService.GetProductByIdAsync(id);
+                var product = await productService.GetSelectedProductAsync(id);
 
                 return File(product.Image, product.ImageMimeType, product.ImageName);
             }
