@@ -34,8 +34,6 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public string ImageMimeType { get; set; }
 
-        //public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
-
         public class ProductConfiguration : IEntityTypeConfiguration<Product>
         {
             public void Configure(EntityTypeBuilder<Product> builder)

@@ -8,13 +8,6 @@ namespace FoodDeliveryWebsite.Models.Entities
 {
     public class User : IEntity, IAuditable
     {
-        public User()
-        {
-            Addresses = new List<Address>();
-            Orders = new List<Order>();
-            OrderItems = new List<OrderItem>();
-        }
-
         public int Id { get; set; }
 
         public DateTime CreateDate { get; set; }
@@ -39,15 +32,13 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public bool IsDeleted { get; set; }
 
-        public ICollection<Address> Addresses { get; set; }
-
         public UserRole Role { get; set; }
 
-        public ICollection<OrderItem> OrderItems { get; set; }
-
-        public ICollection<Order> Orders { get; set; }
-
         public string Salt { get; set; }
+
+        public ICollection<Address> Addresses { get; set; } = new List<Address>();
+
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
         public class UserConfiguration : IEntityTypeConfiguration<User>
         {
