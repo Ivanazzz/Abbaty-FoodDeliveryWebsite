@@ -9,6 +9,8 @@ using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Dtos.TokenDtos;
 using FoodDeliveryWebsite.Models.Dtos.UserDtos;
 using FoodDeliveryWebsite.Services;
+using Microsoft.Extensions.Configuration;
+using FoodDeliveryWebsite.Models.Entities;
 
 namespace FoodDeliveryWebsite.Controllers
 {
@@ -47,29 +49,7 @@ namespace FoodDeliveryWebsite.Controllers
             {
                 var user = await userService.LoginAsync(userLoginDto);
 
-                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Issuer = "http://localhost:10001",
-                    Audience = "http://localhost:10001",
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim(ClaimTypes.Email, user.Email),
-                        new Claim(ClaimTypes.Role, user.Role.ToString())
-                    }),
-                    Expires = DateTime.Now.AddMinutes(120),
-                    SigningCredentials = credentials
-                };
-
-                var token = tokenHandler.CreateToken(tokenDescriptor);
-                string userToken = tokenHandler.WriteToken(token);
-
-                ResponseTokenDto accessToken = new ResponseTokenDto(userToken);
-
-                return Ok(accessToken);
+                return Ok(GenerateToken(user));
             }
             catch (NotFoundException nfe)
             {
@@ -125,6 +105,31 @@ namespace FoodDeliveryWebsite.Controllers
             var user = await userService.GetUserAsync(email);
 
             return Ok(user);
+        }
+
+        private ResponseTokenDto GenerateToken(User user)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Issuer = _config["Jwt:Issuer"],
+                Audience = _config["Jwt:Audience"],
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.Role, user.Role.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddMinutes(_config.GetValue<int>("Jwt:ExpiresInMinutes")),
+                SigningCredentials = credentials
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            string userToken = tokenHandler.WriteToken(token);
+
+            return new ResponseTokenDto(userToken);
         }
     }
 }
