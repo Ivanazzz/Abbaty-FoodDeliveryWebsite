@@ -9,6 +9,7 @@ using FoodDeliveryWebsite.Models.Common;
 using FoodDeliveryWebsite.Models.Dtos.AddressDtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Validations;
+using System.Reflection.Metadata;
 
 namespace FoodDeliveryWebsite.Services
 {
@@ -25,7 +26,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<List<AddressDto>> GetAddressesAsync(string userEmail)
         {
-            var user = await repository.All<User>()
+            var user = await repository.AllReadOnly<User>()
                 .Include(u => u.Addresses)
                 .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);

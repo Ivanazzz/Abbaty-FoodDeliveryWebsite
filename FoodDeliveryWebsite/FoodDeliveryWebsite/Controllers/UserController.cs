@@ -5,11 +5,9 @@ using System.Security.Claims;
 using System.Text;
 
 using FoodDeliveryWebsite.Attributes;
-using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Dtos.TokenDtos;
 using FoodDeliveryWebsite.Models.Dtos.UserDtos;
 using FoodDeliveryWebsite.Services;
-using Microsoft.Extensions.Configuration;
 using FoodDeliveryWebsite.Models.Entities;
 
 namespace FoodDeliveryWebsite.Controllers
@@ -30,31 +28,17 @@ namespace FoodDeliveryWebsite.Controllers
         [HttpPost("Register")]
         public async Task<IActionResult> RegisterAsync([FromBody] UserRegistrationDto userRegistrationDto)
         {
-            try
-            {
-                await userService.RegisterAsync(userRegistrationDto);
+            await userService.RegisterAsync(userRegistrationDto);
 
-                return Ok();
-            }
-            catch (BadRequestException bre)
-            {
-                return BadRequest(bre.Message);
-            }
+            return Ok();
         }
 
         [HttpPost("Login")]
         public async Task<IActionResult> LoginAsync([FromBody] UserLoginDto userLoginDto)
         {
-            try
-            {
-                var user = await userService.LoginAsync(userLoginDto);
+            var user = await userService.LoginAsync(userLoginDto);
 
-                return Ok(GenerateToken(user));
-            }
-            catch (NotFoundException nfe)
-            {
-                return BadRequest(nfe.Message);
-            }
+            return Ok(GenerateToken(user));
         }
 
         [HttpPut]
@@ -63,20 +47,9 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            try
-            {
-                await userService.UpdateUserAsync(userEmail, userDto);
+            await userService.UpdateUserAsync(userEmail, userDto);
 
-                return Ok();
-            }
-            catch (NotFoundException nfe)
-            {
-                return BadRequest(nfe.Message);
-            }
-            catch (BadRequestException bre)
-            {
-                return BadRequest(bre.Message);
-            }
+            return Ok();
         }
 
         [HttpDelete]
@@ -85,16 +58,9 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            try
-            {
-                await userService.DeleteUserAsync(userEmail);
+            await userService.DeleteUserAsync(userEmail);
 
-                return Ok();
-            }
-            catch (NotFoundException nfe)
-            {
-                return BadRequest(nfe.Message);
-            }
+            return Ok();
         }
 
         [HttpGet("CurrentUser")]

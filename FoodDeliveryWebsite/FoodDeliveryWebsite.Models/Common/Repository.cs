@@ -181,5 +181,11 @@ namespace FoodDeliveryWebsite.Models.Common
             this.DbSet<T>()
                 .UpdateRange(entities);
         }
+
+        public async Task<EntityState> GetEntityStateAsync<T>(T entity) where T : class
+        {
+            var entry = context.Entry(entity);
+            return entry.State;
+        }
     }
 }

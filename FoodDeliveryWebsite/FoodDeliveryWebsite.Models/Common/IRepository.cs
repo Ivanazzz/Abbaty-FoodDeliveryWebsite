@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FoodDeliveryWebsite.Models.Common
 {
@@ -88,5 +89,7 @@ namespace FoodDeliveryWebsite.Models.Common
         /// </summary>
         /// <returns>Error code</returns>
         Task<int> SaveChangesAsync();
+
+        Task<EntityState> GetEntityStateAsync<T>(T enitity) where T : class;
     }
 }

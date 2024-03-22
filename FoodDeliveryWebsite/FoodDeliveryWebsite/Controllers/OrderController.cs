@@ -2,7 +2,6 @@
 using System.Security.Claims;
 
 using FoodDeliveryWebsite.Attributes;
-using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Dtos.OrderDtos;
 using FoodDeliveryWebsite.Services;
 
@@ -25,16 +24,9 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            try
-            {
-                await orderService.AddOrderAsync(userEmail, orderDto);
+            await orderService.AddOrderAsync(userEmail, orderDto);
 
-                return Ok();
-            }
-            catch (NotFoundException nfe)
-            {
-                return NotFound(nfe.Message);
-            }
+            return Ok();
         }
     }
 }

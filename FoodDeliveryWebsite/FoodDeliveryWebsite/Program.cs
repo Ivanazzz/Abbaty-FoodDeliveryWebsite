@@ -30,7 +30,7 @@ namespace FoodDeliveryWebsite
 
             var app = builder.Build();
 
-            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

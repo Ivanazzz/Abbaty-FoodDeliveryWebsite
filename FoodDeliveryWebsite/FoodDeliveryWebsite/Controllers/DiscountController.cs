@@ -49,16 +49,9 @@ namespace FoodDeliveryWebsite.Controllers
         [AuthorizedAdmin]
         public async Task<IActionResult> AddAsync([FromBody] DiscountDto discountDto)
         {
-            try
-            {
-                await discountService.AddDiscountAsync(discountDto);
+            await discountService.AddDiscountAsync(discountDto);
 
-                return Ok();
-            }
-            catch (BadRequestException bre)
-            {
-                return BadRequest(bre.Message);
-            }
+            return Ok();
         }
     }
 }

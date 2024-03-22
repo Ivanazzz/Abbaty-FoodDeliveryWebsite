@@ -2,7 +2,6 @@
 using System.Security.Claims;
 
 using FoodDeliveryWebsite.Attributes;
-using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Dtos.AddressDtos;
 using FoodDeliveryWebsite.Services;
 
@@ -25,16 +24,9 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            try
-            {
-                var addresses = await addressService.GetAddressesAsync(userEmail);
+            var addresses = await addressService.GetAddressesAsync(userEmail);
 
-                return Ok(addresses);
-            }
-            catch(NotFoundException nfe)
-            {
-                return NotFound(nfe.Message);
-            }
+            return Ok(addresses);
         }
 
         [HttpGet("{id:int}")]
@@ -42,16 +34,9 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            try
-            {
-                var address = await addressService.GetSelectedAddressAsync(userEmail, id);
+            var address = await addressService.GetSelectedAddressAsync(userEmail, id);
 
-                return Ok(address);
-            }
-            catch (NotFoundException nfe)
-            {
-                return NotFound(nfe.Message);
-            }
+            return Ok(address);
         }
 
         [HttpPost]
@@ -59,20 +44,9 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            try
-            {
-                var addresses = await addressService.AddAddressAsync(userEmail, addressDto);
+            var addresses = await addressService.AddAddressAsync(userEmail, addressDto);
 
-                return Ok(addresses);
-            }
-            catch (NotFoundException nfe)
-            {
-                return NotFound(nfe.Message);
-            }
-            catch (BadRequestException bre)
-            {
-                return BadRequest(bre.Message);
-            }
+            return Ok(addresses);
         }
 
 
@@ -81,20 +55,9 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            try
-            {
-                await addressService.UpdateAddressAsync(userEmail, addressDto);
+            await addressService.UpdateAddressAsync(userEmail, addressDto);
 
-                return Ok();
-            }
-            catch (NotFoundException nfe)
-            {
-                return NotFound(nfe.Message);
-            }
-            catch (BadRequestException bre)
-            {
-                return BadRequest(bre.Message);
-            }
+            return Ok();
         }
 
         [HttpDelete]
@@ -102,16 +65,9 @@ namespace FoodDeliveryWebsite.Controllers
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
 
-            try
-            {
-                await addressService.DeleteAddressAsync(userEmail, id);
+            await addressService.DeleteAddressAsync(userEmail, id);
 
-                return Ok();
-            }
-            catch (NotFoundException nfe)
-            {
-                return NotFound(nfe.Message);
-            }
+            return Ok();
         }
     }
 }
