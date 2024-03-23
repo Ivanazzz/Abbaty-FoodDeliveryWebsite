@@ -18,6 +18,14 @@ namespace FoodDeliveryWebsite.Controllers
             this.productService = productService;
         }
 
+        //[HttpGet]
+        //public async Task<IActionResult> GetAsync(int page = 1, int pageSize = 6)
+        //{
+        //    var products = await productService.GetAvailableProductsAsync(page, pageSize);
+
+        //    return Ok(products);
+        //}
+
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {

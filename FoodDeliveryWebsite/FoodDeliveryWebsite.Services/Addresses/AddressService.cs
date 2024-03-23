@@ -9,7 +9,6 @@ using FoodDeliveryWebsite.Models.Common;
 using FoodDeliveryWebsite.Models.Dtos.AddressDtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Validations;
-using System.Reflection.Metadata;
 
 namespace FoodDeliveryWebsite.Services
 {
@@ -47,7 +46,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<AddressDto> GetSelectedAddressAsync(string userEmail, int id)
         {
-            var user = await repository.All<User>()
+            var user = await repository.AllReadOnly<User>()
                 .Include(u => u.Addresses)
                 .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);
@@ -71,7 +70,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<List<AddressDto>> AddAddressAsync(string userEmail, AddressDto addressDto)
         {
-            var user = await repository.All<User>()
+            var user = await repository.AllReadOnly<User>()
                 .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);
 
@@ -102,7 +101,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task UpdateAddressAsync(string userEmail, AddressDto addressDto)
         {
-            var user = await repository.All<User>()
+            var user = await repository.AllReadOnly<User>()
                 .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);
 
@@ -123,7 +122,7 @@ namespace FoodDeliveryWebsite.Services
             address.City = addressDto.City;
             address.Street = addressDto.Street;
             address.StreetNo = addressDto.StreetNo;
-            address.Floor = address.Floor;
+            address.Floor = addressDto.Floor;
             address.ApartmentNo = addressDto.ApartmentNo;
 
             AddressValidator validator = new AddressValidator();
@@ -142,7 +141,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task DeleteAddressAsync(string userEmail, int id)
         {
-            var user = await repository.All<User>()
+            var user = await repository.AllReadOnly<User>()
                 .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);
 

@@ -45,7 +45,7 @@ namespace FoodDeliveryWebsite.Services
                 }
             }
 
-            bool userExists = await repository.All<User>()
+            bool userExists = await repository.AllReadOnly<User>()
                 .SingleOrDefaultAsync(u => u.Email == user.Email && !u.IsDeleted) != null
                     ? true
                     : false;
@@ -68,7 +68,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<User> LoginAsync(UserLoginDto userLoginDto)
         {
-            var user = await repository.All<User>()
+            var user = await repository.AllReadOnly<User>()
                 .SingleOrDefaultAsync(u => u.Email == userLoginDto.Email 
                     && !u.IsDeleted);
 
@@ -89,7 +89,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<UserDto?> GetUserAsync(string email)
         {
-            var user = await repository.All<User>()
+            var user = await repository.AllReadOnly<User>()
                 .Where(u => u.Email == email && !u.IsDeleted)
                 .ProjectTo<UserDto>(mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();

@@ -32,7 +32,7 @@ namespace FoodDeliveryWebsite.Services
                         throw new NotFoundException(ExceptionMessages.InvalidOrder);
                     }
 
-                    var user = await repository.All<User>()
+                    var user = await repository.AllReadOnly<User>()
                         .SingleOrDefaultAsync(u => u.Email == userEmail
                             && !u.IsDeleted);
 

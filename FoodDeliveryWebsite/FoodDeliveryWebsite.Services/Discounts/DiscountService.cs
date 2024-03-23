@@ -26,7 +26,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<List<DiscountDto>> GetAvailableDiscountsAsync()
         {
-            var discounts = await repository.All<Discount>()
+            var discounts = await repository.AllReadOnly<Discount>()
                 .ProjectTo<DiscountDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
@@ -39,7 +39,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<List<DiscountDto>> GetUpcomingDiscountsAsync()
         {
-            var upcomingDiscounts = await repository.All<Discount>()
+            var upcomingDiscounts = await repository.AllReadOnly<Discount>()
                 .Where(d => d.StartDate > DateTime.UtcNow)
                 .ProjectTo<DiscountDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
@@ -49,7 +49,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<DiscountOrderDto> GetDiscountAsync(string code)
         {
-            var discount = await repository.All<Discount>()
+            var discount = await repository.AllReadOnly<Discount>()
                 .ProjectTo<DiscountOrderDto>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(d => d.Code == code);
 

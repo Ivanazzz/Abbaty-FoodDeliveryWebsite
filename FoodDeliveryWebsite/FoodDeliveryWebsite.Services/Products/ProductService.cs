@@ -27,7 +27,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<List<ProductGetDto>> GetAvailableProductsAsync()
         {
-            var products = await repository.All<Product>()
+            var products = await repository.AllReadOnly<Product>()
                 .Where(p => p.Status == ProductStatus.Available)
                 .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
@@ -37,7 +37,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<ProductGetDto> GetSelectedProductAsync(int id)
         {
-            var product = await repository.All<Product>()
+            var product = await repository.AllReadOnly<Product>()
                 .Where(p => p.Id == id
                     && !p.IsDeleted)
                 .SingleOrDefaultAsync();
@@ -52,7 +52,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<List<ProductGetDto>> GetFilteredProductAsync(ProductType productType)
         {
-            var products = await repository.All<Product>()
+            var products = await repository.AllReadOnly<Product>()
                 .Where(p => p.Type == productType
                     && p.Status == ProductStatus.Available)
                 .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)
@@ -64,7 +64,7 @@ namespace FoodDeliveryWebsite.Services
         public async Task<List<ProductGetDto>> GetCustomFilteredProductAsync(ProductFilterDto filter)
         {
             var products = await filter
-                .WhereBuilder(repository.All<Product>()
+                .WhereBuilder(repository.AllReadOnly<Product>()
                     .AsQueryable())
                 .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
@@ -74,7 +74,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<List<ProductGetDto>> GetProductsWithStatusAsync(ProductStatus productStatus)
         {
-            var products = await repository.All<Product>()
+            var products = await repository.AllReadOnly<Product>()
                 .Where(p => p.Status == productStatus 
                     && !p.IsDeleted)
                 .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)

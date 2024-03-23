@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
 using FoodDeliveryWebsite.Attributes;
-using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Dtos.DiscountDtos;
 using FoodDeliveryWebsite.Services;
 

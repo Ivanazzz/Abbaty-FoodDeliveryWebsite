@@ -6,7 +6,6 @@ using FoodDeliveryWebsite.CustomExceptionMessages;
 using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Common;
 using FoodDeliveryWebsite.Models.Dtos.OrderItemDtos;
-using FoodDeliveryWebsite.Models.Dtos.ProductDtos;
 using FoodDeliveryWebsite.Models.Entities;
 
 namespace FoodDeliveryWebsite.Services
@@ -24,7 +23,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<List<OrderItemDto>> GetOrderItemsAsync(string userEmail)
         {
-            var user = await repository.All<User>()
+            var user = await repository.AllReadOnly<User>()
                 .Include(u => u.OrderItems)
                 .ThenInclude(oi => oi.Product)
                 .SingleOrDefaultAsync(u => u.Email == userEmail 
@@ -56,7 +55,7 @@ namespace FoodDeliveryWebsite.Services
                 throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
-            var product = await repository.All<Product>()
+            var product = await repository.AllReadOnly<Product>()
                 .SingleOrDefaultAsync(p => p.Id == productId);
 
             if (product == null)
@@ -87,7 +86,6 @@ namespace FoodDeliveryWebsite.Services
                 UserId = user.Id,
                 User = user,
                 ProductId = productId,
-                Product = product,
                 ProductQuantity = quantity,
                 Price = product.Price * quantity
             };
@@ -98,8 +96,7 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task<OrderItemDto> UpdateOrderItemAsync(string userEmail, int orderItemId, int quantity)
         {
-            var user = await repository.All<User>()
-                .Include(u => u.OrderItems)
+            var user = await repository.AllReadOnly<User>()
                 .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);
 
@@ -142,7 +139,7 @@ namespace FoodDeliveryWebsite.Services
                 throw new NotFoundException(ExceptionMessages.InvalidOrderItem);
             }
 
-            var user = await repository.All<User>()
+            var user = await repository.AllReadOnly<User>()
                 .SingleOrDefaultAsync(u => u.Email == userEmail 
                     && !u.IsDeleted);
 
