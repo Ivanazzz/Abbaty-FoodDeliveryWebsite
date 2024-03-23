@@ -13,6 +13,7 @@ import { ShoppingCartComponent } from "../order-module/components/shopping-cart/
 import { AdminAuthGuard } from "./auth-guards/admin-auth.guard";
 import { ClientAuthGuard } from "./auth-guards/client-auth.guard";
 import { AddressComponent } from "../address-module/components/address/address.component";
+import { AllOrdersComponent } from "../order-module/components/all-orders/all-orders.component";
 
 const routes: Routes = [
   {
@@ -64,6 +65,11 @@ const routes: Routes = [
     path: "shopping-cart",
     component: ShoppingCartComponent,
     canActivate: [ClientAuthGuard],
+  },
+  {
+    path: "all-orders",
+    component: AllOrdersComponent,
+    canActivate: [AdminAuthGuard]
   },
 ];
 

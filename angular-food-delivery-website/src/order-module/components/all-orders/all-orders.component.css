@@ -1,0 +1,45 @@
+.container {
+    margin-top: 8rem;
+    width: 50%;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  table thead th {
+    background: #ed1c24;
+    color: white;
+  }
+
+  tr td {
+    text-align: center;
+  }
+
+  .red-icon {
+    color: red;
+  }
+  
+  .green-icon {
+    color: green;
+  }
+
+.pagination-container {
+    display: block;
+    align-self: center;
+}
+
+ngb-pagination ::ng-deep ul > li:not(.active) > a {
+    background-color: #f7f7f7;
+    color: black;
+}
+
+ngb-pagination ::ng-deep ul > li.active > a {
+    background-color: red;
+    border-color: red;
+}
+
+ngb-pagination::ng-deep .page-link:focus {
+    box-shadow: none;
+  }

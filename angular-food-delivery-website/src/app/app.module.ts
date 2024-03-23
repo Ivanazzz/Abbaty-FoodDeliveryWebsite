@@ -35,6 +35,7 @@ import { AddressComponent } from "../address-module/components/address/address.c
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
+import { AllOrdersComponent } from '../order-module/components/all-orders/all-orders.component';
 
 export function appInitializer(userService: UserService) {
   return () => userService.initializeUser();
@@ -61,6 +62,7 @@ export function appInitializer(userService: UserService) {
     ShoppingCartComponent,
     GetAddressesModalContent,
     OrderInfoModalContent,
+    AllOrdersComponent,
   ],
   imports: [
     BrowserModule,

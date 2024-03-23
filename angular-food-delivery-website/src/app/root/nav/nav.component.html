@@ -47,6 +47,17 @@
             Отстъпки
           </button>
         </li>
+        <li
+          *ngIf="
+            userService.currentUser != null &&
+            userService.currentUser.role == role.Admin
+          "
+          class="nav-item"
+        >
+          <button routerLink="/all-orders" class="btn btn-hover" type="button">
+            Направени поръчки
+          </button>
+        </li>
       </ul>
     </div>
   </div>

@@ -9,9 +9,11 @@ namespace FoodDeliveryWebsite.Controllers
 {
     [ApiController]
     [Route("api/[controller]s")]
-    [AuthorizedClient]
     public class OrderController : ControllerBase
     {
+        private const int DefaultCurrentPage = 1;
+        private const int DefaultPageSize = 10;
+        
         private IOrderService orderService { get; set; }
 
         public OrderController(IOrderService orderService)
@@ -20,6 +22,7 @@ namespace FoodDeliveryWebsite.Controllers
         }
 
         [HttpPost]
+        [AuthorizedClient]
         public async Task<IActionResult> AddAsync([FromBody] OrderDto orderDto)
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
@@ -27,6 +30,17 @@ namespace FoodDeliveryWebsite.Controllers
             await orderService.AddOrderAsync(userEmail, orderDto);
 
             return Ok();
+        }
+
+        [HttpGet]
+        [AuthorizedAdmin]
+        public async Task<IActionResult> GetAsync([FromQuery] int currentPage = DefaultCurrentPage, [FromQuery] int pageSize = DefaultPageSize)
+        {
+            var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+
+            var orders = await orderService.GetOrdersAsync(userEmail, currentPage, pageSize);
+
+            return Ok(orders);
         }
     }
 }

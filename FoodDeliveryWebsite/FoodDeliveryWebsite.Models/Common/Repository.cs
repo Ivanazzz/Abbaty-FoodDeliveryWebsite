@@ -187,5 +187,22 @@ namespace FoodDeliveryWebsite.Models.Common
             var entry = context.Entry(entity);
             return entry.State;
         }
+
+        public IQueryable<T> AllQueryable<T>() where T : class
+        {
+            return DbSet<T>()
+                .AsQueryable();
+        }
+
+        /// <summary>
+        /// Counts the number of elements in a table asynchronously.
+        /// </summary>
+        /// <typeparam name="T">The type of entity.</typeparam>
+        /// <returns>The number of elements.</returns>
+        public async Task<int> CountAsync<T>() where T : class
+        {
+            return await DbSet<T>()
+                .CountAsync();
+        }
     }
 }

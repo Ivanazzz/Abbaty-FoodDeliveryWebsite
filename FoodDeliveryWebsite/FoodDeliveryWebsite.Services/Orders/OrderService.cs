@@ -7,6 +7,10 @@ using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Common;
 using FoodDeliveryWebsite.Models.Dtos.OrderDtos;
 using FoodDeliveryWebsite.Models.Entities;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using FoodDeliveryWebsite.Models.Dtos.CommonDtos;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace FoodDeliveryWebsite.Services
 {
@@ -67,6 +71,36 @@ namespace FoodDeliveryWebsite.Services
                     throw;
                 }
             }
+        }
+
+        public async Task<SearchResultDto<OrderInfoDto>> GetOrdersAsync(string userEmail, int currentPage, int pageSize)
+        {
+            var user = await repository.AllReadOnly<User>()
+                .SingleOrDefaultAsync(u => u.Email == userEmail
+                    && !u.IsDeleted);
+
+            if (user == null)
+            {
+                throw new NotFoundException(ExceptionMessages.InvalidUser);
+            }
+
+            var skip = (currentPage - 1) * pageSize;
+
+            var orders = repository.AllQueryable<Order>();
+            var ordersCount = await orders.CountAsync();
+
+            var filteredOrders = await orders
+                .OrderByDescending(o => o.CreateDate)
+                .Skip(skip)
+                .Take(pageSize)
+                .ProjectTo<OrderInfoDto>(mapper.ConfigurationProvider)
+                .ToListAsync();
+
+            return new SearchResultDto<OrderInfoDto>
+            {
+                TotalCount = ordersCount,
+                Items = filteredOrders
+            };
         }
     }
 }

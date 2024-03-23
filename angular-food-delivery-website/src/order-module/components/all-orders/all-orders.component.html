@@ -1,0 +1,44 @@
+<div class="container">
+    <h2>Направени поръчки</h2>
+    <div class="row pagination-container">
+        <div class="col">
+          <ngb-pagination [collectionSize]="this.totalOrdersCount"
+                          [pageSize]="pageSize"
+                          [page]="currentPage"
+                          (pageChange)="OnPageChange($event)"
+                          aria-label="Default pagination"/>
+          <label for="card"> {{searchResult.items?.length}} поръчки на {{currentPage}} страница </label>
+    
+        </div>
+      </div>
+    <table
+      *ngIf="this.totalOrdersCount > 0"
+      class="table table-bordered table-hover"
+    >
+      <thead class="table-danger">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Потребител</th>
+          <th scope="col">Дата на поръчка</th>
+          <th scope="col">Използвана отстъпка</th>
+          <th scope="col">Цена на поръчка</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let orderInfo of searchResult.items; index as i">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ orderInfo.userFullName }}</td>
+          <td>{{ orderInfo.orderDate | date: 'medium' }}</td>
+          <td>
+            <ng-container *ngIf="orderInfo.haveUsedDiscount; else noDiscount">
+                <i class="fa-solid fa-check green-icon"></i>
+            </ng-container>
+            <ng-template #noDiscount>
+                <i class="fa-solid fa-xmark red-icon"></i>
+            </ng-template>
+          </td>
+          <td>{{ orderInfo.totalPrice }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

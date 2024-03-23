@@ -54,6 +54,12 @@ namespace FoodDeliveryWebsite
                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => Math.Round(src.TotalPrice, 2)))
                .ForMember(dest => dest.DeliveryPrice, opt => opt.MapFrom(src => src.DeliveryPrice));
 
+            CreateMap<Order, OrderInfoDto>()
+               .ForMember(dest => dest.UserFullName, opt => opt.MapFrom(src => src.User.FullName))
+               .ForMember(dest => dest.OrderDate, opt => opt.MapFrom(src => src.CreateDate))
+               .ForMember(dest => dest.HaveUsedDiscount, opt => opt.MapFrom(src => src.DiscountId != null))
+               .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.TotalPrice));
+
             // OrderItem
             CreateMap<OrderItem, OrderItemDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))

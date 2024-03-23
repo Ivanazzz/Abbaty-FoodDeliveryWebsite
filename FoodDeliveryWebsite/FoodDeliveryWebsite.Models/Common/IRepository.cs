@@ -30,6 +30,12 @@ namespace FoodDeliveryWebsite.Models.Common
         IQueryable<T> AllReadonly<T>(Expression<Func<T, bool>> search) where T : class;
 
         /// <summary>
+        /// Gets all records in a table as Queryable
+        /// </summary>
+        /// <returns>Queryable expression tree</returns>
+        IQueryable<T> AllQueryable<T>() where T : class;
+
+        /// <summary>
         /// Adds entity to the database
         /// </summary>
         /// <param name="entity">Entity to add</param>
@@ -90,6 +96,18 @@ namespace FoodDeliveryWebsite.Models.Common
         /// <returns>Error code</returns>
         Task<int> SaveChangesAsync();
 
+        /// <summary>
+        /// Returns the entity state
+        /// </summary>
+        /// <typeparam name="T">The type of entity</typeparam>
+        /// <returns>The entity state</returns>
         Task<EntityState> GetEntityStateAsync<T>(T enitity) where T : class;
+
+        /// <summary>
+        /// Counts the number of elements in a table
+        /// </summary>
+        /// <typeparam name="T">The type of entity</typeparam>
+        /// <returns>The number of elements</returns>
+        Task<int> CountAsync<T>() where T : class;
     }
 }
