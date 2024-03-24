@@ -2,17 +2,12 @@
 
 using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Entities;
+using static FoodDeliveryWebsite.Models.Constants.UserConstants;
 
 namespace FoodDeliveryWebsite.Models.Validations
 {
     public class UserUpdateValidator : AbstractValidator<User>
     {
-        private const int FirstNameMaxLength = 20;
-        private const int LastNameMaxLength = 20;
-
-        private const string NameRegex = @"^[А-я\-]+$";
-        private const string PhoneNumberRegex = @"^\+359\d{9}$";
-
         public UserUpdateValidator()
         {
             RuleFor(u => u.FirstName)

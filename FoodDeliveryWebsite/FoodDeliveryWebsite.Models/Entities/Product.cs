@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using FoodDeliveryWebsite.Models.Common;
 using FoodDeliveryWebsite.Models.Enums;
+using static FoodDeliveryWebsite.Models.Constants.ProductConstants;
 
 namespace FoodDeliveryWebsite.Models.Entities
 {
@@ -33,20 +34,34 @@ namespace FoodDeliveryWebsite.Models.Entities
         public string ImageName { get; set; }
 
         public string ImageMimeType { get; set; }
+    }
 
-        public class ProductConfiguration : IEntityTypeConfiguration<Product>
+    public class ProductConfiguration : IEntityTypeConfiguration<Product>
+    {
+        public void Configure(EntityTypeBuilder<Product> builder)
         {
-            public void Configure(EntityTypeBuilder<Product> builder)
-            {
-                builder.Property(b => b.Name)
-                       .IsRequired();
+            builder.Property(b => b.Name)
+                .IsRequired()
+                .HasMaxLength(NameMaxLength);
 
-                builder.Property(b => b.Description)
-                       .IsRequired();
+            builder.Property(b => b.Description)
+                .IsRequired()
+                .HasMaxLength(DescriptionMaxLength);
 
-                builder.Property(b => b.Image)
-                       .IsRequired();
-            }
+            builder.Property(b => b.Price)
+                .HasPrecision(18,2);
+
+            builder.Property(b => b.Image)
+                .IsRequired()
+                .HasMaxLength(DescriptionMaxLength);
+
+            builder.Property(b => b.ImageName)
+                .IsRequired()
+                .HasMaxLength(ImageNameMaxLength);
+
+            builder.Property(b => b.ImageMimeType)
+                .IsRequired()
+                .HasMaxLength(ImageMimeTypeMaxLength);
         }
     }
 }

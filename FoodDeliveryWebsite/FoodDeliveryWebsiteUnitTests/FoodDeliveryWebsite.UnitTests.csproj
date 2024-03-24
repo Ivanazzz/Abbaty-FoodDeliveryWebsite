@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FoodDeliveryWebsite.Repositories\FoodDeliveryWebsite.Services.csproj" />
+    <ProjectReference Include="..\FoodDeliveryWebsite.Services\FoodDeliveryWebsite.Services.csproj" />
     <ProjectReference Include="..\FoodDeliveryWebsite\FoodDeliveryWebsite.csproj" />
   </ItemGroup>
 

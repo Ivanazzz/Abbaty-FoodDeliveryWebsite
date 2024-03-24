@@ -1,4 +1,6 @@
 ﻿using FoodDeliveryWebsite.Models.Common;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodDeliveryWebsite.Models.Entities
 {
@@ -27,5 +29,17 @@ namespace FoodDeliveryWebsite.Models.Entities
         public decimal TotalPrice { get; set; }
 
         public decimal DeliveryPrice { get; set; } 
+    }
+
+    public class OrderConfiguration : IEntityTypeConfiguration<Order>
+    {
+        public void Configure(EntityTypeBuilder<Order> builder)
+        {
+            builder.Property(b => b.TotalPrice)
+                .HasPrecision(18, 2);
+
+            builder.Property(b => b.DeliveryPrice)
+                .HasPrecision(18, 2);
+        }
     }
 }

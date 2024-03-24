@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using FoodDeliveryWebsite.Models.Common;
+using static FoodDeliveryWebsite.Models.Constants.AddressConstants;
 
 namespace FoodDeliveryWebsite.Models.Entities
 {
@@ -28,17 +29,19 @@ namespace FoodDeliveryWebsite.Models.Entities
         public User User { get; set; }
 
         public bool IsDeleted { get; set; }
+    }
 
-        public class AddressConfiguration : IEntityTypeConfiguration<Address>
+    public class AddressConfiguration : IEntityTypeConfiguration<Address>
+    {
+        public void Configure(EntityTypeBuilder<Address> builder)
         {
-            public void Configure(EntityTypeBuilder<Address> builder)
-            {
-                builder.Property(b => b.City)
-                       .IsRequired();
+            builder.Property(b => b.City)
+                .IsRequired()
+                .HasMaxLength(CityMaxLength);
 
-                builder.Property(b => b.Street)
-                       .IsRequired();
-            }
+            builder.Property(b => b.Street)
+                .IsRequired()
+                .HasMaxLength(StreetMaxLength);
         }
     }
 }

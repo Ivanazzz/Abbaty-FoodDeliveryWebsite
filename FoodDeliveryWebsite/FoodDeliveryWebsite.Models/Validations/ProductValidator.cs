@@ -2,20 +2,12 @@
 
 using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Entities;
+using static FoodDeliveryWebsite.Models.Constants.ProductConstants;
 
 namespace FoodDeliveryWebsite.Models.Validations
 {
     public class ProductValidator : AbstractValidator<Product>
     {
-        private const int NameMaxLength = 50;
-        private const int DescriptionMaxLength = 500;
-        private const decimal PriceMinValue = 0.01m;
-        private const int GramsMinValue = 1;
-        private const int GramsMaxValue = 2001;
-
-        private const string NameRegex = @"^[А-яA-z\s]+$";
-        private const string DescriptionRegex = @"^[\(\)-.',А-яA-z1-9\s]+$";
-
         public ProductValidator()
         {
             RuleFor(p => p.Name)

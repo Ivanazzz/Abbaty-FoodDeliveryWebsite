@@ -3,6 +3,7 @@ using System;
 using FoodDeliveryWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FoodDeliveryWebsite.Models.Migrations
 {
     [DbContext(typeof(FoodDeliveryWebsiteDbContext))]
-    partial class FoodDeliveryWebsiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240324123640_AddValidationsToDiscount")]
+    partial class AddValidationsToDiscount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,8 +142,7 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnName("creatoruserid");
 
                     b.Property<decimal>("DeliveryPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
+                        .HasColumnType("numeric")
                         .HasColumnName("deliveryprice");
 
                     b.Property<int?>("DiscountId")
@@ -148,8 +150,7 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnName("discountid");
 
                     b.Property<decimal>("TotalPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
+                        .HasColumnType("numeric")
                         .HasColumnName("totalprice");
 
                     b.Property<int>("UserId")
@@ -189,8 +190,7 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnName("orderid");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
+                        .HasColumnType("numeric")
                         .HasColumnName("price");
 
                     b.Property<int>("ProductId")
@@ -235,8 +235,7 @@ namespace FoodDeliveryWebsite.Models.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
+                        .HasColumnType("text")
                         .HasColumnName("description");
 
                     b.Property<int>("Grams")
@@ -245,20 +244,15 @@ namespace FoodDeliveryWebsite.Models.Migrations
 
                     b.Property<byte[]>("Image")
                         .IsRequired()
-                        .HasMaxLength(500)
                         .HasColumnType("bytea")
                         .HasColumnName("image");
 
                     b.Property<string>("ImageMimeType")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
+                        .HasColumnType("text")
                         .HasColumnName("imagemimetype");
 
                     b.Property<string>("ImageName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasColumnType("text")
                         .HasColumnName("imagename");
 
                     b.Property<bool>("IsDeleted")
@@ -267,13 +261,11 @@ namespace FoodDeliveryWebsite.Models.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasColumnType("text")
                         .HasColumnName("name");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
+                        .HasColumnType("numeric")
                         .HasColumnName("price");
 
                     b.Property<int>("Status")
@@ -313,8 +305,7 @@ namespace FoodDeliveryWebsite.Models.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
+                        .HasColumnType("text")
                         .HasColumnName("firstname");
 
                     b.Property<int>("Gender")
@@ -322,13 +313,14 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnName("gender");
 
                     b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
+                        .HasDefaultValue(false)
                         .HasColumnName("isdeleted");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
+                        .HasColumnType("text")
                         .HasColumnName("lastname");
 
                     b.Property<string>("Password")
@@ -351,7 +343,6 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnName("role");
 
                     b.Property<string>("Salt")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("salt");
 

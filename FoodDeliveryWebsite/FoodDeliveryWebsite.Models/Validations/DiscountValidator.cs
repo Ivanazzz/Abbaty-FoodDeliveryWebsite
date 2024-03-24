@@ -2,16 +2,12 @@
 
 using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Entities;
+using static FoodDeliveryWebsite.Models.Constants.DiscountConstants;
 
 namespace FoodDeliveryWebsite.Models.Validations
 {
     public class DiscountValidator : AbstractValidator<Discount>
     {
-        private const int PercentageMinValue = 1;
-        private const int PercentageMaxValue = 100;
-
-        private const string CodeRegex = @"^[A-z]+[0-9]+$";
-
         public DiscountValidator()
         {
             RuleFor(d => d.Code)
@@ -19,9 +15,7 @@ namespace FoodDeliveryWebsite.Models.Validations
                 .Matches(CodeRegex).WithState(a => new BadRequestException("Невалиден формат на кода"));
 
             RuleFor(d => d.Percentage)
-                .GreaterThanOrEqualTo(PercentageMinValue).WithState(a => new BadRequestException($"Процентът отстъпка трябва да бъде по-голям или равен на {PercentageMinValue}"));
-
-            RuleFor(d => d.Percentage)
+                .GreaterThanOrEqualTo(PercentageMinValue).WithState(a => new BadRequestException($"Процентът отстъпка трябва да бъде по-голям или равен на {PercentageMinValue}"))
                 .LessThanOrEqualTo(PercentageMaxValue).WithState(a => new BadRequestException($"Процентът отстъпка не трябва да надвишава {PercentageMaxValue}"));
 
             RuleFor(d => d.StartDate)

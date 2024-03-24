@@ -2,19 +2,12 @@
 
 using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Entities;
+using static FoodDeliveryWebsite.Models.Constants.UserConstants;
 
 namespace FoodDeliveryWebsite.Models.Validations
 {
     public class UserValidator : AbstractValidator<User>
     {
-        private const int FirstNameMaxLength = 20;
-        private const int LastNameMaxLength = 20;
-
-        private const string NameRegex = @"^[А-я-]+$";
-        private const string PasswordRegex = @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[.,#?!@$%^&*-]).{8,}$";
-        private const string PhoneNumberRegex = @"^\+359\d{9}$";
-        private const string emailRegex = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$";
-
         public UserValidator()
         {
             RuleFor(u => u.FirstName)
@@ -29,7 +22,7 @@ namespace FoodDeliveryWebsite.Models.Validations
 
             RuleFor(u => u.Email)
                 .NotEmpty().WithState(a => new BadRequestException("Имейлът е задължителен"))
-                .Matches(emailRegex).WithState(a => new BadRequestException("Имейлът е в невалиден формат"));
+                .Matches(EmailRegex).WithState(a => new BadRequestException("Имейлът е в невалиден формат"));
 
             RuleFor(u => u.Password)
                 .NotEmpty().WithState(a => new BadRequestException("Паролата е задължителна"))

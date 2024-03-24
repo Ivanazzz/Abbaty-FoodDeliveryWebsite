@@ -3,6 +3,7 @@ using System;
 using FoodDeliveryWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FoodDeliveryWebsite.Models.Migrations
 {
     [DbContext(typeof(FoodDeliveryWebsiteDbContext))]
-    partial class FoodDeliveryWebsiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240324125905_AddValidationsToUser")]
+    partial class AddValidationsToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -139,8 +142,7 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnName("creatoruserid");
 
                     b.Property<decimal>("DeliveryPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
+                        .HasColumnType("numeric")
                         .HasColumnName("deliveryprice");
 
                     b.Property<int?>("DiscountId")
@@ -148,8 +150,7 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnName("discountid");
 
                     b.Property<decimal>("TotalPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
+                        .HasColumnType("numeric")
                         .HasColumnName("totalprice");
 
                     b.Property<int>("UserId")
@@ -189,8 +190,7 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnName("orderid");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("numeric(18,2)")
+                        .HasColumnType("numeric")
                         .HasColumnName("price");
 
                     b.Property<int>("ProductId")

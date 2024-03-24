@@ -2,20 +2,12 @@
 
 using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Entities;
+using static FoodDeliveryWebsite.Models.Constants.AddressConstants;
 
 namespace FoodDeliveryWebsite.Models.Validations
 {
     public class AddressValidator : AbstractValidator<Address>
     {
-        public const int CityMaxLength = 20;
-        internal const int StreetMaxLength = 30;
-        private const int StreetNoMinValue = 1;
-        private const int FloorMinValue = 0;
-        private const int ApartmentNoMinValue = 1;
-
-        private const string CityRegex = @"^[А-я\s]+$";
-        private const string StreetRegex = @"^[А-я\s]+$";
-
         public AddressValidator()
         {
             RuleFor(a => a.City)
@@ -25,7 +17,7 @@ namespace FoodDeliveryWebsite.Models.Validations
 
             RuleFor(a => a.Street)
                 .NotEmpty().WithState(a => new BadRequestException("Улицата е задължителна"))
-                .MaximumLength(StreetMaxLength).WithState(a => new BadRequestException($"Улицата не трява да надвишава ${StreetMaxLength} символа"))
+                .MaximumLength(StreetMaxLength).WithState(a => new BadRequestException($"Улицата не трява да надвишава {StreetMaxLength} символа"))
                 .Matches(StreetRegex).WithState(a => new BadRequestException("Улицата трябва да бъде написана на кирирлица"));
 
             RuleFor(a => a.StreetNo)
@@ -36,7 +28,7 @@ namespace FoodDeliveryWebsite.Models.Validations
                 .GreaterThanOrEqualTo(FloorMinValue).WithState(a => new BadRequestException($"Етажът трябва да бъде по-голям или равен на {FloorMinValue}"));
 
             RuleFor(a => a.ApartmentNo)
-                .GreaterThanOrEqualTo(ApartmentNoMinValue).WithState(a => new BadRequestException($"Номерът на апартамента трябва да бъде по-голям или равен на  {ApartmentNoMinValue}"));
+                .GreaterThanOrEqualTo(ApartmentNoMinValue).WithState(a => new BadRequestException($"Номерът на апартамента трябва да бъде по-голям или равен на {ApartmentNoMinValue}"));
         }
     }
 }
