@@ -1,2 +1,4 @@
-<app-nav></app-nav>
+<ng-container *ngIf="!(isNotFoundRoute || isBadRequestRoute)">
+    <app-nav></app-nav>
+  </ng-container>
 <router-outlet></router-outlet>

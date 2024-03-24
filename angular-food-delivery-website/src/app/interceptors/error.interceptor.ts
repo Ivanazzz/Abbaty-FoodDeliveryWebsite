@@ -29,6 +29,16 @@ export class ErrorInterceptor implements HttpInterceptor {
           // Server-side error
           errorMessage = error.error.message || errorMessage;
         }
+
+        // Check if error status is 404 (NotFound)
+        if (error.status === 404) {
+          // Navigate to NotFoundComponent
+          this.router.navigate(['/not-found']);
+        } else if (error.status === 400) {
+          // Navigate to NotFoundComponent
+          this.router.navigate(['/bad-request']);
+        } 
+        
         this.toastr.error(errorMessage, null, { timeOut: 5000 });
         return throwError(() => error);
       })

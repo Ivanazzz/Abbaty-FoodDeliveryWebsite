@@ -36,6 +36,8 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { HttpClientModule } from "@angular/common/http";
 import { AllOrdersComponent } from '../order-module/components/all-orders/all-orders.component';
+import { NotFoundComponent } from './error-pages/not-found/not-found.component';
+import { BadRequestComponent } from './error-pages/bad-request/bad-request.component';
 
 export function appInitializer(userService: UserService) {
   return () => userService.initializeUser();
@@ -63,6 +65,8 @@ export function appInitializer(userService: UserService) {
     GetAddressesModalContent,
     OrderInfoModalContent,
     AllOrdersComponent,
+    NotFoundComponent,
+    BadRequestComponent,
   ],
   imports: [
     BrowserModule,

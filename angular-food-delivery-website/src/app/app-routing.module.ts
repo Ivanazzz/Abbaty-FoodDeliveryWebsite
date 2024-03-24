@@ -14,6 +14,8 @@ import { AdminAuthGuard } from "./auth-guards/admin-auth.guard";
 import { ClientAuthGuard } from "./auth-guards/client-auth.guard";
 import { AddressComponent } from "../address-module/components/address/address.component";
 import { AllOrdersComponent } from "../order-module/components/all-orders/all-orders.component";
+import { NotFoundComponent } from "./error-pages/not-found/not-found.component";
+import { BadRequestComponent } from "./error-pages/bad-request/bad-request.component";
 
 const routes: Routes = [
   {
@@ -70,6 +72,14 @@ const routes: Routes = [
     path: "all-orders",
     component: AllOrdersComponent,
     canActivate: [AdminAuthGuard]
+  },
+  {
+    path: "not-found",
+    component: NotFoundComponent,
+  },
+  {
+    path: "bad-request",
+    component: BadRequestComponent,
   },
 ];
 
