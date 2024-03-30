@@ -12,6 +12,7 @@ using FoodDeliveryWebsite.Models.Entities;
 
 namespace FoodDeliveryWebsite.Controllers
 {
+    // Test Checkout
     [ApiController]
     [Route("api/[controller]s")]
     public class UserController : ControllerBase
