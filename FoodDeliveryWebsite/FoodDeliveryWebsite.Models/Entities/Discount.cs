@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
-
-using FoodDeliveryWebsite.Models.Common;
-using static FoodDeliveryWebsite.Models.Constants.DiscountConstants;
+﻿using FoodDeliveryWebsite.Models.Common;
 
 namespace FoodDeliveryWebsite.Models.Entities
 {
@@ -21,14 +17,5 @@ namespace FoodDeliveryWebsite.Models.Entities
         public DateTime ExpirationDate { get; set; }
 
         public int Percentage { get; set; }
-    }
-
-    public class DiscountConfiguration : IEntityTypeConfiguration<Discount>
-    {
-        public void Configure(EntityTypeBuilder<Discount> builder)
-        {
-            builder.Property(b => b.Code)
-                .IsRequired();
-        }
     }
 }

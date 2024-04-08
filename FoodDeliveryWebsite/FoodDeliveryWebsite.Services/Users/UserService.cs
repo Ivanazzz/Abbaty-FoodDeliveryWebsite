@@ -2,8 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography;
-using System.Text;
+
 using System.Text.RegularExpressions;
 
 using FoodDeliveryWebsite.CustomExceptionMessages;
@@ -18,24 +17,20 @@ namespace FoodDeliveryWebsite.Services
     public class UserService : IUserService
     {
         private readonly IRepository repository;
+        private readonly IPassword password;
         private readonly IMapper mapper;
 
-        const int keySize = 64;
-        const int iterations = 350000;
-        HashAlgorithmName hashAlgorithm = HashAlgorithmName.SHA512;
-
-        public UserService(IRepository repository, IMapper mapper)
+        public UserService(IRepository repository, IPassword password, IMapper mapper)
         {
             this.repository = repository;
+            this.password = password;
             this.mapper = mapper;
         }
 
         public async Task RegisterAsync(UserRegistrationDto userRegistrationDto)
         {
-            User user = mapper.Map<User>(userRegistrationDto);
-
             UserValidator validator = new UserValidator();
-            var result = validator.Validate(user);
+            var result = validator.Validate(userRegistrationDto);
 
             foreach (var failure in result.Errors)
             {
@@ -44,6 +39,8 @@ namespace FoodDeliveryWebsite.Services
                     throw bre;
                 }
             }
+
+            User user = mapper.Map<User>(userRegistrationDto);
 
             bool userExists = await repository.AllReadOnly<User>()
                 .SingleOrDefaultAsync(u => u.Email == user.Email && !u.IsDeleted) != null
@@ -57,9 +54,8 @@ namespace FoodDeliveryWebsite.Services
 
             user.PhoneNumber = FormatPhoneNumber(user.PhoneNumber);
 
-            var hashedPassword = HashPasword(user.Password, out var salt);
+            var hashedPassword = password.HashPasword(user.Password, out var salt);
             user.Password = hashedPassword;
-            user.PasswordConfirmation = hashedPassword;
             user.Salt = Convert.ToHexString(salt);
 
             await repository.AddAsync(user);
@@ -77,7 +73,7 @@ namespace FoodDeliveryWebsite.Services
                 throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
-            bool isPasswordValid = VerifyPassword(userLoginDto.Password, user.Password, Convert.FromHexString(user.Salt));
+            bool isPasswordValid = password.VerifyPassword(userLoginDto.Password, user.Password, Convert.FromHexString(user.Salt));
 
             if (!isPasswordValid)
             {
@@ -149,27 +145,6 @@ namespace FoodDeliveryWebsite.Services
             string pattern = @"(\+359)(\d{2})(\d{4})(\d{3})";
 
             return Regex.Replace(phoneNumber, pattern, "$1 $2 $3 $4");
-        }
-
-        private string HashPasword(string password, out byte[] salt)
-        {
-            salt = RandomNumberGenerator.GetBytes(keySize);
-
-            var hash = Rfc2898DeriveBytes.Pbkdf2(
-                Encoding.UTF8.GetBytes(password),
-                salt,
-                iterations,
-                hashAlgorithm,
-                keySize);
-
-            return Convert.ToHexString(hash);
-        }
-
-        private bool VerifyPassword(string password, string hash, byte[] salt)
-        {
-            var hashToCompare = Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, hashAlgorithm, keySize);
-
-            return CryptographicOperations.FixedTimeEquals(hashToCompare, Convert.FromHexString(hash));
         }
     }
 }

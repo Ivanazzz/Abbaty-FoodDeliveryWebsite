@@ -108,6 +108,16 @@ namespace FoodDeliveryWebsite.Services
             product.ImageName = productDto.Image.FileName;
             product.ImageMimeType = productDto.Image.ContentType;
 
+            //await Console.Out.WriteLineAsync($"Name: {product.Name} \n");
+            //await Console.Out.WriteLineAsync($"Name: {product.Description} \n");
+            //await Console.Out.WriteLineAsync($"Name: {product.Price} \n");
+            //await Console.Out.WriteLineAsync($"Name: {product.Status} \n");
+            //await Console.Out.WriteLineAsync($"Name: {product.Type} \n");
+            //await Console.Out.WriteLineAsync($"Name: {product.Grams} \n");
+            //await Console.Out.WriteLineAsync($"Name: {product.Description} \n");
+            //await Console.Out.WriteLineAsync($"Name: {product.ImageName} \n");
+            //await Console.Out.WriteLineAsync($"Name: {product.ImageMimeType} \n");
+
             await repository.AddAsync(product);
             await repository.SaveChangesAsync();
         }

@@ -1,9 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-using FoodDeliveryWebsite.Models.Common;
+﻿using FoodDeliveryWebsite.Models.Common;
 using FoodDeliveryWebsite.Models.Enums;
-using static FoodDeliveryWebsite.Models.Constants.UserConstants;
+
 
 namespace FoodDeliveryWebsite.Models.Entities
 {
@@ -27,8 +24,6 @@ namespace FoodDeliveryWebsite.Models.Entities
 
         public string Password { get; set; }
 
-        public string PasswordConfirmation { get; set; }
-
         public string PhoneNumber { get; set; }
 
         public bool IsDeleted { get; set; }
@@ -40,34 +35,5 @@ namespace FoodDeliveryWebsite.Models.Entities
         public ICollection<Address> Addresses { get; set; } = new List<Address>();
 
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
-    }
-
-    public class UserConfiguration : IEntityTypeConfiguration<User>
-    {
-        public void Configure(EntityTypeBuilder<User> builder)
-        {
-            builder.Property(b => b.FirstName)
-                .IsRequired()
-                .HasMaxLength(FirstNameMaxLength);
-
-            builder.Property(b => b.LastName)
-                .IsRequired()
-                .HasMaxLength(LastNameMaxLength);
-
-            builder.Property(b => b.Email)
-                .IsRequired();
-
-            builder.Property(b => b.Password)
-                .IsRequired();
-
-            builder.Property(b => b.PasswordConfirmation)
-                .IsRequired();
-
-            builder.Property(b => b.PhoneNumber)
-                .IsRequired();
-
-            builder.Property(b => b.Salt)
-                .IsRequired();
-        }
     }
 }
