@@ -1,9 +1,11 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+
 using System.Text;
 
 using FoodDeliveryWebsite.Models.Common;
+using FoodDeliveryWebsite.Models.Dtos.UserDtos;
 using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Validations;
 using FoodDeliveryWebsite.Services;
@@ -16,13 +18,14 @@ namespace FoodDeliveryWebsite
         {
             services
                 .AddScoped<IRepository, Repository>()
+                .AddScoped<IPassword, Password>()
                 .AddScoped<IUserService, UserService>()
                 .AddScoped<IAddressService, AddressService>()
                 .AddScoped<IDiscountService, DiscountService>()
                 .AddScoped<IProductService, ProductService>()
                 .AddScoped<IOrderItemService, OrderItemService>()
                 .AddScoped<IOrderService, OrderService>()
-                .AddScoped<IValidator<User>, UserValidator>()
+                .AddScoped<IValidator<UserRegistrationDto>, UserValidator>()
                 .AddScoped<IValidator<Address>, AddressValidator>()
                 .AddScoped<IValidator<Discount>, DiscountValidator>();
 

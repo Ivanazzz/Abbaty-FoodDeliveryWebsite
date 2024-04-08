@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
 
 using FoodDeliveryWebsite.CustomExceptions;
-using FoodDeliveryWebsite.Models.Entities;
+using FoodDeliveryWebsite.Models.Dtos.UserDtos;
 using static FoodDeliveryWebsite.Models.Constants.UserConstants;
 
 namespace FoodDeliveryWebsite.Models.Validations
 {
-    public class UserValidator : AbstractValidator<User>
+    public class UserValidator : AbstractValidator<UserRegistrationDto>
     {
         public UserValidator()
         {
@@ -51,9 +51,6 @@ namespace FoodDeliveryWebsite.Models.Validations
 
             RuleFor(u => u.Gender)
                 .IsInEnum().WithState(a => new BadRequestException("Невалиден пол"));
-
-            RuleFor(u => u.Role)
-                .IsInEnum().WithState(a => new BadRequestException("Невалидна роля"));
         }
     }
 }

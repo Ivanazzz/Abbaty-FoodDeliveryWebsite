@@ -113,7 +113,6 @@ namespace FoodDeliveryWebsite
                 .ForMember(dest => dest.Gender, opt => opt.MapFrom(src => src.Gender))
                 .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
                 .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password))
-                .ForMember(dest => dest.PasswordConfirmation, opt => opt.MapFrom(src => src.PasswordConfirmation))
                 .ForMember(dest => dest.PhoneNumber, opt => opt.MapFrom(src => string.Concat(src.PhoneNumber.Where(c => !char.IsWhiteSpace(c)))))
                 .ForMember(dest => dest.Role, opt => opt.MapFrom(src => UserRole.Client));
         }

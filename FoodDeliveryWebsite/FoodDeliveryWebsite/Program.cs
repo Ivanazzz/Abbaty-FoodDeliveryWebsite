@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 using FoodDeliveryWebsite.Models;
 using FoodDeliveryWebsite.Middlewares;
+using FoodDeliveryWebsite.Models.Configurations;
 
 namespace FoodDeliveryWebsite
 {
