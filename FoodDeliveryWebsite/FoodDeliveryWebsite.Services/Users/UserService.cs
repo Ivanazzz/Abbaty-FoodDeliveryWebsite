@@ -104,13 +104,10 @@ namespace FoodDeliveryWebsite.Services
                 throw new NotFoundException(ExceptionMessages.InvalidUser);
             }
 
-            user.FirstName = userDto.FirstName;
-            user.LastName = userDto.LastName;
-            user.Gender = userDto.Gender;
-            user.PhoneNumber = string.Concat(userDto.PhoneNumber.Where(c => !char.IsWhiteSpace(c)));
+            userDto.PhoneNumber = string.Concat(userDto.PhoneNumber.Where(c => !char.IsWhiteSpace(c)));
 
             UserUpdateValidator validator = new UserUpdateValidator();
-            var result = validator.Validate(user);
+            var result = validator.Validate(userDto);
 
             foreach (var failure in result.Errors)
             {
@@ -120,7 +117,10 @@ namespace FoodDeliveryWebsite.Services
                 }
             }
 
-            user.PhoneNumber = FormatPhoneNumber(user.PhoneNumber);
+            user.FirstName = userDto.FirstName;
+            user.LastName = userDto.LastName;
+            user.Gender = userDto.Gender;
+            user.PhoneNumber = FormatPhoneNumber(userDto.PhoneNumber);
 
             await repository.SaveChangesAsync();
         }

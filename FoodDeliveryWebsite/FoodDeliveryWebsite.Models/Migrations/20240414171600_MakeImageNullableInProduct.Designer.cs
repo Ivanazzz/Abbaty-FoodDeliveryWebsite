@@ -3,6 +3,7 @@ using System;
 using FoodDeliveryWebsite.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FoodDeliveryWebsite.Models.Migrations
 {
     [DbContext(typeof(FoodDeliveryWebsiteDbContext))]
-    partial class FoodDeliveryWebsiteDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240414171600_MakeImageNullableInProduct")]
+    partial class MakeImageNullableInProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,44 +79,6 @@ namespace FoodDeliveryWebsite.Models.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("address");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            City = "София",
-                            CreateDate = new DateTime(2024, 1, 14, 11, 26, 26, 0, DateTimeKind.Utc),
-                            CreatorUserId = 2,
-                            Floor = 2,
-                            IsDeleted = false,
-                            Street = "Витоша",
-                            StreetNo = 91,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ApartmentNo = 6,
-                            City = "Банкя",
-                            CreateDate = new DateTime(2024, 3, 3, 12, 12, 12, 0, DateTimeKind.Utc),
-                            CreatorUserId = 2,
-                            Floor = 5,
-                            IsDeleted = false,
-                            Street = "Христо Ботев",
-                            StreetNo = 28,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            City = "Бургас",
-                            CreateDate = new DateTime(2024, 4, 1, 21, 18, 17, 0, DateTimeKind.Utc),
-                            CreatorUserId = 3,
-                            IsDeleted = false,
-                            Street = "Славянска",
-                            StreetNo = 13,
-                            UserId = 3
-                        });
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.Discount", b =>
@@ -153,38 +118,6 @@ namespace FoodDeliveryWebsite.Models.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("discount");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Code = "year2024",
-                            CreateDate = new DateTime(2023, 12, 15, 17, 21, 35, 0, DateTimeKind.Utc),
-                            CreatorUserId = 1,
-                            ExpirationDate = new DateTime(2024, 12, 31, 23, 59, 59, 0, DateTimeKind.Utc),
-                            Percentage = 24,
-                            StartDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Code = "summer20",
-                            CreateDate = new DateTime(2023, 12, 17, 2, 5, 47, 0, DateTimeKind.Utc),
-                            CreatorUserId = 1,
-                            ExpirationDate = new DateTime(2024, 8, 31, 23, 59, 59, 0, DateTimeKind.Utc),
-                            Percentage = 20,
-                            StartDate = new DateTime(2024, 6, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Code = "april10",
-                            CreateDate = new DateTime(2023, 12, 18, 2, 5, 47, 0, DateTimeKind.Utc),
-                            CreatorUserId = 1,
-                            ExpirationDate = new DateTime(2024, 4, 30, 23, 59, 59, 0, DateTimeKind.Utc),
-                            Percentage = 10,
-                            StartDate = new DateTime(2024, 4, 1, 0, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.Order", b =>
@@ -235,39 +168,6 @@ namespace FoodDeliveryWebsite.Models.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("order");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AddressId = 1,
-                            CreateDate = new DateTime(2024, 4, 1, 7, 35, 10, 0, DateTimeKind.Utc),
-                            CreatorUserId = 2,
-                            DeliveryPrice = 7m,
-                            TotalPrice = 56.46m,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AddressId = 3,
-                            CreateDate = new DateTime(2024, 4, 2, 18, 25, 15, 0, DateTimeKind.Utc),
-                            CreatorUserId = 3,
-                            DeliveryPrice = 7m,
-                            TotalPrice = 32.96m,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AddressId = 3,
-                            CreateDate = new DateTime(2024, 4, 3, 16, 23, 17, 0, DateTimeKind.Utc),
-                            CreatorUserId = 3,
-                            DeliveryPrice = 7m,
-                            DiscountId = 3,
-                            TotalPrice = 39.36m,
-                            UserId = 3
-                        });
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.OrderItem", b =>
@@ -317,74 +217,6 @@ namespace FoodDeliveryWebsite.Models.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("orderitem");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreateDate = new DateTime(2024, 4, 1, 7, 30, 10, 0, DateTimeKind.Utc),
-                            CreatorUserId = 0,
-                            OrderId = 1,
-                            Price = 16.49m,
-                            ProductId = 4,
-                            ProductQuantity = 1,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreateDate = new DateTime(2024, 4, 1, 7, 31, 10, 0, DateTimeKind.Utc),
-                            CreatorUserId = 2,
-                            OrderId = 1,
-                            Price = 22.98m,
-                            ProductId = 1,
-                            ProductQuantity = 2,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreateDate = new DateTime(2024, 4, 1, 7, 32, 10, 0, DateTimeKind.Utc),
-                            CreatorUserId = 2,
-                            OrderId = 1,
-                            Price = 9.99m,
-                            ProductId = 2,
-                            ProductQuantity = 1,
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CreateDate = new DateTime(2024, 4, 2, 17, 28, 11, 0, DateTimeKind.Utc),
-                            CreatorUserId = 3,
-                            OrderId = 2,
-                            Price = 25.96m,
-                            ProductId = 6,
-                            ProductQuantity = 4,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CreateDate = new DateTime(2024, 4, 3, 16, 22, 11, 0, DateTimeKind.Utc),
-                            CreatorUserId = 3,
-                            OrderId = 3,
-                            Price = 29.98m,
-                            ProductId = 3,
-                            ProductQuantity = 2,
-                            UserId = 3
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CreateDate = new DateTime(2024, 4, 3, 16, 22, 17, 0, DateTimeKind.Utc),
-                            CreatorUserId = 3,
-                            OrderId = 3,
-                            Price = 5.98m,
-                            ProductId = 5,
-                            ProductQuantity = 2,
-                            UserId = 3
-                        });
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.Product", b =>
@@ -454,99 +286,6 @@ namespace FoodDeliveryWebsite.Models.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("product");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreateDate = new DateTime(2023, 12, 20, 13, 0, 0, 0, DateTimeKind.Utc),
-                            CreatorUserId = 1,
-                            Description = "Бейби моцарела, паста коралини, чери домати, бекон, пармезан, микс зелени салати, млечен сос, чесън, магданозено песто и семена.",
-                            Grams = 350,
-                            IsDeleted = false,
-                            Name = "Италиана",
-                            Price = 11.49m,
-                            Status = 1,
-                            Type = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreateDate = new DateTime(2023, 12, 20, 13, 1, 0, 0, DateTimeKind.Utc),
-                            CreatorUserId = 1,
-                            Description = "Разядка от авокадо, Пико де Гайо салца, халапеньо, фреш лайм, лук, кориандър и тортила чипс.",
-                            Grams = 180,
-                            IsDeleted = false,
-                            Name = "Домашно гуакамоле",
-                            Price = 9.99m,
-                            Status = 1,
-                            Type = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreateDate = new DateTime(2023, 12, 20, 13, 2, 0, 0, DateTimeKind.Utc),
-                            CreatorUserId = 1,
-                            Description = "Пилешка пържола от бут в хрупкава панировка, със сос Холандез и печени картофи със зелен лук.",
-                            Grams = 450,
-                            IsDeleted = false,
-                            Name = "Хрупкаво пиле",
-                            Price = 14.99m,
-                            Status = 1,
-                            Type = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            CreateDate = new DateTime(2023, 12, 20, 13, 3, 0, 0, DateTimeKind.Utc),
-                            CreatorUserId = 1,
-                            Description = "Хрупкави пикантни скариди с шрирача чили майонеза.",
-                            Grams = 150,
-                            IsDeleted = false,
-                            Name = "Хрупкави пикантни скариди",
-                            Price = 16.49m,
-                            Status = 1,
-                            Type = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            CreateDate = new DateTime(2023, 12, 20, 13, 4, 0, 0, DateTimeKind.Utc),
-                            CreatorUserId = 1,
-                            Description = "Италиански хляб.",
-                            Grams = 80,
-                            IsDeleted = false,
-                            Name = "Чабата",
-                            Price = 2.99m,
-                            Status = 1,
-                            Type = 5
-                        },
-                        new
-                        {
-                            Id = 6,
-                            CreateDate = new DateTime(2023, 12, 20, 13, 5, 0, 0, DateTimeKind.Utc),
-                            CreatorUserId = 1,
-                            Description = "Торта от фин млечен шоколад и бисквитен блат, поръсена с какао.",
-                            Grams = 100,
-                            IsDeleted = false,
-                            Name = "Шоколадова торта с Линдт",
-                            Price = 6.49m,
-                            Status = 1,
-                            Type = 6
-                        },
-                        new
-                        {
-                            Id = 7,
-                            CreateDate = new DateTime(2023, 12, 20, 13, 6, 0, 0, DateTimeKind.Utc),
-                            CreatorUserId = 1,
-                            Description = "Крехки пилешки карета на скара с гарнитура картофено пюре, хрупкави краставички и сос блу чийз.",
-                            Grams = 220,
-                            IsDeleted = false,
-                            Name = "Детско меню с крехки карета",
-                            Price = 9.49m,
-                            Status = 1,
-                            Type = 7
-                        });
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.User", b =>
@@ -613,53 +352,6 @@ namespace FoodDeliveryWebsite.Models.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("user");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreateDate = new DateTime(2023, 11, 2, 8, 20, 50, 0, DateTimeKind.Utc),
-                            CreatorUserId = 0,
-                            Email = "admin@gmail.com",
-                            FirstName = "Админ",
-                            Gender = 1,
-                            IsDeleted = false,
-                            LastName = "Админ",
-                            Password = "41C396CABA416A55EF199EEF5BF18F2485378DD373764A50662B0BE863A218C107E5E3A7305A83A4EBD8A4F7493A79878A8F25F69057896D2CA1477214B31754",
-                            PhoneNumber = "+359 99 9999 999",
-                            Role = 1,
-                            Salt = "8EB89F1556CB153CC0D048D70D3B59E03046A1B33EE056350BC3B965617FF54E6EE89B8E64DE705A05B49CDB80B4888BEF78DA7E4FD47FD20AC1EEADD238C8CE"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreateDate = new DateTime(2024, 1, 13, 14, 4, 39, 0, DateTimeKind.Utc),
-                            CreatorUserId = 0,
-                            Email = "ivan@gmail.com",
-                            FirstName = "Иван",
-                            Gender = 1,
-                            IsDeleted = false,
-                            LastName = "Иванов",
-                            Password = "5E79B341F17FCA086417D1CDBB0419F3F5ADD01D0908A0B331BA5BED403209DADD32DFD8533C56BF2394492D8923DC0B5ED6504803344AA804971B234DA294A8",
-                            PhoneNumber = "+359 88 8888 888",
-                            Role = 2,
-                            Salt = "C0BFA2CEC43F2B8D90308BB9433B5DE0D5E74B36866DB81253F588AF8ED2815BC801CAF40EB2E4B10A1775D874602097B7358A8E10ABD9C35BEB87A0DFFAD3C6"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreateDate = new DateTime(2024, 2, 14, 10, 21, 18, 0, DateTimeKind.Utc),
-                            CreatorUserId = 0,
-                            Email = "maria@abv.bg",
-                            FirstName = "Мария",
-                            Gender = 2,
-                            IsDeleted = false,
-                            LastName = "Петрова",
-                            Password = "371E67B6847BA48915A2E37C3E1E98F3D8EEFE024EA0CD9C2DAA328743D3E4A87D5F746B80719F249C91311026438CFDA0A83718FEF8E0ED63924334325B8632",
-                            PhoneNumber = "+359 77 7777 777",
-                            Role = 2,
-                            Salt = "2F785CBCB2BE890D21DA615BEC80A0C3B76C6DD8DC5621F5B7F12A6C668E2883819B470D4603B83295AC5BCBF7393394487199C28484051659B74EA71F3FA26E"
-                        });
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.Address", b =>

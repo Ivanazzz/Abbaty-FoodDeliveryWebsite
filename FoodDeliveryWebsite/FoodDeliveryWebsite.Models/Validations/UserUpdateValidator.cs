@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
 
 using FoodDeliveryWebsite.CustomExceptions;
-using FoodDeliveryWebsite.Models.Entities;
+using FoodDeliveryWebsite.Models.Dtos.UserDtos;
 using static FoodDeliveryWebsite.Models.Constants.UserConstants;
 
 namespace FoodDeliveryWebsite.Models.Validations
 {
-    public class UserUpdateValidator : AbstractValidator<User>
+    public class UserUpdateValidator : AbstractValidator<UserDto>
     {
         public UserUpdateValidator()
         {

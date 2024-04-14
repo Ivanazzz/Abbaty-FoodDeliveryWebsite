@@ -13,7 +13,12 @@ namespace FoodDeliveryWebsite.Models.Configurations
                 .IsRequired();
 
             var data = new DbSeeder();
-            builder.HasData(new Discount[] { data.FirstDiscount, data.SecondDiscount, data.ThirdDiscount });
+            builder.HasData(new Discount[] 
+            { 
+                data.FirstDiscount,
+                data.SecondDiscount, 
+                data.ThirdDiscount 
+            });
         }
     }
 }

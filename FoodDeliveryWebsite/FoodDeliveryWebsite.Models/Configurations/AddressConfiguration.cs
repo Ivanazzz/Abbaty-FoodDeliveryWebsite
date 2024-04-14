@@ -19,7 +19,12 @@ namespace FoodDeliveryWebsite.Models.Configurations
                 .HasMaxLength(StreetMaxLength);
 
             var data = new DbSeeder();
-            builder.HasData(new Address[] { data.FirstAddress, data.SecondAddress, data.ThirdAddress });
+            builder.HasData(new Address[] 
+            { 
+                data.FirstAddress, 
+                data.SecondAddress, 
+                data.ThirdAddress 
+            });
         }
     }
 }

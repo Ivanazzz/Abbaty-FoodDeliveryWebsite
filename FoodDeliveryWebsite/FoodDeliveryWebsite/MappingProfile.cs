@@ -75,10 +75,10 @@ namespace FoodDeliveryWebsite
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.Type))
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status))
-                .ForMember(dest => dest.Grams, opt => opt.MapFrom(src => src.Grams))
-                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
-                .ForMember(dest => dest.ImageName, opt => opt.MapFrom(src => src.ImageName))
-                .ForMember(dest => dest.ImageMimeType, opt => opt.MapFrom(src => src.ImageMimeType));
+                .ForMember(dest => dest.Grams, opt => opt.MapFrom(src => src.Grams));
+                //.ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
+                //.ForMember(dest => dest.ImageName, opt => opt.MapFrom(src => src.ImageName))
+                //.ForMember(dest => dest.ImageMimeType, opt => opt.MapFrom(src => src.ImageMimeType));
 
             CreateMap<ProductAddDto, Product>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))

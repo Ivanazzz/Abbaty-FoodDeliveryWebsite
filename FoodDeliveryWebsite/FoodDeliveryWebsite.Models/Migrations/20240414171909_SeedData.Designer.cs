@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FoodDeliveryWebsite.Models.Migrations
 {
     [DbContext(typeof(FoodDeliveryWebsiteDbContext))]
-    [Migration("20240408053754_SeedData")]
+    [Migration("20240414171909_SeedData")]
     partial class SeedData
     {
         /// <inheritdoc />
@@ -238,6 +238,39 @@ namespace FoodDeliveryWebsite.Models.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("order");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AddressId = 1,
+                            CreateDate = new DateTime(2024, 4, 1, 7, 35, 10, 0, DateTimeKind.Utc),
+                            CreatorUserId = 2,
+                            DeliveryPrice = 7m,
+                            TotalPrice = 56.46m,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AddressId = 3,
+                            CreateDate = new DateTime(2024, 4, 2, 18, 25, 15, 0, DateTimeKind.Utc),
+                            CreatorUserId = 3,
+                            DeliveryPrice = 7m,
+                            TotalPrice = 32.96m,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AddressId = 3,
+                            CreateDate = new DateTime(2024, 4, 3, 16, 23, 17, 0, DateTimeKind.Utc),
+                            CreatorUserId = 3,
+                            DeliveryPrice = 7m,
+                            DiscountId = 3,
+                            TotalPrice = 39.36m,
+                            UserId = 3
+                        });
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.OrderItem", b =>
@@ -287,6 +320,74 @@ namespace FoodDeliveryWebsite.Models.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("orderitem");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateDate = new DateTime(2024, 4, 1, 7, 30, 10, 0, DateTimeKind.Utc),
+                            CreatorUserId = 0,
+                            OrderId = 1,
+                            Price = 16.49m,
+                            ProductId = 4,
+                            ProductQuantity = 1,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreateDate = new DateTime(2024, 4, 1, 7, 31, 10, 0, DateTimeKind.Utc),
+                            CreatorUserId = 2,
+                            OrderId = 1,
+                            Price = 22.98m,
+                            ProductId = 1,
+                            ProductQuantity = 2,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreateDate = new DateTime(2024, 4, 1, 7, 32, 10, 0, DateTimeKind.Utc),
+                            CreatorUserId = 2,
+                            OrderId = 1,
+                            Price = 9.99m,
+                            ProductId = 2,
+                            ProductQuantity = 1,
+                            UserId = 2
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreateDate = new DateTime(2024, 4, 2, 17, 28, 11, 0, DateTimeKind.Utc),
+                            CreatorUserId = 3,
+                            OrderId = 2,
+                            Price = 25.96m,
+                            ProductId = 6,
+                            ProductQuantity = 4,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreateDate = new DateTime(2024, 4, 3, 16, 22, 11, 0, DateTimeKind.Utc),
+                            CreatorUserId = 3,
+                            OrderId = 3,
+                            Price = 29.98m,
+                            ProductId = 3,
+                            ProductQuantity = 2,
+                            UserId = 3
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreateDate = new DateTime(2024, 4, 3, 16, 22, 17, 0, DateTimeKind.Utc),
+                            CreatorUserId = 3,
+                            OrderId = 3,
+                            Price = 5.98m,
+                            ProductId = 5,
+                            ProductQuantity = 2,
+                            UserId = 3
+                        });
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.Product", b =>
@@ -317,19 +418,15 @@ namespace FoodDeliveryWebsite.Models.Migrations
                         .HasColumnName("grams");
 
                     b.Property<byte[]>("Image")
-                        .IsRequired()
-                        .HasMaxLength(500)
                         .HasColumnType("bytea")
                         .HasColumnName("image");
 
                     b.Property<string>("ImageMimeType")
-                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)")
                         .HasColumnName("imagemimetype");
 
                     b.Property<string>("ImageName")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
                         .HasColumnName("imagename");
@@ -360,6 +457,99 @@ namespace FoodDeliveryWebsite.Models.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("product");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreateDate = new DateTime(2023, 12, 20, 13, 0, 0, 0, DateTimeKind.Utc),
+                            CreatorUserId = 1,
+                            Description = "Бейби моцарела, паста коралини, чери домати, бекон, пармезан, микс зелени салати, млечен сос, чесън, магданозено песто и семена.",
+                            Grams = 350,
+                            IsDeleted = false,
+                            Name = "Италиана",
+                            Price = 11.49m,
+                            Status = 1,
+                            Type = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreateDate = new DateTime(2023, 12, 20, 13, 1, 0, 0, DateTimeKind.Utc),
+                            CreatorUserId = 1,
+                            Description = "Разядка от авокадо, Пико де Гайо салца, халапеньо, фреш лайм, лук, кориандър и тортила чипс.",
+                            Grams = 180,
+                            IsDeleted = false,
+                            Name = "Домашно гуакамоле",
+                            Price = 9.99m,
+                            Status = 1,
+                            Type = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreateDate = new DateTime(2023, 12, 20, 13, 2, 0, 0, DateTimeKind.Utc),
+                            CreatorUserId = 1,
+                            Description = "Пилешка пържола от бут в хрупкава панировка, със сос Холандез и печени картофи със зелен лук.",
+                            Grams = 450,
+                            IsDeleted = false,
+                            Name = "Хрупкаво пиле",
+                            Price = 14.99m,
+                            Status = 1,
+                            Type = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreateDate = new DateTime(2023, 12, 20, 13, 3, 0, 0, DateTimeKind.Utc),
+                            CreatorUserId = 1,
+                            Description = "Хрупкави пикантни скариди с шрирача чили майонеза.",
+                            Grams = 150,
+                            IsDeleted = false,
+                            Name = "Хрупкави пикантни скариди",
+                            Price = 16.49m,
+                            Status = 1,
+                            Type = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreateDate = new DateTime(2023, 12, 20, 13, 4, 0, 0, DateTimeKind.Utc),
+                            CreatorUserId = 1,
+                            Description = "Италиански хляб.",
+                            Grams = 80,
+                            IsDeleted = false,
+                            Name = "Чабата",
+                            Price = 2.99m,
+                            Status = 1,
+                            Type = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreateDate = new DateTime(2023, 12, 20, 13, 5, 0, 0, DateTimeKind.Utc),
+                            CreatorUserId = 1,
+                            Description = "Торта от фин млечен шоколад и бисквитен блат, поръсена с какао.",
+                            Grams = 100,
+                            IsDeleted = false,
+                            Name = "Шоколадова торта с Линдт",
+                            Price = 6.49m,
+                            Status = 1,
+                            Type = 6
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CreateDate = new DateTime(2023, 12, 20, 13, 6, 0, 0, DateTimeKind.Utc),
+                            CreatorUserId = 1,
+                            Description = "Крехки пилешки карета на скара с гарнитура картофено пюре, хрупкави краставички и сос блу чийз.",
+                            Grams = 220,
+                            IsDeleted = false,
+                            Name = "Детско меню с крехки карета",
+                            Price = 9.49m,
+                            Status = 1,
+                            Type = 7
+                        });
                 });
 
             modelBuilder.Entity("FoodDeliveryWebsite.Models.Entities.User", b =>

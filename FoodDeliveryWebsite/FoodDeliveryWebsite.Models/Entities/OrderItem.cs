@@ -1,6 +1,4 @@
 ﻿using FoodDeliveryWebsite.Models.Common;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
 
 namespace FoodDeliveryWebsite.Models.Entities
 {
@@ -27,14 +25,5 @@ namespace FoodDeliveryWebsite.Models.Entities
         public int ProductId { get; set; }
 
         public Product Product { get; set; }
-    }
-
-    public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
-    {
-        public void Configure(EntityTypeBuilder<OrderItem> builder)
-        {
-            builder.Property(b => b.Price)
-                .HasPrecision(18,2);
-        }
     }
 }

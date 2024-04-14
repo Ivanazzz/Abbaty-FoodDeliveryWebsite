@@ -31,7 +31,12 @@ namespace FoodDeliveryWebsite.Models.Configurations
                 .IsRequired();
 
             var data = new DbSeeder();
-            builder.HasData(new User[] { data.Admin, data.FirstClient, data.SecondClient });
+            builder.HasData(new User[] 
+            { 
+                data.Admin, 
+                data.FirstClient, 
+                data.SecondClient 
+            });
         }
     }
 }

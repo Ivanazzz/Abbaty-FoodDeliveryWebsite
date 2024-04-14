@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -12,7 +13,6 @@ using FoodDeliveryWebsite.Models.Entities;
 
 namespace FoodDeliveryWebsite.Controllers
 {
-    // Test Checkout
     [ApiController]
     [Route("api/[controller]s")]
     public class UserController : ControllerBase

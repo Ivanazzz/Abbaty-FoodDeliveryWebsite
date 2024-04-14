@@ -18,11 +18,13 @@ namespace FoodDeliveryWebsite.Services
     {
         private readonly IRepository repository;
         private readonly IMapper mapper;
+        private Image image;
 
         public ProductService(IRepository repository, IMapper mapper)
         {
             this.repository = repository;
             this.mapper = mapper;
+            this.image = GetMissingImageInfo();
         }
 
         public async Task<List<ProductGetDto>> GetAvailableProductsAsync()
@@ -31,6 +33,13 @@ namespace FoodDeliveryWebsite.Services
                 .Where(p => p.Status == ProductStatus.Available)
                 .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
+
+            foreach (var product in products.Where(p => p.Image == null))
+            {
+                product.Image = image.Data;
+                product.ImageName = image.Name;
+                product.ImageMimeType = image.MimeType;
+            }
 
             return products;
         }
@@ -47,6 +56,13 @@ namespace FoodDeliveryWebsite.Services
                 throw new NotFoundException(ExceptionMessages.InvalidProduct);
             }
 
+            if (product.Image == null)
+            {
+                product.Image = image.Data;
+                product.ImageName = image.Name;
+                product.ImageMimeType = image.MimeType;
+            }
+
             return mapper.Map<ProductGetDto>(product);
         }
 
@@ -57,6 +73,13 @@ namespace FoodDeliveryWebsite.Services
                     && p.Status == ProductStatus.Available)
                 .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
+
+            foreach (var product in products.Where(p => p.Image == null))
+            {
+                product.Image = image.Data;
+                product.ImageName = image.Name;
+                product.ImageMimeType = image.MimeType;
+            }
 
             return products;
         }
@@ -69,6 +92,13 @@ namespace FoodDeliveryWebsite.Services
                 .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
+            foreach (var product in products.Where(p => p.Image == null))
+            {
+                product.Image = image.Data;
+                product.ImageName = image.Name;
+                product.ImageMimeType = image.MimeType;
+            }
+
             return products;
         }
 
@@ -79,6 +109,13 @@ namespace FoodDeliveryWebsite.Services
                     && !p.IsDeleted)
                 .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
+
+            foreach (var product in products.Where(p => p.Image == null))
+            {
+                product.Image = image.Data;
+                product.ImageName = image.Name;
+                product.ImageMimeType = image.MimeType;
+            }
 
             return products;
         }
@@ -107,16 +144,6 @@ namespace FoodDeliveryWebsite.Services
             product.Image = imageBytes;
             product.ImageName = productDto.Image.FileName;
             product.ImageMimeType = productDto.Image.ContentType;
-
-            //await Console.Out.WriteLineAsync($"Name: {product.Name} \n");
-            //await Console.Out.WriteLineAsync($"Name: {product.Description} \n");
-            //await Console.Out.WriteLineAsync($"Name: {product.Price} \n");
-            //await Console.Out.WriteLineAsync($"Name: {product.Status} \n");
-            //await Console.Out.WriteLineAsync($"Name: {product.Type} \n");
-            //await Console.Out.WriteLineAsync($"Name: {product.Grams} \n");
-            //await Console.Out.WriteLineAsync($"Name: {product.Description} \n");
-            //await Console.Out.WriteLineAsync($"Name: {product.ImageName} \n");
-            //await Console.Out.WriteLineAsync($"Name: {product.ImageMimeType} \n");
 
             await repository.AddAsync(product);
             await repository.SaveChangesAsync();
@@ -178,6 +205,54 @@ namespace FoodDeliveryWebsite.Services
             {
                 await formFile.CopyToAsync(memoryStream);
                 return memoryStream.ToArray();
+            }
+        }
+
+        private Image GetMissingImageInfo()
+        {
+            string rootDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
+            string imagePath = Path.Combine(rootDirectory, @"wwwroot\ProductImages\missing.png");
+
+            var image = new Image
+            {
+                Data = GetImageBytes(imagePath),
+                Name = Path.GetFileName(imagePath),
+                MimeType = GetImageMimeType(imagePath)
+            };
+
+            return image;
+        }
+
+        private byte[] GetImageBytes(string image)
+        {
+            using (FileStream fs = new FileStream(image, FileMode.Open, FileAccess.Read))
+            {
+                using (BinaryReader br = new BinaryReader(fs))
+                {
+                    return br.ReadBytes((int)fs.Length);
+                }
+            }
+        }
+
+        private string GetImageMimeType(string imagePath)
+        {
+            // Get the file extension
+            string extension = Path.GetExtension(imagePath);
+
+            // Map common file extensions to MIME types
+            switch (extension.ToLower())
+            {
+                case ".jpg":
+                case ".jpeg":
+                    return "image/jpeg";
+                case ".png":
+                    return "image/png";
+                case ".gif":
+                    return "image/gif";
+                case ".bmp":
+                    return "image/bmp";
+                default:
+                    return "application/octet-stream"; // Default MIME type for unknown extensions
             }
         }
     }

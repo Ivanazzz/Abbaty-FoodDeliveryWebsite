@@ -34,10 +34,6 @@ namespace FoodDeliveryWebsite.Models.Validations
 
             RuleFor(u => u.Status)
                 .IsInEnum().WithState(a => new BadRequestException("Невалиден статус на продукта"));
-
-            // Image Validator?????
-            //RuleFor(u => u.Image)
-            //    .NotEmpty().WithMessage("Image is required.");
         }
     }
 }
