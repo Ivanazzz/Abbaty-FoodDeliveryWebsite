@@ -38,7 +38,7 @@ namespace FoodDeliveryWebsite.UnitTests.Addresses
         }
 
         [Fact]
-        public async Task AddAddressAsync_InvalidAddressData_ShouldThrowException()
+        public async Task AddAddressAsync_InvalidAddressData_ShouldThrowBadRequestException()
         {
             // Arrange
             var addressDto = new AddressDto
@@ -54,7 +54,7 @@ namespace FoodDeliveryWebsite.UnitTests.Addresses
         }
 
         [Fact]
-        public async Task AddAddressAsync_NonExistingUser_ShouldThrowException()
+        public async Task AddAddressAsync_NonExistingUser_ShouldThrowNotFoundException()
         {
             // Arrange
             var addressDto = new AddressDto

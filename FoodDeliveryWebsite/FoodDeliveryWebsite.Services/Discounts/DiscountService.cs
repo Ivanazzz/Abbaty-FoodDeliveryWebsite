@@ -50,6 +50,7 @@ namespace FoodDeliveryWebsite.Services
         public async Task<DiscountOrderDto> GetDiscountAsync(string code)
         {
             var discount = await repository.AllReadOnly<Discount>()
+                .Where(d => d.StartDate <= DateTime.UtcNow && d.ExpirationDate > DateTime.UtcNow)
                 .ProjectTo<DiscountOrderDto>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync(d => d.Code == code);
 

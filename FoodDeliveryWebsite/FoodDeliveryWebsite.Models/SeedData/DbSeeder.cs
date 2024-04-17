@@ -351,7 +351,7 @@ namespace FoodDeliveryWebsite.Models.SeedData
             {
                 Id = 1,
                 CreateDate = new DateTime(2024, 4, 1, 7, 30, 10, DateTimeKind.Utc),
-                CreatorUserId = 0,
+                CreatorUserId = 2,
                 ProductQuantity = 1,
                 Price = 16.49m * 1,
                 UserId = 2,

@@ -50,7 +50,7 @@ namespace FoodDeliveryWebsite.UnitTests
             // TotalOrders: 3
             await this.PopulateOrders();
 
-            // TotalOrderItems = 6
+            // TotalOrderItems: 7, OrderItemsWithNullOrder: 1
             await this.PopulateOrderItems();
         }
 
@@ -472,6 +472,18 @@ namespace FoodDeliveryWebsite.UnitTests
                 UserId = 3,
                 OrderId = 3,
                 ProductId = 5
+            });
+
+            await this.DbContext.OrderItems.AddAsync(new OrderItem
+            {
+                Id = 7,
+                CreateDate = new DateTime(2024, 4, 3, 17, 22, 17, DateTimeKind.Utc),
+                CreatorUserId = 2,
+                ProductQuantity = 2,
+                Price = 16.49m * 2,
+                UserId = 2,
+                OrderId = null,
+                ProductId = 4
             });
 
             await this.DbContext.SaveChangesAsync();

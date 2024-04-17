@@ -114,6 +114,11 @@ namespace FoodDeliveryWebsite.Services
                 throw new NotFoundException(ExceptionMessages.InvalidOrderItem);
             }
 
+            if (orderItem.OrderId != null)
+            {
+                throw new BadRequestException(ExceptionMessages.InvalidOrderItem);
+            }
+
             if (user.Id != orderItem.UserId)
             {
                 throw new NotFoundException(ExceptionMessages.InvalidOrderItemForUser);
@@ -137,6 +142,11 @@ namespace FoodDeliveryWebsite.Services
             if (orderItem == null)
             {
                 throw new NotFoundException(ExceptionMessages.InvalidOrderItem);
+            }
+
+            if (orderItem.Order != null)
+            {
+                throw new BadRequestException(ExceptionMessages.InvalidOrderItem);
             }
 
             var user = await repository.AllReadOnly<User>()
