@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using FoodDeliveryWebsite.Models.Entities;
+using FoodDeliveryWebsite.Models.SeedData;
 
 namespace FoodDeliveryWebsite.Models.Configurations
 {

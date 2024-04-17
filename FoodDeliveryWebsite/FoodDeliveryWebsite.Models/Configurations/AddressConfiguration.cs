@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using FoodDeliveryWebsite.Models.Entities;
 using static FoodDeliveryWebsite.Models.Constants.AddressConstants;
+using FoodDeliveryWebsite.Models.SeedData;
 
 namespace FoodDeliveryWebsite.Models.Configurations
 {

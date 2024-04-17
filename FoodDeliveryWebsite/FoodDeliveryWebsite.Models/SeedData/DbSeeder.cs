@@ -1,7 +1,7 @@
 ﻿using FoodDeliveryWebsite.Models.Entities;
 using FoodDeliveryWebsite.Models.Enums;
 
-namespace FoodDeliveryWebsite.Models.Configurations
+namespace FoodDeliveryWebsite.Models.SeedData
 {
     public class DbSeeder
     {
@@ -207,15 +207,6 @@ namespace FoodDeliveryWebsite.Models.Configurations
 
         private void SeedProducts()
         {
-            string rootDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
-            string imagesPath = Path.Combine(rootDirectory, "wwwroot", "ProductImages");
-
-            if (!Directory.Exists(imagesPath))
-            {
-                throw new DirectoryNotFoundException($"Directory '{imagesPath}' not found.");
-            }
-
-            // First product
             FirstProduct = new Product
             {
                 Id = 1,
