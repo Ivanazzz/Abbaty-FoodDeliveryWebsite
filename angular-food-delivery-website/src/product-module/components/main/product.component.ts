@@ -43,17 +43,19 @@ export class ProductComponent {
   }
 
   onSubmit() {
-    if (this.selectedFile) {
-      const formData = new FormData();
-      formData.append("name", this.productDto.name);
-      formData.append("description", this.productDto.description);
-      formData.append("price", this.productDto.price.toString());
-      formData.append("grams", this.productDto.grams.toString());
-      formData.append("type", this.productDto.type.toString());
-      formData.append("status", this.productDto.status.toString());
-      formData.append("image", this.selectedFile, this.selectedFile.name);
+    const formData = new FormData();
+    formData.append("name", this.productDto.name);
+    formData.append("description", this.productDto.description);
+    formData.append("price", this.productDto.price.toString());
+    formData.append("grams", this.productDto.grams.toString());
+    formData.append("type", this.productDto.type.toString());
+    formData.append("status", this.productDto.status.toString());
 
-      this.productService
+    if (this.selectedFile) {
+      formData.append("image", this.selectedFile, this.selectedFile.name);
+    }
+
+    this.productService
         .addProductWithImage(formData)
         .pipe(
           catchError((err) => {
@@ -64,13 +66,6 @@ export class ProductComponent {
           this.toastr.success("Добавено!", null, { timeOut: 1000 });
           this.router.navigate(["/"]);
         });
-    } else {
-      // Handle the case where no file is selected
-      console.warn("No file selected");
-      this.toastr.error("Не е избрана снимка на продукта", null, {
-        timeOut: 5000,
-      });
-    }
   }
 
   isProductTypeEntered(): boolean {
