@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+
 using System.Transactions;
 
 using FoodDeliveryWebsite.CustomExceptionMessages;
@@ -7,10 +9,7 @@ using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Common;
 using FoodDeliveryWebsite.Models.Dtos.OrderDtos;
 using FoodDeliveryWebsite.Models.Entities;
-using AutoMapper.QueryableExtensions;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using FoodDeliveryWebsite.Models.Dtos.CommonDtos;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace FoodDeliveryWebsite.Services
 {
@@ -29,47 +28,40 @@ namespace FoodDeliveryWebsite.Services
         {
             using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                try
+                if (orderDto == null)
                 {
-                    if (orderDto == null)
-                    {
-                        throw new NotFoundException(ExceptionMessages.InvalidOrder);
-                    }
-
-                    var user = await repository.AllReadOnly<User>()
-                        .SingleOrDefaultAsync(u => u.Email == userEmail
-                            && !u.IsDeleted);
-
-                    if (user == null)
-                    {
-                        throw new NotFoundException(ExceptionMessages.InvalidUser);
-                    }
-
-                    var order = mapper.Map<Order>(orderDto);
-                    order.UserId = user.Id;
-                    order.OrderItems = null;
-
-                    if (order.AddressId == 0 || order.UserId == 0 || order.TotalPrice <= 0)
-                    {
-                        throw new NotFoundException(ExceptionMessages.InvalidOrder);
-                    }
-
-                    await repository.AddAsync(order);
-                    await repository.SaveChangesAsync();
-
-                    await repository.All<OrderItem>()
-                        .Where(oi => oi.UserId == user.Id
-                            && oi.OrderId == null)
-                        .ForEachAsync(oi => oi.OrderId = order.Id);
-
-                    await repository.SaveChangesAsync();
-
-                    transactionScope.Complete();
+                    throw new NotFoundException(ExceptionMessages.InvalidOrder);
                 }
-                catch (Exception)
+
+                var user = await repository.AllReadOnly<User>()
+                    .SingleOrDefaultAsync(u => u.Email == userEmail
+                        && !u.IsDeleted);
+
+                if (user == null)
                 {
-                    throw;
+                    throw new NotFoundException(ExceptionMessages.InvalidUser);
                 }
+
+                var order = mapper.Map<Order>(orderDto);
+                order.UserId = user.Id;
+                order.OrderItems = null;
+
+                if (order.AddressId == 0 || order.TotalPrice <= 0)
+                {
+                    throw new NotFoundException(ExceptionMessages.InvalidOrder);
+                }
+
+                await repository.AddAsync(order);
+                await repository.SaveChangesAsync();
+
+                await repository.All<OrderItem>()
+                    .Where(oi => oi.UserId == user.Id
+                        && oi.OrderId == null)
+                    .ForEachAsync(oi => oi.OrderId = order.Id);
+
+                await repository.SaveChangesAsync();
+
+                transactionScope.Complete();
             }
         }
 

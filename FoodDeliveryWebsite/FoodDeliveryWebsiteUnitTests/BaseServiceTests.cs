@@ -222,14 +222,6 @@ namespace FoodDeliveryWebsite.UnitTests
 
         protected async Task PopulateProducts()
         {
-            //string rootDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
-            //string imagesPath = Path.Combine(rootDirectory, "wwwroot", "ProductImages");
-
-            //if (!Directory.Exists(imagesPath))
-            //{
-            //    throw new DirectoryNotFoundException($"Directory '{imagesPath}' not found.");
-            //}
-
             await this.DbContext.Products.AddAsync(new Product
             {
                 Id = 1,

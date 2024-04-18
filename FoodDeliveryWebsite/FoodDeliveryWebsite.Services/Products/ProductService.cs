@@ -137,13 +137,17 @@ namespace FoodDeliveryWebsite.Services
 
             if (productDto.Image == null)
             {
-                throw new BadRequestException(ExceptionMessages.NoSelectedImage);
+                product.Image = image.Data;
+                product.ImageName = image.Name;
+                product.ImageMimeType = image.MimeType;
             }
-
-            byte[] imageBytes = await ConvertIFormFileToByteArray(productDto.Image);
-            product.Image = imageBytes;
-            product.ImageName = productDto.Image.FileName;
-            product.ImageMimeType = productDto.Image.ContentType;
+            else
+            {
+                byte[] imageBytes = await ConvertIFormFileToByteArray(productDto.Image);
+                product.Image = imageBytes;
+                product.ImageName = productDto.Image.FileName;
+                product.ImageMimeType = productDto.Image.ContentType;
+            }
 
             await repository.AddAsync(product);
             await repository.SaveChangesAsync();
@@ -210,8 +214,15 @@ namespace FoodDeliveryWebsite.Services
 
         private Image GetMissingImageInfo()
         {
-            string rootDirectory = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.Parent.FullName;
-            string imagePath = Path.Combine(rootDirectory, @"wwwroot\ProductImages\missing.png");
+            string rootDirectory = Directory
+                .GetParent(AppDomain.CurrentDomain.BaseDirectory)
+                .Parent
+                .Parent
+                .Parent
+                .Parent
+                .Parent
+                .FullName;
+            string imagePath = Path.Combine(rootDirectory, @"FoodDeliveryWebsite\FoodDeliveryWebsite\wwwroot\ProductImages\missing.png");
 
             var image = new Image
             {

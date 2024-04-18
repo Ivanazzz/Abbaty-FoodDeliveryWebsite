@@ -18,6 +18,6 @@ namespace FoodDeliveryWebsite.Models.Dtos.ProductDtos
 
         public int Grams { get; set; }
 
-        public IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }

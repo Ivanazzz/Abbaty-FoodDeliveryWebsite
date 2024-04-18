@@ -3,6 +3,7 @@
 using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Dtos.DiscountDtos;
 using FoodDeliveryWebsite.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodDeliveryWebsite.UnitTests.Discounts
 {
@@ -26,14 +27,14 @@ namespace FoodDeliveryWebsite.UnitTests.Discounts
                 ExpirationDate = DateTime.UtcNow.AddDays(30).ToString(),
                 Percentage = 15
             };
-            int expectedUpcomingDiscountsCount = 2;
+            int expectedDiscountsCount = 5;
 
             // Act
             await discountService.AddDiscountAsync(discountDto);
-            var discounts = await discountService.GetUpcomingDiscountsAsync();
+            var discounts = await DbContext.Discounts.ToListAsync();
 
             // Assert
-            Assert.Equal(expectedUpcomingDiscountsCount, discounts.Count);
+            Assert.Equal(expectedDiscountsCount, discounts.Count);
         }
 
         [Fact]
