@@ -39,7 +39,7 @@ namespace FoodDeliveryWebsite.UnitTests.Discounts
             var discount = await discountService.GetDiscountAsync(invalidCode);
 
             // Assert
-            Assert.Equal(null, discount.Code);
+            Assert.Null(discount.Code);
             Assert.Equal(0, discount.Id);
             Assert.Equal(0, discount.Percentage);
         }
@@ -54,7 +54,7 @@ namespace FoodDeliveryWebsite.UnitTests.Discounts
             var discount = await discountService.GetDiscountAsync(code);
 
             // Assert
-            Assert.Equal(null, discount.Code);
+            Assert.Null(discount.Code);
             Assert.Equal(0, discount.Id);
             Assert.Equal(0, discount.Percentage);
         }
@@ -69,7 +69,7 @@ namespace FoodDeliveryWebsite.UnitTests.Discounts
             var discount = await discountService.GetDiscountAsync(code);
 
             // Assert
-            Assert.Equal(null, discount.Code);
+            Assert.Null(discount.Code);
             Assert.Equal(0, discount.Id);
             Assert.Equal(0, discount.Percentage);
         }

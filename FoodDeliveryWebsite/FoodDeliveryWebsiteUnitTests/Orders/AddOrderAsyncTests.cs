@@ -58,7 +58,7 @@ namespace FoodDeliveryWebsite.UnitTests.Orders
         public async Task AddOrderAsync_WithNullOrderDto_ShouldThrowNotFoundException()
         {
             // Arrange
-            OrderDto orderDto = null;
+            OrderDto? orderDto = null;
             var userEmail = "ivan@gmail.com";
 
             // Act & Assert
