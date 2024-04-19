@@ -41,6 +41,7 @@
 .btn {
   text-transform: uppercase;
   font-weight: bold;
+  width: 50%;
 }
 
 .btn-red {
