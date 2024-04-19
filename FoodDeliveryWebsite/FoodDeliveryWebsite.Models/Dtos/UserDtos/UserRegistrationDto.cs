@@ -18,7 +18,5 @@ namespace FoodDeliveryWebsite.Models.Dtos.UserDtos
         public string PasswordConfirmation { get; set; }
 
         public string PhoneNumber { get; set; }
-
-        //public List<Address> Addresses { get; set; }
     }
 }
