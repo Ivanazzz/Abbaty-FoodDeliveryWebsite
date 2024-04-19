@@ -33,10 +33,11 @@ namespace FoodDeliveryWebsite.UnitTests.Products
 
             // Act
             await productService.AddProductAsync(productDto);
+            var addedProduct = await DbContext.Products.SingleOrDefaultAsync(p => p.Name == productDto.Name);
 
             // Assert
-            var addedProduct = await DbContext.Products.SingleOrDefaultAsync(p => p.Name == productDto.Name);
             Assert.NotNull(addedProduct);
+            Assert.Null(addedProduct.Image);
         }
 
         [Fact]

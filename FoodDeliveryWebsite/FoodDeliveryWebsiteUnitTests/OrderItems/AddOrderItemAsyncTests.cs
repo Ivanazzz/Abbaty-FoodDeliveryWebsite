@@ -25,10 +25,9 @@ namespace FoodDeliveryWebsite.UnitTests.OrderItems
 
             // Act
             await orderItemService.AddOrderItemAsync(userEmail, productId, quantity);
-
-            // Assert
             var userOrderItemsWithoutOrder = await orderItemService.GetOrderItemsAsync(userEmail);
 
+            // Assert
             Assert.NotNull(userOrderItemsWithoutOrder);
             Assert.Equal(expectedOrderItemsCount, userOrderItemsWithoutOrder.Count);
         }
@@ -82,10 +81,10 @@ namespace FoodDeliveryWebsite.UnitTests.OrderItems
             await orderItemService.AddOrderItemAsync(userEmail, productId, quantity);
             await orderItemService.AddOrderItemAsync(userEmail, productId, quantity);
 
-            // Assert
             var userOrderItemsWithoutOrder = await orderItemService.GetOrderItemsAsync(userEmail);
             var addedOrderItem = userOrderItemsWithoutOrder.FirstOrDefault(oi => oi.Product.Id == productId);
 
+            // Assert
             Assert.NotNull(userOrderItemsWithoutOrder);
             Assert.NotNull(addedOrderItem);
             Assert.Equal(expectedOrderItemsCount, userOrderItemsWithoutOrder.Count);

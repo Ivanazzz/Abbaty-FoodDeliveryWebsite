@@ -24,9 +24,9 @@ namespace FoodDeliveryWebsite.UnitTests.OrderItems
 
             // Act
             await orderItemService.DeleteOrderItemAsync(userEmail, orderItemId);
+            var orderItems = await orderItemService.GetOrderItemsAsync(userEmail);
 
             // Assert
-            var orderItems = await orderItemService.GetOrderItemsAsync(userEmail);
             Assert.Equal(expectedOrderItemsCount, orderItems.Count);
         }
 

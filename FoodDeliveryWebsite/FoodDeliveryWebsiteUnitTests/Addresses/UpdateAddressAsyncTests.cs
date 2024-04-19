@@ -3,6 +3,7 @@
 using FoodDeliveryWebsite.CustomExceptions;
 using FoodDeliveryWebsite.Models.Dtos.AddressDtos;
 using FoodDeliveryWebsite.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodDeliveryWebsite.UnitTests.Addresses
 {
@@ -32,9 +33,9 @@ namespace FoodDeliveryWebsite.UnitTests.Addresses
 
             // Act
             await addressService.UpdateAddressAsync(userEmail, addressDto);
+            var updatedAddress =await DbContext.Addresses.SingleOrDefaultAsync(a => a.Id == addressDto.Id);
 
             // Assert
-            var updatedAddress = await addressService.GetSelectedAddressAsync(userEmail, addressDto.Id);
             Assert.NotNull(updatedAddress);
             Assert.Equal(addressDto.City, updatedAddress.City);
             Assert.Equal(addressDto.Street, updatedAddress.Street);

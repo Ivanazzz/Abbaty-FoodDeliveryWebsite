@@ -23,9 +23,9 @@ namespace FoodDeliveryWebsite.UnitTests.Addresses
 
             // Act
             await addressService.DeleteAddressAsync(userEmail, addressId);
+            var addresses = await addressService.GetAddressesAsync(userEmail);
 
             // Assert
-            var addresses = await addressService.GetAddressesAsync(userEmail);
             Assert.NotNull(addresses);
             Assert.Equal(expectedAddressesCount, addresses.Count);
         }

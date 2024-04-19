@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 using FoodDeliveryWebsite.Services;
+using FoodDeliveryWebsite.Models.Enums;
 
 namespace FoodDeliveryWebsite.UnitTests.Products
 {
@@ -35,20 +36,10 @@ namespace FoodDeliveryWebsite.UnitTests.Products
 
             // Act
             var availableProducts = await productService.GetAvailableProductsAsync();
+            var expectedProductsCount = DbContext.Products.Where(p => p.Status == ProductStatus.Available).Count();
 
             // Assert
-            foreach (var product in availableProducts)
-            {
-                Assert.NotNull(product.Name);
-                Assert.NotNull(product.Description);
-                Assert.NotNull(product.Type);
-                Assert.NotNull(product.Status);
-                Assert.NotNull(product.Grams);
-                Assert.NotNull(product.Price);
-                Assert.NotNull(product.Image);
-                Assert.NotNull(product.ImageName);
-                Assert.NotNull(product.ImageMimeType);
-            }
+            Assert.Equal(expectedProductsCount, availableProducts.Count);
         }
     }
 }

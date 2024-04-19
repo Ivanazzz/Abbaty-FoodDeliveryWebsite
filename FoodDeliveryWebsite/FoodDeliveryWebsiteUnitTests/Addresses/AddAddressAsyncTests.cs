@@ -66,11 +66,8 @@ namespace FoodDeliveryWebsite.UnitTests.Addresses
                 ApartmentNo = 5
             };
 
-            // Act
-            Task AddingAddress() => addressService.AddAddressAsync("nonexistinguser@gmail.com", addressDto);
-
-            // Assert
-            await Assert.ThrowsAsync<NotFoundException>(AddingAddress);
+            // Act & Assert
+            await Assert.ThrowsAsync<NotFoundException>(() => addressService.AddAddressAsync("nonexistinguser@gmail.com", addressDto));
         }
     }
 }

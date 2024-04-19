@@ -34,13 +34,6 @@ namespace FoodDeliveryWebsite.Services
                 .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
-            foreach (var product in products.Where(p => p.Image == null))
-            {
-                product.Image = image.Data;
-                product.ImageName = image.Name;
-                product.ImageMimeType = image.MimeType;
-            }
-
             return products;
         }
 
@@ -74,13 +67,6 @@ namespace FoodDeliveryWebsite.Services
                 .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
-            foreach (var product in products.Where(p => p.Image == null))
-            {
-                product.Image = image.Data;
-                product.ImageName = image.Name;
-                product.ImageMimeType = image.MimeType;
-            }
-
             return products;
         }
 
@@ -92,13 +78,6 @@ namespace FoodDeliveryWebsite.Services
                 .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
 
-            foreach (var product in products.Where(p => p.Image == null))
-            {
-                product.Image = image.Data;
-                product.ImageName = image.Name;
-                product.ImageMimeType = image.MimeType;
-            }
-
             return products;
         }
 
@@ -109,13 +88,6 @@ namespace FoodDeliveryWebsite.Services
                     && !p.IsDeleted)
                 .ProjectTo<ProductGetDto>(mapper.ConfigurationProvider)
                 .ToListAsync();
-
-            foreach (var product in products.Where(p => p.Image == null))
-            {
-                product.Image = image.Data;
-                product.ImageName = image.Name;
-                product.ImageMimeType = image.MimeType;
-            }
 
             return products;
         }
@@ -135,13 +107,7 @@ namespace FoodDeliveryWebsite.Services
                 }
             }
 
-            if (productDto.Image == null)
-            {
-                product.Image = image.Data;
-                product.ImageName = image.Name;
-                product.ImageMimeType = image.MimeType;
-            }
-            else
+            if (productDto.Image != null)
             {
                 byte[] imageBytes = await ConvertIFormFileToByteArray(productDto.Image);
                 product.Image = imageBytes;
