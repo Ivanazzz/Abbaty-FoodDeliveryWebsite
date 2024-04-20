@@ -29,6 +29,8 @@ namespace FoodDeliveryWebsite.Services
 
         public async Task RegisterAsync(UserRegistrationDto userRegistrationDto)
         {
+            userRegistrationDto.PhoneNumber = string.Concat(userRegistrationDto.PhoneNumber.Where(c => !char.IsWhiteSpace(c)));
+
             UserValidator validator = new UserValidator();
             var result = validator.Validate(userRegistrationDto);
 

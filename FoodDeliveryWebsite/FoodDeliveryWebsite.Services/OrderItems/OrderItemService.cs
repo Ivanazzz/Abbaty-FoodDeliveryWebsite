@@ -144,7 +144,7 @@ namespace FoodDeliveryWebsite.Services
                 throw new NotFoundException(ExceptionMessages.InvalidOrderItem);
             }
 
-            if (orderItem.Order != null)
+            if (orderItem.OrderId != null)
             {
                 throw new BadRequestException(ExceptionMessages.InvalidOrderItem);
             }
